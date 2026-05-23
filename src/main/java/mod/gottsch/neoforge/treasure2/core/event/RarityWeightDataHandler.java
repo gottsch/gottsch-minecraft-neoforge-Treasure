@@ -32,7 +32,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,13 +48,16 @@ public class RarityWeightDataHandler extends SimpleJsonResourceReloadListener {
 
     private static final String DATA_DIRECTORY = "rarity_weight_sets";
 
-    public RarityWeightDataHandler() {
+    private final HolderLookup.Provider registries;
+
+    public RarityWeightDataHandler(HolderLookup.Provider registries) {
         super(GSON, DATA_DIRECTORY);
+        this.registries = registries;
     }
 
     @SubscribeEvent
     public static void onAddReloadListener(AddReloadListenerEvent event) {
-        event.addListener(new RarityWeightDataHandler());
+        event.addListener(new RarityWeightDataHandler(event.getRegistryAccess()));
     }
 
     @Override
@@ -63,9 +65,6 @@ public class RarityWeightDataHandler extends SimpleJsonResourceReloadListener {
         Treasure.LOGGER.info("loading rarity weights from data packs...");
 
         RarityWeightsManager.clear();
-
-        // obtain registry access from the running server for rarity lookups
-        HolderLookup.Provider registries = ServerLifecycleHooks.getCurrentServer().registryAccess();
 
         jsonElementMap.forEach((location, jsonElement) ->
                 RarityWeightSet.CODEC

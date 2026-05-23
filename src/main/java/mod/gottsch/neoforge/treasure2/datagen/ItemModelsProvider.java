@@ -96,6 +96,10 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.THIEFS_LOCK_PICK.getId().getPath(),
                 modLoc("item/horizontal_left_key"), "layer0", modLoc("item/key/thiefs_lock_pick"));
 
+        // tab icon item
+        singleTexture(TreasureItems.LOGO.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/treasure_tab"));
+
         // TODO: add ONE_KEY model when ported (uses vertical_left_key parent)
 
         // locks

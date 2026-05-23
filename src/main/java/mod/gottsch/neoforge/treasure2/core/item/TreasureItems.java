@@ -31,12 +31,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class TreasureItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Treasure.MODID);
 
-	// admin collections
-//	public static final Map<RegistryObject<Block>, RegistryObject<Item>> BLOCK_ITEM_MAP = Maps.newHashMap();
-//	public static final List<RegistryObject<Item>> TAB_IGNORE = Lists.newArrayList();
-//
-//	// tab items
-//	public static final RegistryObject<Item> LOGO = Registration.ITEMS.register("treasure_tab", () -> new Item(new Item.Properties()));
+	// tab icon item — not shown in the tab itself
+	public static final DeferredItem<Item> LOGO = ITEMS.register("treasure_tab", () -> new Item(new Item.Properties()));
 //
 //	// patchouli items
 //	public static final RegistryObject<Item> MOB = Registration.ITEMS.register("mob", () -> new Item(new Item.Properties()));

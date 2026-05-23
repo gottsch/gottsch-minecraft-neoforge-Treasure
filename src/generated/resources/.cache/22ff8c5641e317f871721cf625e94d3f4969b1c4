@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-22T22:18:21.0377344	Item Models: treasure2
+// 1.21.1	2026-05-23T08:04:56.2078985	Item Models: treasure2
 1096ec62ae99c75aa9e9de1df56226caf52c820b assets/treasure2/models/item/bone_key.json
 9041adbe8247079725beca9857f9cd15020bb415 assets/treasure2/models/item/diamond_key.json
 b3e41a425bf468b6709fd0c2fc5f00c8b062d476 assets/treasure2/models/item/diamond_lock.json
@@ -32,6 +32,7 @@ ff04ab340e4b799a480e68f049d3aa641c900a75 assets/treasure2/models/item/stone_key.
 91a33ecb36b600ec7ec1dd4936d54044efaa7755 assets/treasure2/models/item/thiefs_lock_pick.json
 4e3456e3b4cade97cab4f01a614b3258e54abc05 assets/treasure2/models/item/topaz_key.json
 b288ba8daeb2bad7b8f74aea53fc6c223dbc93fa assets/treasure2/models/item/topaz_lock.json
+8f047af072f1e550fa77b93ae507eee8f87a0094 assets/treasure2/models/item/treasure_tab.json
 3e46ea216b5c34fb3ad2f5a5936611dac330b22b assets/treasure2/models/item/wither_key.json
 d6bf8e5155cf0338d77499948a8855b2451db561 assets/treasure2/models/item/wither_lock.json
 5f8e8d51945bac1f675c91bd89d9406a9bb06c9d assets/treasure2/models/item/wood_chest.json

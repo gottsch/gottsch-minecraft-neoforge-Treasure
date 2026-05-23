@@ -36,7 +36,7 @@ public class TreasureCreativeModeTabs {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TREASURE_TAB =
             CREATIVE_MODE_TABS.register("treasure2", () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup." + Treasure.MODID))
-                    .icon(() -> new ItemStack(TreasureItems.WOOD_KEY.get()))
+                    .icon(() -> new ItemStack(TreasureItems.LOGO.get()))
                     .displayItems((params, output) -> {
                         // keys
                         output.accept(TreasureItems.WOOD_KEY.get());

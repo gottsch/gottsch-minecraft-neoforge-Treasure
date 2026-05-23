@@ -45,11 +45,8 @@ public class TreasureRarities {
     public static final DeferredRegister<IRarity> RARITY_REGISTRY =
             DeferredRegister.create(RARITIES_REGISTRY_KEY, Treasure.MODID);
 
-    // this is the related Registry for the DeferredRegistry
-//    public static final Supplier<Registry<IRarity>> RARITIES_REGISTRY_SUPPLIER = RARITY_REGISTRY.makeRegistry(
-//            // must include hasTags() to enable tag support
-//            () -> new RegistryBuilder<IRarity>(RARITIES_REGISTRY_KEY)
-//    );
+    // creates and registers the treasure2:rarities registry with NeoForge
+    public static final Registry<IRarity> RARITIES_REGISTRY = RARITY_REGISTRY.makeRegistry(builder -> {});
 
 
     /*
