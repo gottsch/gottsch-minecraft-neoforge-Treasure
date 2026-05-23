@@ -1,0 +1,135 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.entity.monster;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FleeSunGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
+/**
+ * @author Mark Gottschling on Feb 23, 2020
+ */
+public class BoundSoul extends Monster {
+    private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(BoundSoul.class, EntityDataSerializers.BLOCK_POS);
+    private static final String HOME_POS_KEY = "HomePos";
+
+    public BoundSoul(EntityType<? extends Monster> entityType, Level level) {
+        super(entityType, level);
+        this.restrictTo(BlockPos.ZERO, 12);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt(HOME_POS_KEY + "X", this.getHomePos().getX());
+        compound.putInt(HOME_POS_KEY + "Y", this.getHomePos().getY());
+        compound.putInt(HOME_POS_KEY + "Z", this.getHomePos().getZ());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        int i = compound.getInt(HOME_POS_KEY + "X");
+        int j = compound.getInt(HOME_POS_KEY + "Y");
+        int k = compound.getInt(HOME_POS_KEY + "Z");
+        this.setHomePos(new BlockPos(i, j, k));
+        super.readAdditionalSaveData(compound);
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(2, new RestrictSunGoal(this));
+        this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new MoveTowardsRestrictionGoal(this, 1.2D));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 22D)
+                .add(Attributes.FOLLOW_RANGE, 20D)
+                .add(Attributes.MOVEMENT_SPEED, 0.24F)
+                .add(Attributes.ATTACK_DAMAGE, 4.0D)
+                .add(Attributes.ARMOR, 3.0D);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HOME_POS, BlockPos.ZERO);
+    }
+
+    @Override
+    public void aiStep() {
+        boolean flag = this.isSunBurnTick();
+        if (flag) {
+            this.igniteForSeconds(8);
+        }
+
+        if (hasHome()) {
+            BlockEntity homeBlockEntity = this.level().getBlockEntity(getHomePos());
+            // TODO: restore GravestoneProximitySpawnerBlockEntity check when class is ported
+            if (homeBlockEntity == null) {
+                setHomePos(BlockPos.ZERO);
+            } else {
+                if (!isDeadOrDying() && this.tickCount % 20 == 0 && this.getHealth() > 0
+                        && this.getHealth() < this.getMaxHealth()) {
+                    this.setHealth(this.getHealth() + 1.0F);
+                }
+            }
+        }
+        super.aiStep();
+    }
+
+    public boolean hasHome() {
+        return getHomePos() != null && !getHomePos().equals(BlockPos.ZERO);
+    }
+
+    public void setHomePos(BlockPos pos) {
+        Treasure.LOGGER.debug("setting bound soul home pos -> {}", pos.toString());
+        this.entityData.set(HOME_POS, pos);
+    }
+
+    private BlockPos getHomePos() {
+        return this.entityData.get(HOME_POS);
+    }
+}

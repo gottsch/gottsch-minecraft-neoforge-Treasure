@@ -1,0 +1,13 @@
+{
+  "itemGroup.treasure2": "Example Mod Tab",
+  "block.treasure2.example_block": "Example Block",
+  "item.treasure2.example_item": "Example Item",
+
+  "treasure2.configuration.title": "Treasure2 Configs",
+  "treasure2.configuration.section.treasure2.common.toml": "Treasure2 Configs",
+  "treasure2.configuration.section.treasure2.common.toml.title": "Treasure2 Configs",
+  "treasure2.configuration.items": "Item List",
+  "treasure2.configuration.logDirtBlock": "Log Dirt Block",
+  "treasure2.configuration.magicNumberIntroduction": "Magic Number Text",
+  "treasure2.configuration.magicNumber": "Magic Number"
+}

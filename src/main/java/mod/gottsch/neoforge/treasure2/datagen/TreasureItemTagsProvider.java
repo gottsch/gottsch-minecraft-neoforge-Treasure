@@ -1,0 +1,114 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.datagen;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
+import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
+
+/**
+ *
+ * @author Mark Gottschling on Nov 11, 2022
+ *
+ */
+public class TreasureItemTagsProvider extends ItemTagsProvider {
+
+    public TreasureItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup,
+                                    CompletableFuture<TagLookup<Block>> blockTagProvider,
+                                    @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookup, blockTagProvider, Treasure.MODID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags(HolderLookup.Provider provider) {
+        // keys by rarity
+        tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.WOOD_KEY.get());
+        tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.STONE_KEY.get());
+        tag(TreasureTags.Items.UNCOMMON_KEY).add(TreasureItems.LEAF_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.EMBER_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.LIGHTNING_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.BONE_KEY.get());
+        tag(TreasureTags.Items.UNCOMMON_KEY).add(TreasureItems.IRON_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.GOLD_KEY.get());
+        tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.METALLURGISTS_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.TOPAZ_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.ONYX_KEY.get());
+        tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.DIAMOND_KEY.get());
+        tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.EMERALD_KEY.get());
+        tag(TreasureTags.Items.EPIC_KEY).add(TreasureItems.RUBY_KEY.get());
+        tag(TreasureTags.Items.EPIC_KEY).add(TreasureItems.SAPPHIRE_KEY.get());
+        tag(TreasureTags.Items.EPIC_KEY).add(TreasureItems.JEWELLED_KEY.get());
+        tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.SKELETON_KEY.get());
+        tag(TreasureTags.Items.SCARCE_KEY).add(TreasureItems.SPIDER_KEY.get());
+        tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.WITHER_KEY.get());
+        tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.PILFERERS_LOCK_PICK.get());
+        tag(TreasureTags.Items.UNCOMMON_KEY).add(TreasureItems.THIEFS_LOCK_PICK.get());
+        // TODO: tag(TreasureTags.Items.MYTHICAL_KEY).add(TreasureItems.ONE_KEY.get()) — ONE_KEY not yet ported
+
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.COMMON_KEY);
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.UNCOMMON_KEY);
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.SCARCE_KEY);
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.RARE_KEY);
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.EPIC_KEY);
+        // MYTHICAL_KEY omitted — ONE_KEY not yet ported
+
+        // locks by rarity
+        tag(TreasureTags.Items.COMMON_LOCKS).add(TreasureItems.WOOD_LOCK.get());
+        tag(TreasureTags.Items.COMMON_LOCKS).add(TreasureItems.STONE_LOCK.get());
+        tag(TreasureTags.Items.UNCOMMON_LOCKS).add(TreasureItems.LEAF_LOCK.get());
+        tag(TreasureTags.Items.SCARCE_LOCKS).add(TreasureItems.EMBER_LOCK.get());
+        tag(TreasureTags.Items.UNCOMMON_LOCKS).add(TreasureItems.IRON_LOCK.get());
+        tag(TreasureTags.Items.SCARCE_LOCKS).add(TreasureItems.GOLD_LOCK.get());
+        tag(TreasureTags.Items.SCARCE_LOCKS).add(TreasureItems.TOPAZ_LOCK.get());
+        tag(TreasureTags.Items.SCARCE_LOCKS).add(TreasureItems.ONYX_LOCK.get());
+        tag(TreasureTags.Items.RARE_LOCKS).add(TreasureItems.DIAMOND_LOCK.get());
+        tag(TreasureTags.Items.RARE_LOCKS).add(TreasureItems.EMERALD_LOCK.get());
+        tag(TreasureTags.Items.EPIC_LOCKS).add(TreasureItems.RUBY_LOCK.get());
+        tag(TreasureTags.Items.EPIC_LOCKS).add(TreasureItems.SAPPHIRE_LOCK.get());
+        tag(TreasureTags.Items.SCARCE_LOCKS).add(TreasureItems.SPIDER_LOCK.get());
+        // NOTE: wither & bone locks intentionally omitted (special locks not used in random chest selection)
+
+        tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.COMMON_LOCKS);
+        tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.UNCOMMON_LOCKS);
+        tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.SCARCE_LOCKS);
+        tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.RARE_LOCKS);
+        tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.EPIC_LOCKS);
+
+        // wishables — vanilla only; wealth items (coins/gems/pearls) not yet ported
+        tag(TreasureTags.Items.SCARCE_WISHABLE).add(Items.DIAMOND);
+        tag(TreasureTags.Items.SCARCE_WISHABLE).add(Items.EMERALD);
+        // TODO: restore full wishable tags when WealthItem subclasses are ported
+
+        // only scarce has entries; common/uncommon/rare/epic omitted until WealthItem subclasses are ported
+        tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.SCARCE_WISHABLE);
+
+        // pouchables — keys and locks only; wealth items not yet ported
+        tag(TreasureTags.Items.POUCH).add(Items.DIAMOND);
+        tag(TreasureTags.Items.POUCH).add(Items.EMERALD);
+        tag(TreasureTags.Items.POUCH).addTag(TreasureTags.Items.KEYS);
+        tag(TreasureTags.Items.POUCH).addTag(TreasureTags.Items.LOCKS);
+        // TODO: restore pouch gem/coin entries when WealthItem subclasses are ported
+    }
+}

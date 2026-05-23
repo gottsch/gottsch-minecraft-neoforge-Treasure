@@ -1,0 +1,94 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block;
+
+import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
+import mod.gottsch.neoforge.treasure2.core.chest.ChestInventorySize;
+import mod.gottsch.neoforge.treasure2.core.lock.LockLayout;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import java.util.function.Supplier;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+
+/**
+ * @author Mark Gottschling on Jun 19, 2018
+ */
+public class WitherChestBlock extends StandardChestBlock {
+
+	public WitherChestBlock(BlockEntityType<? extends AbstractTreasureChestBlockEntity> blockEntityType, LockLayout type, Properties properties) {
+		super(blockEntityType, ChestInventorySize.WITHER.getSize(), type, properties);
+	}
+
+	public WitherChestBlock(Supplier<BlockEntityType<? extends AbstractTreasureChestBlockEntity>> blockEntityType, LockLayout type, Properties properties) {
+		super(blockEntityType, ChestInventorySize.WITHER.getSize(), type, properties);
+	}
+
+	@Override
+	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+		super.onPlace(state, worldIn, pos, oldState, isMoving);
+		worldIn.setBlock(pos.above(), TreasureBlocks.WITHER_CHEST_TOP.get().defaultBlockState(), 3);
+	}
+
+	@Override
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+		super.setPlacedBy(level, pos, state, placer, stack);
+		level.setBlock(pos.above(), TreasureBlocks.WITHER_CHEST_TOP.get().defaultBlockState(), 3);
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		BlockState blockState = context.getLevel().getBlockState(context.getClickedPos().above());
+		if (blockState.isAir() && blockState.canBeReplaced()) {
+			return super.getStateForPlacement(context);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+		BlockPos upPos = pos.above();
+		Block topBlock = level.getBlockState(upPos).getBlock();
+		if (topBlock == TreasureBlocks.WITHER_CHEST_TOP.get()) {
+			Block.updateOrDestroy(level.getBlockState(upPos), Blocks.AIR.defaultBlockState(), level, upPos, 3);
+		}
+		return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+	}
+
+	@Override
+	public void destroy(LevelAccessor p_49860_, BlockPos p_49861_, BlockState p_49862_) {
+		super.destroy(p_49860_, p_49861_, p_49862_);
+	}
+
+	@Override
+	public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+		BlockPos upPos = pos.above();
+		Block topBlock = level.getBlockState(upPos).getBlock();
+		if (topBlock == TreasureBlocks.WITHER_CHEST_TOP.get()) {
+			Block.updateOrDestroy(level.getBlockState(upPos), Blocks.AIR.defaultBlockState(), level, upPos, 3);
+		}
+		super.onBlockExploded(state, level, pos, explosion);
+	}
+}

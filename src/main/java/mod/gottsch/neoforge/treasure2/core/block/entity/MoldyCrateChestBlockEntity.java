@@ -1,0 +1,52 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block.entity;
+
+import mod.gottsch.neoforge.treasure2.core.util.LangUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class MoldyCrateChestBlockEntity extends CrateChestBlockEntity {
+
+    public MoldyCrateChestBlockEntity(BlockPos pos, BlockState state) {
+        super(TreasureBlockEntities.MOLDY_CRATE_CHEST_BLOCK_ENTITY_TYPE.get(), pos, state);
+    }
+
+    @Override
+    public Component getDefaultName() {
+        return Component.translatable(LangUtil.screen("moldy_crate_chest.name"));
+    }
+
+    @Override
+    public void doChestOpenEffects(Level level, Player player, BlockPos pos) {
+        super.doChestOpenEffects(level, player, pos);
+        if (level.isClientSide()) {
+            RandomSource random = getLevel().getRandom();
+            for (int k = 0; k < 20; ++k) {
+                level.addParticle(ParticleTypes.SPORE_BLOSSOM_AIR,
+                        (double) getBlockPos().getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1),
+                        (double) getBlockPos().getY() + random.nextDouble() + random.nextDouble(),
+                        (double) getBlockPos().getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1),
+                        0D, 0D, 0D);
+            }
+        }
+    }
+}

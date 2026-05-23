@@ -1,0 +1,40 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.client.renderer.entity.layer;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.client.model.entity.CrateChestMimicModel;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.EyesLayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class CrateChestMimicLayer<T extends Entity, M extends CrateChestMimicModel<T>> extends EyesLayer<T, M> {
+    private static final RenderType EYES = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Treasure.MODID, "textures/entity/mob/crate_chest_mimic_eyes.png"));
+
+    public CrateChestMimicLayer(RenderLayerParent<T, M> layer) {
+        super(layer);
+    }
+
+    @Override
+    public RenderType renderType() {
+        return EYES;
+    }
+}

@@ -1,0 +1,9 @@
+// 1.21.1	2026-05-22T22:18:21.0397373	Registries
+0a7914d5ef26661da34f250c314e741e0f5abf36 data/treasure2/worldgen/configured_feature/onyx_ore.json
+fa00afacc5840a4f4d952cf69991fc36e5cad43a data/treasure2/worldgen/configured_feature/ruby_ore.json
+c2ee5c020e8a992e797a1803c570e917d0d8c9a8 data/treasure2/worldgen/configured_feature/sapphire_ore.json
+e121d7530de0508665d6b5c09f3ac08cf1e62106 data/treasure2/worldgen/configured_feature/topaz_ore.json
+42944573b6fed938c7cef7392f16912f8e1b2aa3 data/treasure2/worldgen/placed_feature/onyx_placed.json
+7c5a61061222ccfac8b5e35be204281ccb6bc6b7 data/treasure2/worldgen/placed_feature/ruby_placed.json
+19cc050e89b340ce317b075e3b52c40831444df7 data/treasure2/worldgen/placed_feature/sapphire_placed.json
+a1134b1a2451fc961c385ba9bd9d330e79f5502f data/treasure2/worldgen/placed_feature/topaz_placed.json

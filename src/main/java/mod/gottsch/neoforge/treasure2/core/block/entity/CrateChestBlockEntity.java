@@ -1,0 +1,78 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block.entity;
+
+import mod.gottsch.neoforge.treasure2.core.chest.ChestInventorySize;
+import mod.gottsch.neoforge.treasure2.core.util.LangUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class CrateChestBlockEntity extends AbstractTreasureChestBlockEntity {
+
+    public float latchAngle;
+    public float prevLatchAngle;
+
+    public CrateChestBlockEntity(BlockPos pos, BlockState state) {
+        super(TreasureBlockEntities.CRATE_CHEST_BLOCK_ENTITY_TYPE.get(), pos, state);
+    }
+
+    public CrateChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    @Override
+    public Component getDefaultName() {
+        return Component.translatable(LangUtil.screen("crate_chest.name"));
+    }
+
+    @Override
+    public int getInventorySize() {
+        return ChestInventorySize.STANDARD.getSize();
+    }
+
+    @Override
+    public void tickClient() {
+        this.prevLidAngle = this.lidAngle;
+
+        if (this.openCount > 0 && this.lidAngle == 0.0F) {
+            doChestOpenEffects(level, null, getBlockPos());
+        }
+
+        if (this.openCount == 0 && this.lidAngle > 0.0F || this.openCount > 0 && this.lidAngle < .125F) {
+            float f2 = this.lidAngle;
+
+            if (this.openCount > 0) {
+                this.lidAngle += 0.0125F;
+            } else {
+                this.lidAngle -= 0.0125F;
+            }
+
+            if (this.lidAngle > 0.125F) {
+                this.lidAngle = 0.125F;
+            }
+
+            if (this.lidAngle < 0.06F && f2 >= 0.06F) {
+                doChestCloseEffects(level, null, getBlockPos());
+            }
+
+            if (this.lidAngle < 0.0F) {
+                this.lidAngle = 0.0F;
+            }
+        }
+    }
+}

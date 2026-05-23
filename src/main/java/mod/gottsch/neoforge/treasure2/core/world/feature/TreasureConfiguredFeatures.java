@@ -1,0 +1,79 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.world.feature;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+
+import java.util.List;
+
+/**
+ * @author Mark Gottschling on Nov 27, 2022
+ */
+public class TreasureConfiguredFeatures {
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_TOPAZ_ORE_KEY = registerKey("topaz_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_ONYX_ORE_KEY = registerKey("onyx_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_RUBY_ORE_KEY = registerKey("ruby_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_SAPPHIRE_ORE_KEY = registerKey("sapphire_ore");
+
+    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+        RuleTest ruleTest1 = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+        RuleTest ruleTest2 = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+
+        List<OreConfiguration.TargetBlockState> topazOres = List.of(
+                OreConfiguration.target(ruleTest1, TreasureBlocks.TOPAZ_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruleTest2, TreasureBlocks.DEEPSLATE_TOPAZ_ORE.get().defaultBlockState()));
+
+        List<OreConfiguration.TargetBlockState> onyxOres = List.of(
+                OreConfiguration.target(ruleTest1, TreasureBlocks.ONYX_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruleTest2, TreasureBlocks.DEEPSLATE_ONYX_ORE.get().defaultBlockState()));
+
+        List<OreConfiguration.TargetBlockState> rubyOres = List.of(
+                OreConfiguration.target(ruleTest1, TreasureBlocks.RUBY_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruleTest2, TreasureBlocks.DEEPSLATE_RUBY_ORE.get().defaultBlockState()));
+
+        List<OreConfiguration.TargetBlockState> sapphireOres = List.of(
+                OreConfiguration.target(ruleTest1, TreasureBlocks.SAPPHIRE_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruleTest2, TreasureBlocks.DEEPSLATE_SAPPHIRE_ORE.get().defaultBlockState()));
+
+        register(context, OVERWORLD_TOPAZ_ORE_KEY, Feature.ORE, new OreConfiguration(topazOres, 3));
+        register(context, OVERWORLD_ONYX_ORE_KEY, Feature.ORE, new OreConfiguration(onyxOres, 3));
+        register(context, OVERWORLD_RUBY_ORE_KEY, Feature.ORE, new OreConfiguration(rubyOres, 3));
+        register(context, OVERWORLD_SAPPHIRE_ORE_KEY, Feature.ORE, new OreConfiguration(sapphireOres, 3));
+    }
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Treasure.MODID, name));
+    }
+
+    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(
+            BootstrapContext<ConfiguredFeature<?, ?>> context,
+            ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
+        context.register(key, new ConfiguredFeature<>(feature, configuration));
+    }
+}

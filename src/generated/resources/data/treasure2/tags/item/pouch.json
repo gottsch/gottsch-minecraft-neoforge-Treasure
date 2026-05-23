@@ -1,0 +1,8 @@
+{
+  "values": [
+    "minecraft:diamond",
+    "minecraft:emerald",
+    "#treasure2:key/keys",
+    "#treasure2:lock/locks"
+  ]
+}

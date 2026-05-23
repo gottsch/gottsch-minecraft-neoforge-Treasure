@@ -1,0 +1,46 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.inventory;
+
+import mod.gottsch.neoforge.treasure2.core.item.WealthItem;
+import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
+
+/**
+ *
+ * @author Mark Gottschling on May 14, 2020
+ *
+ */
+public class PouchSlotItemHandler extends SlotItemHandler {
+
+	/**
+	 *
+	 * @param inventoryIn
+	 * @param index
+	 * @param xPosition
+	 * @param yPosition
+	 */
+	public PouchSlotItemHandler(IItemHandler inventoryIn, int index, int xPosition, int yPosition) {
+		super(inventoryIn, index, xPosition, yPosition);
+	}
+
+	@Override
+	public boolean mayPlace(ItemStack stack) {
+		return stack.getItem() instanceof WealthItem || stack.is(TreasureTags.Items.POUCH);
+	}
+}

@@ -1,0 +1,118 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.client.screen;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.inventory.AbstractTreasureContainerMenu;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+
+/**
+ * TODO look at AbstractContainerMenu for how to do custom props with only using 1 set of variables
+ * ie it is moving the Config check out to the concrete classes
+ * @author Mark Gottschling on Nov 20, 2022
+ *
+ */
+public abstract class AbstractChestScreen<T extends AbstractTreasureContainerMenu> extends AbstractContainerScreen<T> {
+	private static final ResourceLocation VANILLA_BG_TEXTURE = ResourceLocation.fromNamespaceAndPath(Treasure.MODID, "textures/gui/screen/treasure_chest.png");
+	
+	private ResourceLocation bgTexture;
+	private Inventory inventory;
+	
+	/**
+	 * 
+	 * @param containerMenu
+	 * @param inventory
+	 * @param name
+	 */
+	public AbstractChestScreen(T containerMenu, Inventory inventory, Component name) {
+		super(containerMenu, inventory, name);
+		this.inventory = inventory;
+		this.bgTexture = VANILLA_BG_TEXTURE;
+
+		// default vanilla chest size
+		imageWidth = 176;
+		imageHeight = 167;
+		
+		// TODO research - this might be custom label position because of the shadow
+		this.inventoryLabelY +=1;
+	}
+	
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+        	RenderSystem.setShaderTexture(0, getBgTexture());
+            int relX = (this.width - this.imageWidth) / 2;
+            int relY = (this.height - this.imageHeight) / 2;
+            guiGraphics.blit(getBgTexture(), relX, relY, 0, 0, this.imageWidth, this.imageHeight);
+    }
+    
+    /**
+     * 
+     * @param guiGraphics
+     * @param mouseX
+     * @param mouseY
+     */
+    protected void renderCustomLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		drawShadowLabel(guiGraphics, title, this.titleLabelX, this.titleLabelY, getCustomColor(), getCustomShadowColor());
+		drawShadowLabel(guiGraphics, getInventory().getDisplayName(), this.inventoryLabelX, this.inventoryLabelY, getCustomColor(), getCustomShadowColor());
+    }
+    
+    protected void drawShadowLabel(GuiGraphics guiGraphics, Component title, int xpos, int ypos, int color, int shadow) {
+//    	guiGraphics.drawString(this.font, title, xpos+1, ypos+1, shadow);
+    	guiGraphics.drawString(this.font, title, xpos, ypos, color);
+    }
+    
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
+    /**
+     * 
+     * @return
+     */
+	public ResourceLocation getBgTexture() {
+		return bgTexture;
+	}
+	
+	public void setBgTexture(ResourceLocation bgTexture) {
+		this.bgTexture = bgTexture;
+	}
+	
+	/*
+	 * NOTE getCustomXXX methods are only called if Config.CLIENT.gui.enableCustomChestInventoryGui is enabled.
+	 */
+	
+	public int getCustomColor() {
+		return 0;
+	}
+
+	public int getCustomShadowColor() {
+		return 0;
+	}
+	
+}

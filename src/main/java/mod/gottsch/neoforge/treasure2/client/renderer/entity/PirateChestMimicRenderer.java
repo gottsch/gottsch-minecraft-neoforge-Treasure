@@ -1,0 +1,46 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.client.renderer.entity;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.client.model.entity.PirateChestMimicModel;
+import mod.gottsch.neoforge.treasure2.client.renderer.entity.layer.PirateChestMimicLayer;
+import mod.gottsch.neoforge.treasure2.core.entity.monster.PirateChestMimic;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
+
+public class PirateChestMimicRenderer extends MobRenderer<PirateChestMimic, PirateChestMimicModel<PirateChestMimic>> {
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Treasure.MODID, "textures/entity/mob/pirate_chest_mimic.png");
+    private final float scale;
+
+    public PirateChestMimicRenderer(EntityRendererProvider.Context context) {
+        super(context, new PirateChestMimicModel<>(context.bakeLayer(PirateChestMimicModel.LAYER_LOCATION)), 0.5F);
+        this.addLayer(new PirateChestMimicLayer<>(this));
+        this.scale = 1.0F;
+    }
+
+    @Override
+    protected void scale(PirateChestMimic mimic, PoseStack pose, float scale) {
+        pose.scale(this.scale, this.scale, this.scale);
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(PirateChestMimic entity) {
+        return TEXTURE;
+    }
+}

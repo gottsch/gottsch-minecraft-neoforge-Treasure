@@ -1,0 +1,102 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.wishable;
+
+import mod.gottsch.neo.gottschcore.spatial.Coords;
+import mod.gottsch.neo.gottschcore.spatial.ICoords;
+import mod.gottsch.neoforge.treasure2.core.block.IWishingWellBlock;
+import mod.gottsch.neoforge.treasure2.core.config.Config;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.Optional;
+import java.util.Random;
+
+/**
+ * 
+ * @author Mark Gottschling May 26, 2023
+ *
+ */
+public interface IWishableHandler {
+
+	/**
+	 * 
+	 * @param itemEntity
+	 * @return
+	 */
+	default public boolean isValidLocation(ItemEntity itemEntity) {
+		int count = 0;
+		// check if in water
+		if (itemEntity.level().getBlockState(itemEntity.blockPosition()).is(Blocks.WATER)) {
+			// NOTE use vanilla classes as this scan will be performed frequently and don't need the overhead.
+			int scanRadius = Config.SERVER.wells.scanForWellRadius.get();
+			BlockPos pos = itemEntity.blockPosition().offset(-scanRadius, 0, -scanRadius);
+			for (int z = 0; z < (scanRadius * 2) + 1; z++) {
+				for (int x = 0; x < (scanRadius * 2) + 1; x++) {
+					Block block = itemEntity.level().getBlockState(pos.offset(x, 0, z)).getBlock();
+					if (block instanceof IWishingWellBlock) {
+						count++;
+					}
+					if (itemEntity.blockPosition().below().getY() > itemEntity.level().getMinBuildHeight()) {
+						block = itemEntity.level().getBlockState(pos.offset(x, -1, z)).getBlock();
+						if (block instanceof IWishingWellBlock) {
+							count++;
+						}
+					}
+					if (count >= Config.SERVER.wells.scanMinBlockCount.get()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param itemEntity
+	 */
+	default public void doWishable(ItemEntity itemEntity) {
+			Random random = new Random();
+			for (int itemIndex = 0; itemIndex < itemEntity.getItem().getCount(); itemIndex++) {
+				// generate an item for each item in the stack
+				ICoords coords = new Coords(itemEntity.blockPosition());
+				Optional<ItemStack> lootStack = generateLoot(itemEntity.level(), random, itemEntity, coords);
+				if (lootStack.isPresent()) {
+					// spawn the item 
+					Containers.dropItemStack(itemEntity.level(), (double)coords.getX(), (double)coords.getY()+1, (double)coords.getZ(), lootStack.get());
+				}
+			}
+			// remove the item entity
+			itemEntity.remove(RemovalReason.DISCARDED);
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @param random
+	 * @param itemEntity
+	 * @param coords
+	 * @return
+	 */
+	public Optional<ItemStack> generateLoot(Level level, Random random, ItemEntity itemEntity, ICoords coords);
+}
