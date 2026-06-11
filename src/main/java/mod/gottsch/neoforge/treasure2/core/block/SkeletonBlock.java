@@ -1,0 +1,150 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block;
+
+import javax.annotation.Nullable;
+
+import com.mojang.serialization.MapCodec;
+import mod.gottsch.neo.gottschcore.spatial.Coords;
+import mod.gottsch.neo.gottschcore.spatial.ICoords;
+import mod.gottsch.neo.gottschcore.world.WorldInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+/**
+ * @author Mark Gottschling on Feb 2, 2019
+ *
+ */
+public class SkeletonBlock extends GravestoneBlock {
+    public static final MapCodec<SkeletonBlock> CODEC = simpleCodec(SkeletonBlock::new);
+
+    public static final EnumProperty<SkeletonBlock.EnumPartType> PART =
+            EnumProperty.create("part", SkeletonBlock.EnumPartType.class);
+
+    public SkeletonBlock(Block.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(WATERLOGGED, Boolean.FALSE)
+                .setValue(PART, SkeletonBlock.EnumPartType.BOTTOM));
+
+        VoxelShape shape = Block.box(1, 0, 0, 15, 6, 16);
+        setBounds(new VoxelShape[] {
+                shape,  // N
+                shape,  // E
+                shape,  // S
+                shape   // W
+        });
+    }
+
+    @Override
+    protected MapCodec<? extends GravestoneBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(PART);
+    }
+
+    /**
+     * called by ItemBlocks after a block is set in the world, to allow post-place logic
+     * ie. after the bottom/feet has been placed
+     */
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (WorldInfo.isServerSide(level)) {
+            BlockPos blockPos = pos.relative(state.getValue(FACING).getOpposite());
+
+            // Check for water at the second position
+            FluidState otherFluidState = level.getFluidState(blockPos);
+            boolean isWaterAtOther = otherFluidState.getType() == Fluids.WATER;
+
+            level.setBlock(blockPos, state.setValue(PART, SkeletonBlock.EnumPartType.TOP).setValue(WATERLOGGED, isWaterAtOther), 3);
+            level.blockUpdated(pos, Blocks.AIR);
+            state.updateNeighbourShapes(level, pos, 3);
+        }
+    }
+
+    /**
+     * Called before the Block is set to air in the world. Called regardless of if
+     * the player's tool can actually collect this block
+     */
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        Direction facing = state.getValue(FACING);
+        if (state.getValue(PART) == SkeletonBlock.EnumPartType.BOTTOM) {
+            ICoords coords = new Coords(pos);
+            BlockPos blockPos = coords.add(facing.getOpposite(), 1).toPos();
+
+            if (level.getBlockState(blockPos).getBlock() == this) {
+                Block.updateOrDestroy(state, Blocks.AIR.defaultBlockState(), level, blockPos, 3);
+            }
+        } else {
+            BlockPos blockPos = pos.relative(facing);
+            if (level.getBlockState(blockPos).getBlock() == this) {
+                Block.updateOrDestroy(state, Blocks.AIR.defaultBlockState(), level, blockPos, 3);
+            }
+        }
+    }
+
+    @Override
+    public PushReaction getPistonPushReaction(BlockState state) {
+        return PushReaction.DESTROY;
+    }
+
+    /**
+     * @author Mark Gottschling on Feb 2, 2019
+     *
+     */
+    public enum EnumPartType implements StringRepresentable {
+        TOP("top"), BOTTOM("bottom");
+
+        private final String name;
+
+        EnumPartType(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+    }
+}

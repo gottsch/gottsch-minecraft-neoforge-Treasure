@@ -1,0 +1,90 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block;
+
+import com.mojang.serialization.MapCodec;
+import mod.gottsch.neo.gottschcore.block.FacingBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+/**
+ *
+ * @author Mark Gottschling on May 30, 2018
+ *
+ */
+public class WitherBrokenLogBlock extends FacingBlock implements ITreasureBlock {
+	public static final MapCodec<WitherBrokenLogBlock> CODEC = simpleCodec(WitherBrokenLogBlock::new);
+
+	/*
+	 * An array of VoxelShape shapes for the bounding box
+	 */
+	private VoxelShape[] shapes = new VoxelShape[4];
+
+	/**
+	 *
+	 */
+	public WitherBrokenLogBlock(Block.Properties properties) {
+		super(properties.strength(3.0F).sound(SoundType.WOOD));
+
+		VoxelShape box = Block.box(0.01, 0.01, 0.01, 15.99, 15.99, 15.99);
+		setShapes(
+				new VoxelShape[] {
+						box, box, box, box
+				}
+			);
+	}
+
+	@Override
+	protected MapCodec<? extends WitherBrokenLogBlock> codec() {
+		return CODEC;
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		switch(state.getValue(FACING)) {
+		default:
+		case NORTH:
+			return shapes[0];
+		case EAST:
+			return shapes[1];
+		case SOUTH:
+			return shapes[2];
+		case WEST:
+			return shapes[3];
+		}
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public VoxelShape[] getShapes() {
+		return shapes;
+	}
+
+	public WitherBrokenLogBlock setShapes(VoxelShape[] shapes) {
+		this.shapes = shapes;
+		return this;
+	}
+}

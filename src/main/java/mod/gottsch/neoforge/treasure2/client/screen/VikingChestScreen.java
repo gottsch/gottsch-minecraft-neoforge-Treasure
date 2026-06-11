@@ -1,0 +1,64 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.client.screen;
+
+import java.awt.Color;
+
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.config.Config;
+import mod.gottsch.neoforge.treasure2.core.inventory.VikingChestContainerMenu;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+
+public class VikingChestScreen extends AbstractChestScreen<VikingChestContainerMenu> {
+
+	private static final ResourceLocation BG_TEXTURE = ResourceLocation.fromNamespaceAndPath(Treasure.MODID, "textures/gui/screen/viking_chest.png");
+	private static final Color CHEST_LIGHT_BROWN = new Color(188, 168, 142);
+	private static final Color CHEST_DARK_BROWN = new Color(38, 30, 14);
+
+	public VikingChestScreen(VikingChestContainerMenu screenContainer, Inventory playerInventory, Component title) {
+		super(screenContainer, playerInventory, title);
+		if (Config.CLIENT.gui.enableCustomChestInventoryGui.get()) {
+			this.imageWidth = 176;
+			this.imageHeight = 176;
+			this.titleLabelY =+8;
+			this.inventoryLabelY = this.imageHeight - 102;
+			setBgTexture(BG_TEXTURE);
+		}
+	}
+
+	@Override
+	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		if (Config.CLIENT.gui.enableCustomChestInventoryGui.get()) {
+			renderCustomLabels(guiGraphics, mouseX, mouseY);
+		}
+		else {
+			super.renderLabels(guiGraphics, mouseX, mouseY);
+		}
+	}
+
+	@Override
+	public int getCustomColor() {
+		return CHEST_LIGHT_BROWN.getRGB();
+	}
+
+	@Override
+	public int getCustomShadowColor() {
+		return CHEST_DARK_BROWN.getRGB();
+	}
+}

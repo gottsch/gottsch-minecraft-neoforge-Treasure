@@ -1,0 +1,78 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.block;
+
+import com.mojang.serialization.MapCodec;
+import mod.gottsch.neo.gottschcore.block.FacingBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+/**
+ * @author Mark Gottschling on Aug 22, 2024
+ *
+ * TODO: restore animateTick black spore particles once BLACK_SPORE_PARTICLE
+ *   sprite provider is ported.
+ */
+public class WitherTwigBlock extends FacingBlock implements ITreasureBlock {
+	public static final MapCodec<WitherTwigBlock> CODEC = simpleCodec(WitherTwigBlock::new);
+
+	private static final VoxelShape NORTH_SHAPE = Block.box(3, 1, 3, 13, 16, 16);
+	private static final VoxelShape SOUTH_SHAPE = Block.box(3, 1, 0, 13, 16, 13);
+	private static final VoxelShape EAST_SHAPE = Block.box(0, 1, 3, 13, 16, 13);
+	private static final VoxelShape WEST_SHAPE = Block.box(3, 1, 3, 16, 16, 13);
+
+	/**
+	 *
+	 */
+	public WitherTwigBlock(Properties properties) {
+		super(properties.strength(0.6F).noCollission().instabreak().sound(SoundType.WOOD));
+	}
+
+	@Override
+	protected MapCodec<? extends WitherTwigBlock> codec() {
+		return CODEC;
+	}
+
+	/**
+	 * TODO: particles stubbed until BLACK_SPORE_PARTICLE is ported. See class javadoc.
+	 */
+	@Override
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+		// no-op (black spore particles not yet ported)
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		switch(state.getValue(FACING)) {
+			default:
+			case NORTH:
+				return NORTH_SHAPE;
+			case EAST:
+				return EAST_SHAPE;
+			case SOUTH:
+				return SOUTH_SHAPE;
+			case WEST:
+				return WEST_SHAPE;
+		}
+	}
+}
