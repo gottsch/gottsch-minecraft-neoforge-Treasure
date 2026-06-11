@@ -34,11 +34,12 @@ public class TreasureAttachments {
                             .build()
             );
 
-    // lock states
+    // lock states — only serialize when list is non-empty
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<LockStatesComponent>> LOCK_STATES =
             ATTACHMENT_TYPES.register("lock_states", () ->
-                    AttachmentType.builder(() -> new LockStatesComponent(new ArrayList<>()))
-                            .serialize(LockStatesComponent.CODEC)
+                    AttachmentType.<LockStatesComponent>builder(() -> new LockStatesComponent(new ArrayList<>()))
+                            .serialize(LockStatesComponent.CODEC,
+                                    ls -> ls != null && !ls.lockStates().isEmpty())
                             .build()
             );
 
@@ -50,43 +51,44 @@ public class TreasureAttachments {
                             .build()
             );
 
-    // sealed
+    // sealed — only serialize when true (default false)
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<SealedComponent>> SEALED =
             ATTACHMENT_TYPES.register("sealed", () ->
-                    AttachmentType.builder(() -> new SealedComponent(false))
-                            .serialize(SealedComponent.CODEC)
+                    AttachmentType.<SealedComponent>builder(() -> new SealedComponent(false))
+                            .serialize(SealedComponent.CODEC, s -> s != null && s.sealed())
                             .build()
             );
 
-    // loot table
+    // loot table — only serialize when path is non-empty
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> LOOT_TABLE =
             ATTACHMENT_TYPES.register("loot_table", () ->
-                    AttachmentType.builder(() -> ResourceLocation.parse(""))
-                            .serialize(ResourceLocation.CODEC)
+                    AttachmentType.<ResourceLocation>builder(() -> ResourceLocation.parse(""))
+                            .serialize(ResourceLocation.CODEC, rl -> rl != null && !rl.getPath().isEmpty())
                             .build()
             );
 
-    // mimic
+    // mimic — only serialize when path is non-empty
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> MIMIC =
             ATTACHMENT_TYPES.register("mimic", () ->
-                    AttachmentType.builder(() -> ResourceLocation.parse(""))
-                            .serialize(ResourceLocation.CODEC)
+                    AttachmentType.<ResourceLocation>builder(() -> ResourceLocation.parse(""))
+                            .serialize(ResourceLocation.CODEC, rl -> rl != null && !rl.getPath().isEmpty())
                             .build()
             );
 
-    // component name
+    // component name — only serialize when name is non-blank
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<CustomNameComponent>> CUSTOM_NAME =
             ATTACHMENT_TYPES.register("custom_name", () ->
-                    AttachmentType.builder(() -> new CustomNameComponent(""))
-                            .serialize(CustomNameComponent.CODEC)
+                    AttachmentType.<CustomNameComponent>builder(() -> new CustomNameComponent(""))
+                            .serialize(CustomNameComponent.CODEC, c -> c != null && !c.name().isBlank())
                             .build()
             );
 
-    // generation context
+    // generation context — only serialize when both fields are non-null (default has null fields)
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<GenerationContext>> GENERATION_CONTEXT =
             ATTACHMENT_TYPES.register("generation_context", () ->
-                    AttachmentType.<GenerationContext>builder(() -> GenerationContext.DEFAULT) // Supplier for default value
-                            .serialize(GenerationContext.CODEC) // Use the defined Codec for persistence
+                    AttachmentType.<GenerationContext>builder(() -> GenerationContext.DEFAULT)
+                            .serialize(GenerationContext.CODEC,
+                                    ctx -> ctx.getLootRarity() != null && ctx.getFeatureType() != null)
                             .build()
             );
 

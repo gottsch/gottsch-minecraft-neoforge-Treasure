@@ -155,13 +155,140 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.POUCH.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("item/pouch"));
 
-        // TODO: restore TREASURE_TOOL, coins, gems, EYE_PATCH, CLOVER, weapons, spawn eggs when ported
+        // wealth items — coins
+        singleTexture(TreasureItems.COPPER_COIN.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/coin/copper_coin"));
+        singleTexture(TreasureItems.SILVER_COIN.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/coin/silver_coin"));
+        singleTexture(TreasureItems.GOLD_COIN.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/coin/gold_coin"));
+
+        // wealth items — gems
+        singleTexture(TreasureItems.TOPAZ.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/topaz"));
+        singleTexture(TreasureItems.ONYX.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/onyx"));
+        singleTexture(TreasureItems.RUBY.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/ruby"));
+        singleTexture(TreasureItems.SAPPHIRE.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/sapphire"));
+        singleTexture(TreasureItems.WHITE_PEARL.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/white_pearl"));
+        singleTexture(TreasureItems.BLACK_PEARL.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/gem/black_pearl"));
+
+        // clover (item)
+        singleTexture(TreasureItems.CLOVER.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/clover"));
+
+        // falling blocks (item models point at their block model)
+        withExistingParent(TreasureItems.FALLING_GRASS.getId().getPath(), modLoc("block/falling_grass"));
+        withExistingParent(TreasureItems.FALLING_SAND.getId().getPath(), modLoc("block/falling_sand"));
+        withExistingParent(TreasureItems.FALLING_RED_SAND.getId().getPath(), modLoc("block/falling_red_sand"));
+
+        // spanish moss item — cross-style block, item model needs the flat texture
+        singleTexture(TreasureItems.SPANISH_MOSS_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("block/spanish_moss"));
+
+        // strangle vines (head) — cross-style block, item uses the flat texture
+        singleTexture(TreasureItems.STRANGLE_VINES.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("block/strangle_vines"));
+
+        // gravestones — 19 block items, each points at its block model
+        withExistingParent(TreasureItems.GRAVESTONE1_STONE_ITEM.getId().getPath(), modLoc("block/gravestone1_stone"));
+        withExistingParent(TreasureItems.GRAVESTONE1_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone1_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE1_MOSSY_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone1_mossy_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE1_POLISHED_GRANITE_ITEM.getId().getPath(), modLoc("block/gravestone1_polished_granite"));
+        withExistingParent(TreasureItems.GRAVESTONE1_OBSIDIAN_ITEM.getId().getPath(), modLoc("block/gravestone1_obsidian"));
+        withExistingParent(TreasureItems.GRAVESTONE1_SMOOTH_QUARTZ_ITEM.getId().getPath(), modLoc("block/gravestone1_smooth_quartz"));
+        withExistingParent(TreasureItems.GRAVESTONE2_STONE_ITEM.getId().getPath(), modLoc("block/gravestone2_stone"));
+        withExistingParent(TreasureItems.GRAVESTONE2_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone2_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE2_MOSSY_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone2_mossy_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE2_POLISHED_GRANITE_ITEM.getId().getPath(), modLoc("block/gravestone2_polished_granite"));
+        withExistingParent(TreasureItems.GRAVESTONE2_OBSIDIAN_ITEM.getId().getPath(), modLoc("block/gravestone2_obsidian"));
+        withExistingParent(TreasureItems.GRAVESTONE2_SMOOTH_QUARTZ_ITEM.getId().getPath(), modLoc("block/gravestone2_smooth_quartz"));
+        withExistingParent(TreasureItems.GRAVESTONE3_STONE_ITEM.getId().getPath(), modLoc("block/gravestone3_stone"));
+        withExistingParent(TreasureItems.GRAVESTONE3_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone3_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE3_MOSSY_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone3_mossy_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE3_POLISHED_GRANITE_ITEM.getId().getPath(), modLoc("block/gravestone3_polished_granite"));
+        withExistingParent(TreasureItems.GRAVESTONE3_OBSIDIAN_ITEM.getId().getPath(), modLoc("block/gravestone3_obsidian"));
+        withExistingParent(TreasureItems.GRAVESTONE3_SMOOTH_QUARTZ_ITEM.getId().getPath(), modLoc("block/gravestone3_smooth_quartz"));
+        withExistingParent(TreasureItems.SKULL_AND_CROSSBONES_ITEM.getId().getPath(), modLoc("block/skull_and_crossbones"));
+        singleTexture(TreasureItems.SKELETON_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/skeleton_item"));
+
+        // gravestone spawners — reuse the matching gravestone block models
+        withExistingParent(TreasureItems.GRAVESTONE1_SPAWNER_STONE_ITEM.getId().getPath(), modLoc("block/gravestone1_stone"));
+        withExistingParent(TreasureItems.GRAVESTONE2_SPAWNER_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/gravestone2_cobblestone"));
+        withExistingParent(TreasureItems.GRAVESTONE3_SPAWNER_OBSIDIAN_ITEM.getId().getPath(), modLoc("block/gravestone3_obsidian"));
+
+        // witherwood structure blocks
+        withExistingParent(TreasureItems.WITHERWOOD_BROKEN_LOG_ITEM.getId().getPath(), modLoc("block/witherwood_broken_log"));
+        withExistingParent(TreasureItems.WITHERWOOD_BRANCH_ITEM.getId().getPath(), modLoc("block/witherwood_branch1a"));
+        singleTexture(TreasureItems.WITHERWOOD_ROOT_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/witherwood_root"));
+        singleTexture(TreasureItems.WITHERWOOD_TWIG_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/witherwood_stick"));
+
+        // witherwood woodset
+        withExistingParent(TreasureItems.WITHERWOOD_LOG_ITEM.getId().getPath(), modLoc("block/witherwood_log"));
+        withExistingParent(TreasureItems.WITHERWOOD_WOOD_ITEM.getId().getPath(), modLoc("block/witherwood_wood"));
+        withExistingParent(TreasureItems.STRIPPED_WITHERWOOD_LOG_ITEM.getId().getPath(), modLoc("block/stripped_witherwood_log"));
+        withExistingParent(TreasureItems.STRIPPED_WITHERWOOD_WOOD_ITEM.getId().getPath(), modLoc("block/stripped_witherwood_wood"));
+        withExistingParent(TreasureItems.WITHERWOOD_PLANKS_ITEM.getId().getPath(), modLoc("block/witherwood_planks"));
+        withExistingParent(TreasureItems.WITHERWOOD_SLAB_ITEM.getId().getPath(), modLoc("block/witherwood_slab"));
+        withExistingParent(TreasureItems.WITHERWOOD_STAIRS_ITEM.getId().getPath(), modLoc("block/witherwood_stairs"));
+        withExistingParent(TreasureItems.WITHERWOOD_FENCE_ITEM.getId().getPath(), modLoc("block/witherwood_fence_inventory"));
+        withExistingParent(TreasureItems.WITHERWOOD_FENCE_GATE_ITEM.getId().getPath(), modLoc("block/witherwood_fence_gate"));
+        withExistingParent(TreasureItems.WITHERWOOD_BUTTON_ITEM.getId().getPath(), modLoc("block/witherwood_button_inventory"));
+        withExistingParent(TreasureItems.WITHERWOOD_PRESSURE_PLATE_ITEM.getId().getPath(), modLoc("block/witherwood_pressure_plate"));
+        withExistingParent(TreasureItems.WITHERWOOD_TRAPDOOR_ITEM.getId().getPath(), modLoc("block/witherwood_trapdoor_bottom"));
+        singleTexture(TreasureItems.WITHERWOOD_DOOR_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/witherwood_door"));
+
+        // witherwood signs
+        singleTexture(TreasureItems.WITHERWOOD_SIGN_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/witherwood_sign"));
+        singleTexture(TreasureItems.WITHERWOOD_HANGING_SIGN_ITEM.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/witherwood_hanging_sign"));
+
+        // TODO: restore TREASURE_TOOL, EYE_PATCH, weapons, spawn eggs when ported
         // TODO: restore ore block items (TOPAZ_ORE_ITEM, etc.) when ported
         // TODO: restore witherwood block items when ported
         // TODO: restore wishing well block items when ported
 
-        // chest block items — only WOOD_CHEST has a registered block item so far
+        // chest block items
         withExistingParent(TreasureItems.WOOD_CHEST.getId().getPath(), modLoc("block/wood_chest"));
-        // TODO: add remaining chest block items once their block items are registered in TreasureItems
+        withExistingParent(TreasureItems.CRATE_CHEST.getId().getPath(), modLoc("block/crate_chest"));
+        withExistingParent(TreasureItems.MOLDY_CRATE_CHEST.getId().getPath(), modLoc("block/crate_chest_moldy"));
+        withExistingParent(TreasureItems.IRONBOUND_CHEST.getId().getPath(), modLoc("block/ironbound_chest"));
+        withExistingParent(TreasureItems.PIRATE_CHEST.getId().getPath(), modLoc("block/pirate_chest"));
+        withExistingParent(TreasureItems.SAFE.getId().getPath(), modLoc("block/safe"));
+        withExistingParent(TreasureItems.IRON_STRONGBOX.getId().getPath(), modLoc("block/iron_strongbox"));
+        withExistingParent(TreasureItems.GOLD_STRONGBOX.getId().getPath(), modLoc("block/gold_strongbox"));
+        withExistingParent(TreasureItems.DREAD_PIRATE_CHEST.getId().getPath(), modLoc("block/dread_pirate_chest"));
+        withExistingParent(TreasureItems.COMPRESSOR_CHEST.getId().getPath(), modLoc("block/compressor_chest"));
+        withExistingParent(TreasureItems.SKULL_CHEST.getId().getPath(), modLoc("block/skull_chest"));
+        withExistingParent(TreasureItems.GOLD_SKULL_CHEST.getId().getPath(), modLoc("block/gold_skull_chest"));
+        withExistingParent(TreasureItems.CRYSTAL_SKULL_CHEST.getId().getPath(), modLoc("block/crystal_skull_chest"));
+        withExistingParent(TreasureItems.CAULDRON_CHEST.getId().getPath(), modLoc("block/cauldron_chest"));
+        withExistingParent(TreasureItems.SPIDER_CHEST.getId().getPath(), modLoc("block/spider_chest"));
+        withExistingParent(TreasureItems.VIKING_CHEST.getId().getPath(), modLoc("block/viking_chest"));
+        withExistingParent(TreasureItems.CARDBOARD_BOX.getId().getPath(), modLoc("block/cardboard_box"));
+        withExistingParent(TreasureItems.MILK_CRATE.getId().getPath(), modLoc("block/milk_crate"));
+        withExistingParent(TreasureItems.BARREL_CHEST.getId().getPath(), modLoc("block/barrel_chest"));
+        withExistingParent(TreasureItems.VANILLA_CHEST.getId().getPath(), modLoc("block/vanilla_chest"));
+        withExistingParent(TreasureItems.WITHER_CHEST.getId().getPath(), modLoc("block/wither_chest"));
+        withExistingParent(TreasureItems.BONE_CHEST.getId().getPath(), modLoc("block/bone_chest"));
+        withExistingParent(TreasureItems.CELESTIAL_CHEST.getId().getPath(), modLoc("block/celestial_chest"));
+        withExistingParent(TreasureItems.INFERNAL_CHEST.getId().getPath(), modLoc("block/infernal_chest"));
+
+        // wishing wells
+        withExistingParent(TreasureItems.WISHING_WELL_ITEM.getId().getPath(), modLoc("block/wishing_well_block"));
+        withExistingParent(TreasureItems.WISHING_WELL_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/wishing_well_cobblestone_block"));
+        withExistingParent(TreasureItems.WISHING_WELL_MOSSY_COBBLESTONE_ITEM.getId().getPath(), modLoc("block/wishing_well_mossy_cobblestone_block"));
+        withExistingParent(TreasureItems.WISHING_WELL_STONE_BRICKS_ITEM.getId().getPath(), modLoc("block/wishing_well_stone_bricks_block"));
+        withExistingParent(TreasureItems.WISHING_WELL_MOSSY_STONE_BRICKS_ITEM.getId().getPath(), modLoc("block/wishing_well_mossy_stone_bricks_block"));
+        withExistingParent(TreasureItems.DESERT_WISHING_WELL_ITEM.getId().getPath(), modLoc("block/desert_wishing_well_block"));
     }
 }

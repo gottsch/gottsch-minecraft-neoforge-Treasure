@@ -38,6 +38,7 @@ import mod.gottsch.neoforge.treasure2.core.registry.RarityTagAssociationRegistry
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -305,7 +306,7 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 			Heading previousChestHeading = Heading.NORTH;
 
 			// set the custom name if any
-			if (stack.getEntityRepresentation().hasCustomName()) {
+			if (stack.has(DataComponents.CUSTOM_NAME)) {
 				chestBlockEntity.setCustomName(stack.getHoverName());
 			}
 
@@ -353,8 +354,8 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 		AbstractTreasureChestBlockEntity blockEntity = (AbstractTreasureChestBlockEntity) level.getBlockEntity(pos);
 		if (blockEntity != null) {
-			// check for mimic
-			if (blockEntity.getMimic() != null) {
+			// check for mimic — empty ResourceLocation (default) means no mimic
+			if (blockEntity.getMimic() != null && !blockEntity.getMimic().getPath().isEmpty()) {
 				spawnMimic(level, level.getRandom(), state, pos, player);
 			}
 			else if (!blockEntity.isLocked()) {			

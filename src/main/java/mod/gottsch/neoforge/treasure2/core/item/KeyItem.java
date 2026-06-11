@@ -137,7 +137,6 @@ public class KeyItem extends Item implements IKeyEffects {
 	 */
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-		Treasure.LOGGER.debug("appendHoverText damage -> {}", stack.getDamageValue());
 		// TODO this optional probably can be better written
 //		if (stack.getCapability(DURABILITY).isPresent()) {
 //			stack.getCapability(DURABILITY).ifPresent(cap -> {
@@ -347,12 +346,17 @@ public class KeyItem extends Item implements IKeyEffects {
 	 * @param lockState
 	 */
 	public void doUnlock(UseOnContext context, ITreasureChestBlockEntity chestTileEntity, LockState lockState) {
-		LockItem lock = lockState.getLock();		
+		LockItem lock = lockState.getLock();
 		lock.doUnlock(context.getLevel(), context.getPlayer(), context.getClickedPos(), lockState);
 
 		if (!breaksLock(lock)) {
 			// spawn the lock
 			lock.dropLock(context.getLevel(), context.getClickedPos());
+		}
+
+		// sync the cleared lock state to all tracking clients
+		if (chestTileEntity instanceof AbstractTreasureChestBlockEntity be) {
+			be.sendUpdates();
 		}
 	}
 

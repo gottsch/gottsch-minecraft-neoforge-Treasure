@@ -34,6 +34,7 @@ import mod.gottsch.neoforge.treasure2.core.registry.LootTableRegistry;
 import mod.gottsch.neoforge.treasure2.core.registry.RarityOrderRegistry;
 import mod.gottsch.neoforge.treasure2.core.util.LangUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -301,6 +302,10 @@ public class ChestGenerationHelper {
     }
 
     public static Optional<IRarity> getBoostedRarity(Level level, IRarity rarity, int amount) {
+        return getBoostedRarity(level.registryAccess(), rarity, amount);
+    }
+
+    public static Optional<IRarity> getBoostedRarity(HolderLookup.Provider registries, IRarity rarity, int amount) {
         Treasure.LOGGER.debug("boosted amount -> {}", amount);
         // check the registry(s) for the rarity
         List<RarityOrder> rarityOrders = new ArrayList<>(RarityOrderRegistry.getCore());
@@ -318,14 +323,14 @@ public class ChestGenerationHelper {
 //                .toList(); // or .collect(Collectors.toList()) for older Java versions
 
 //        Treasure.LOGGER.debug("sorted rarity order -> {}", sortedRarities);
-        int index = getIndex(level, rarityOrders, rarity);
+        int index = getIndex(registries, rarityOrders, rarity);
         Treasure.LOGGER.debug("index of current rarity {} -> {}", rarity, index);
 
         // check if the rarity was found and if there's an element after it.
         if (index != -1 && index + amount < rarityOrders.size()) {
             RarityOrder rarityOrder = rarityOrders.get(index + amount);
             Treasure.LOGGER.debug("boosted rarity order -> {}", rarityOrder);
-            Optional<IRarity> boostedRarity = TreasureRarities.getRarityByName(rarityOrder.rarity(), level.registryAccess());
+            Optional<IRarity> boostedRarity = TreasureRarities.getRarityByName(rarityOrder.rarity(), registries);
 //            return TreasureRarities.getRarityByName(rarityOrder.rarity());
             Treasure.LOGGER.debug("boosted rarity -> {}", boostedRarity.orElse(TreasureRarities.UNKNOWN.get()));
             return boostedRarity;
@@ -338,9 +343,9 @@ public class ChestGenerationHelper {
      * @param rarity the rarity to search by
      * @return
      */
-    private static int getIndex(Level level, List<RarityOrder> rarityOrders, IRarity rarity) {
+    private static int getIndex(HolderLookup.Provider registries, List<RarityOrder> rarityOrders, IRarity rarity) {
         OptionalInt firstIndex = IntStream.range(0, rarityOrders.size())
-                .filter(i -> TreasureRarities.getRarityByName(rarityOrders.get(i).rarity(), level.registryAccess())
+                .filter(i -> TreasureRarities.getRarityByName(rarityOrders.get(i).rarity(), registries)
                         .orElse(TreasureRarities.SCARCE.get())
                         .equals(rarity))
                 .findFirst();

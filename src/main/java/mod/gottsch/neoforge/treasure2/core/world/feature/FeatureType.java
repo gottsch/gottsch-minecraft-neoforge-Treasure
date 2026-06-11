@@ -39,7 +39,7 @@ public class FeatureType implements IFeatureType {
 
 	@Override
 	public ResourceLocation getRegistryId() {
-		return null;
+		return ID;
 	}
 
 	@Override

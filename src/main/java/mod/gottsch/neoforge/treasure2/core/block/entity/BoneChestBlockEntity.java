@@ -157,7 +157,7 @@ public class BoneChestBlockEntity extends AbstractTreasureChestBlockEntity {
 
         if (this.openCount > 0) {
             if (this.lidAngle == 0.0F) {
-                this.playSound(SoundEvents.CHEST_OPEN);
+                doChestOpenEffects(level, null, getBlockPos());
             }
             if (this.lidAngle < 1.0F) {
                 isLidOpen = false;
@@ -184,7 +184,7 @@ public class BoneChestBlockEntity extends AbstractTreasureChestBlockEntity {
                 isLidClosed = true;
             }
             if (this.lidAngle < 0.06F && f2 >= 0.06F) {
-                this.playSound(SoundEvents.CHEST_CLOSE);
+                doChestCloseEffects(level, null, getBlockPos());
             }
         }
     }

@@ -50,6 +50,20 @@ public interface IFeatureType {
             .codec(); // convert the MapCodec (fieldOf) back to a regular Codec
 
     /**
+     * A plain-string codec that resolves a feature type by its (path-only) name, e.g.
+     * {@code "terranean"} -> {@code treasure2:terranean}. This matches the format produced by the
+     * Forge 1.20.1 {@code StringRepresentable.fromEnum} codec, which is what the worldgen
+     * {@code structure} JSONs store under {@code "feature_type"}. Unknown names fall back to
+     * {@link TreasureFeatureTypes#UNKNOWN} so a feature type is always returned.
+     */
+    Codec<IFeatureType> BY_NAME_CODEC = Codec.STRING.xmap(
+            name -> TreasureFeatureTypes.getFeatureTypeByName(
+                            ResourceLocation.fromNamespaceAndPath(Treasure.MODID, name))
+                    .orElseGet(TreasureFeatureTypes.UNKNOWN),
+            IFeatureType::getName
+    );
+
+    /**
      * A StreamCodec that converts the ResourceLocation of the IFeatureType
      * into the singleton instance and vice-versa.
      */

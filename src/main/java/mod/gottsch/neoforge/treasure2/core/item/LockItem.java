@@ -194,11 +194,10 @@ public class LockItem extends Item implements ILockEffects {
 			if (lockState != null && lockState.getLock() == null) {
 				lockState.setLock(lock);
 
-				doLockedEffects(blockEntity.getLevel(), player, blockEntity.getBlockPos(), lockState);						 
+				doLockedEffects(blockEntity.getLevel(), player, blockEntity.getBlockPos(), lockState);
 
-				// TODO updateAndSync
-				blockEntity.updateAttachmentAndSync();
-//				blockEntity.sendUpdates();
+				// sync the full block entity (lock state attachment) to clients
+				blockEntity.sendUpdates();
 
 				// decrement item in hand
 				heldItem.shrink(1);

@@ -17,8 +17,8 @@ package mod.gottsch.neoforge.treasure2.core.wishable;
 
 import mod.gottsch.neo.gottschcore.spatial.Coords;
 import mod.gottsch.neo.gottschcore.spatial.ICoords;
+import mod.gottsch.neoforge.treasure2.api.TreasureApi;
 import mod.gottsch.neoforge.treasure2.core.block.IWishingWellBlock;
-import mod.gottsch.neoforge.treasure2.core.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity.RemovalReason;
@@ -48,7 +48,7 @@ public interface IWishableHandler {
 		// check if in water
 		if (itemEntity.level().getBlockState(itemEntity.blockPosition()).is(Blocks.WATER)) {
 			// NOTE use vanilla classes as this scan will be performed frequently and don't need the overhead.
-			int scanRadius = Config.SERVER.wells.scanForWellRadius.get();
+			int scanRadius = TreasureApi.getWellScanRadius();
 			BlockPos pos = itemEntity.blockPosition().offset(-scanRadius, 0, -scanRadius);
 			for (int z = 0; z < (scanRadius * 2) + 1; z++) {
 				for (int x = 0; x < (scanRadius * 2) + 1; x++) {
@@ -62,7 +62,7 @@ public interface IWishableHandler {
 							count++;
 						}
 					}
-					if (count >= Config.SERVER.wells.scanMinBlockCount.get()) {
+					if (count >= TreasureApi.getWellScanMinBlockCount()) {
 						return true;
 					}
 				}

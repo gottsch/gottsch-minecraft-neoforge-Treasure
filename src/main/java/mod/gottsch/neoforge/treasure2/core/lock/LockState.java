@@ -27,6 +27,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 
+import java.util.Optional;
+
 /**
  * @author Mark Gottschling onJan 10, 2018
  */
@@ -36,8 +38,9 @@ public class LockState {
 
     public static final Codec<LockState> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             LockSlot.CODEC.fieldOf("slot").forGetter(LockState::getSlot),
-            BuiltInRegistries.ITEM.byNameCodec().fieldOf("lockItem").forGetter(LockState::getLock)
-    ).apply(instance, LockState::create));
+            BuiltInRegistries.ITEM.byNameCodec().optionalFieldOf("lockItem")
+                    .forGetter(ls -> Optional.ofNullable((Item) ls.getLock()))
+    ).apply(instance, (slot, lockItemOpt) -> new LockState(slot, (LockItem) lockItemOpt.orElse(null))));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, LockState> STREAM_CODEC = StreamCodec.composite(
 

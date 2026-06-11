@@ -23,7 +23,7 @@ import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.neoforge.treasure2.core.component.ComponentHelper;
 import mod.gottsch.neoforge.treasure2.core.component.LockStatesComponent;
 import mod.gottsch.neoforge.treasure2.core.component.TreasureComponents;
-import mod.gottsch.neoforge.treasure2.core.config.Config;
+import mod.gottsch.neoforge.treasure2.api.TreasureApi;
 import mod.gottsch.neoforge.treasure2.core.lock.LockState;
 import mod.gottsch.neoforge.treasure2.core.util.LangUtil;
 import net.minecraft.ChatFormatting;
@@ -204,7 +204,7 @@ public class TreasureChestBlockItem extends BlockItem {
 		// check if in water
 		if (itemEntity.level().getBlockState(itemEntity.blockPosition()).is(Blocks.WATER)) {
 			// NOTE use vanilla classes as this scan will be performed frequently and don't need the overhead.
-			int scanRadius = Config.SERVER.wells.scanForWellRadius.get();
+			int scanRadius = TreasureApi.getWellScanRadius();
 			BlockPos pos = itemEntity.blockPosition().offset(-scanRadius, 0, -scanRadius);
 			for (int z = 0; z < (scanRadius * 2) + 1; z++) {
 				for (int x = 0; x < (scanRadius * 2) + 1; x++) {
@@ -220,7 +220,7 @@ public class TreasureChestBlockItem extends BlockItem {
 							posList.add(pos.offset(x, -1, z));
 						}
 					}
-					if (count >= Config.SERVER.wells.scanMinBlockCount.get()) {
+					if (count >= TreasureApi.getWellScanMinBlockCount()) {
 						return posList;
 					}
 				}

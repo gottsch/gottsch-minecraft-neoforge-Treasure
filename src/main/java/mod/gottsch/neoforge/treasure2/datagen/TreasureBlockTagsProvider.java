@@ -20,6 +20,7 @@ import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -87,6 +88,9 @@ public class TreasureBlockTagsProvider extends BlockTagsProvider {
                         Blocks.PODZOL, Blocks.MYCELIUM,
                         Blocks.STONE, Blocks.RED_TERRACOTTA, Blocks.YELLOW_TERRACOTTA);
 
-        // TODO: add witherwood fence tags when TreasureBlocks.WITHERWOOD_FENCE is ported
+        // witherwood fence
+        tag(BlockTags.FENCES).add(TreasureBlocks.WITHERWOOD_FENCE.get());
+        tag(BlockTags.WOODEN_FENCES).add(TreasureBlocks.WITHERWOOD_FENCE.get());
+        tag(BlockTags.FENCE_GATES).add(TreasureBlocks.WITHERWOOD_FENCE_GATE.get());
     }
 }

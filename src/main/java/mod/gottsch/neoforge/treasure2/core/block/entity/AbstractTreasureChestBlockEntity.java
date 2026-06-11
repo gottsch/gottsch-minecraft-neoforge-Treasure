@@ -54,6 +54,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -68,6 +74,19 @@ import java.util.List;
 public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		implements ITreasureChestBlockEntity, IChestEffects, MenuProvider, Nameable {
 
+	/*
+	 * NBT keys for the one-shot "generation data" compound written by the chest subprocessors onto the
+	 * StructureBlockInfo at world-gen time. Vanilla loadWithComponents(nbt) feeds it to this block
+	 * entity at placement, where loadAdditional() parses it once into the persistent attachments. This
+	 * is required because StructureProcessor.finalizeProcessing runs pre-placement (no block entity
+	 * exists there yet), so the data cannot be applied to the block entity during processing.
+	 */
+	public static final String GENERATION_DATA_TAG = "TreasureGenerationData";
+	public static final String LOOT_TABLE_TAG = "lootTable";
+	public static final String SEALED_TAG = "sealed";
+	public static final String MIMIC_TAG = "mimic";
+	public static final String LOCK_STATES_TAG = "lockStates";
+	public static final String GENERATION_CONTEXT_TAG = "generationContext";
 
 	/*
 	 * the transient inventory of the chest
@@ -314,11 +333,75 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		tag.put("inventory", itemHandler.serializeNBT(registries));
 	}
 
+	/**
+	 * Provides the packet used to sync this block entity to clients when
+	 * {@link net.minecraft.world.level.Level#sendBlockUpdated} is called.
+	 */
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	/**
+	 * The full NBT used both for initial chunk-load sync and for {@link #getUpdatePacket} payloads.
+	 * Includes attachments via {@code saveCustomOnly}.
+	 */
+	@Override
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		return saveCustomOnly(registries);
+	}
+
+	/**
+	 * Broadcast a full block-entity sync to all tracking clients. Use after mutating
+	 * attachments (e.g. lock states) that aren't covered by {@link #updateAttachmentAndSync}.
+	 */
+	public void sendUpdates() {
+		if (level == null || level.isClientSide) return;
+		BlockState state = level.getBlockState(getBlockPos());
+		level.sendBlockUpdated(getBlockPos(), state, state, 3);
+		setChanged();
+	}
+
 	@Override
 	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		// NOTE super first: this runs NeoForge's attachment deserialization, which only fires when the
+		// tag actually contains attachment data (i.e. on normal chunk reload, never at structure
+		// placement). Applying the generation data after super therefore never gets clobbered.
 		super.loadAdditional(tag, registries);
 		if (tag.contains("inventory")) {
 			itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
+		}
+		// one-shot generation data injected by the chest subprocessors at world-gen placement
+		if (tag.contains(GENERATION_DATA_TAG)) {
+			applyGenerationData(tag.getCompound(GENERATION_DATA_TAG), registries);
+		}
+	}
+
+	/**
+	 * Parses the placement-time generation-data compound (loot table, sealed flag, lock states, mimic,
+	 * generation context) into the persistent attachments. Only called once, at structure placement.
+	 */
+	private void applyGenerationData(CompoundTag data, HolderLookup.Provider registries) {
+		RegistryOps<Tag> ops = registries.createSerializationContext(NbtOps.INSTANCE);
+
+		if (data.contains(SEALED_TAG)) {
+			setSealed(data.getBoolean(SEALED_TAG));
+		}
+		if (data.contains(LOOT_TABLE_TAG) && !data.getString(LOOT_TABLE_TAG).isEmpty()) {
+			setLootTable(ResourceLocation.parse(data.getString(LOOT_TABLE_TAG)));
+		}
+		if (data.contains(MIMIC_TAG) && !data.getString(MIMIC_TAG).isEmpty()) {
+			setMimic(ResourceLocation.parse(data.getString(MIMIC_TAG)));
+		}
+		if (data.contains(LOCK_STATES_TAG)) {
+			LockState.CODEC.listOf().parse(ops, data.get(LOCK_STATES_TAG))
+					.resultOrPartial(err -> Treasure.LOGGER.warn("unable to parse generation lock states -> {}", err))
+					.ifPresent(this::setLockStates);
+		}
+		if (data.contains(GENERATION_CONTEXT_TAG)) {
+			GenerationContext.CODEC.parse(ops, data.get(GENERATION_CONTEXT_TAG))
+					.resultOrPartial(err -> Treasure.LOGGER.warn("unable to parse generation context -> {}", err))
+					.ifPresent(this::setGenerationContext);
 		}
 	}
 

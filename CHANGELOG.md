@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.2] - 2026-06-09
+
+### Added
+- Gravestone spawners — special gravestones that summon a bound soul when you wander too close.
+- Hidden spawner blocks that let structures surprise you with mobs as you explore.
+- Witherwood decorations — branches, roots, broken logs, and twigs for building creepy wither trees.
+- A complete witherwood wood set: logs, wood, stripped logs and wood, planks, slabs, stairs, fences, fence gates, buttons, pressure plates, doors, trapdoors, and signs (standing, wall, and hanging). You can strip witherwood logs with an axe to get the stripped version.
+
+### Fixed
+- Fixed the Key Ring so its screen opens again, just like the Pouch.
+
+### Notes
+- A few of these blocks (wither twigs, strangle vines, wither roots, and others) are meant to give off floating particles. Those special effects aren't back yet and will return in a later update.
+
+---
+
 ## [1.0.0-alpha.1] - 2026-05-22
 
 ### Added

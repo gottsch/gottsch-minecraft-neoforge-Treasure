@@ -67,7 +67,7 @@ public class CardboardBoxBlockEntity extends AbstractTreasureChestBlockEntity {
 
             if (isLidOpen) {
                 if (isInnerLidClosed) {
-                    this.playSound(SoundEvents.CHEST_OPEN);
+                    doChestOpenEffects(level, null, getBlockPos());
                 }
                 if (this.innerLidAngle < 1.0F) {
                     isInnerLidOpen = false;
@@ -96,7 +96,7 @@ public class CardboardBoxBlockEntity extends AbstractTreasureChestBlockEntity {
 
             if (isInnerLidClosed) {
                 if (isLidOpen) {
-                    this.playSound(SoundEvents.CHEST_CLOSE);
+                    doChestCloseEffects(level, null, getBlockPos());
                 }
                 if (this.lidAngle > 0.0F) {
                     isLidClosed = false;

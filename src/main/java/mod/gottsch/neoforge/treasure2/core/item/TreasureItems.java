@@ -17,6 +17,7 @@ package mod.gottsch.neoforge.treasure2.core.item;
 
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -48,7 +49,66 @@ public class TreasureItems {
 	// chests
 	public static final DeferredItem<Item> WOOD_CHEST = ITEMS.register("wood_chest",
 			() -> new TreasureChestBlockItem(TreasureBlocks.WOOD_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> CRATE_CHEST = ITEMS.register("crate_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.CRATE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> MOLDY_CRATE_CHEST = ITEMS.register("crate_chest_moldy",
+			() -> new TreasureChestBlockItem(TreasureBlocks.MOLDY_CRATE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> IRONBOUND_CHEST = ITEMS.register("ironbound_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.IRONBOUND_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> PIRATE_CHEST = ITEMS.register("pirate_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.PIRATE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> SAFE = ITEMS.register("safe",
+			() -> new TreasureChestBlockItem(TreasureBlocks.SAFE.get(), new Item.Properties()));
+	public static final DeferredItem<Item> IRON_STRONGBOX = ITEMS.register("iron_strongbox",
+			() -> new TreasureChestBlockItem(TreasureBlocks.IRON_STRONGBOX.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GOLD_STRONGBOX = ITEMS.register("gold_strongbox",
+			() -> new TreasureChestBlockItem(TreasureBlocks.GOLD_STRONGBOX.get(), new Item.Properties()));
+	public static final DeferredItem<Item> DREAD_PIRATE_CHEST = ITEMS.register("dread_pirate_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.DREAD_PIRATE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> COMPRESSOR_CHEST = ITEMS.register("compressor_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.COMPRESSOR_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> SKULL_CHEST = ITEMS.register("skull_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.SKULL_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GOLD_SKULL_CHEST = ITEMS.register("gold_skull_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.GOLD_SKULL_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> CRYSTAL_SKULL_CHEST = ITEMS.register("crystal_skull_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.CRYSTAL_SKULL_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> CAULDRON_CHEST = ITEMS.register("cauldron_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.CAULDRON_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> SPIDER_CHEST = ITEMS.register("spider_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.SPIDER_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> VIKING_CHEST = ITEMS.register("viking_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.VIKING_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> CARDBOARD_BOX = ITEMS.register("cardboard_box",
+			() -> new TreasureChestBlockItem(TreasureBlocks.CARDBOARD_BOX.get(), new Item.Properties()));
+	public static final DeferredItem<Item> MILK_CRATE = ITEMS.register("milk_crate",
+			() -> new TreasureChestBlockItem(TreasureBlocks.MILK_CRATE.get(), new Item.Properties()));
+	public static final DeferredItem<Item> BARREL_CHEST = ITEMS.register("barrel_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.BARREL_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> VANILLA_CHEST = ITEMS.register("vanilla_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.VANILLA_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> WITHER_CHEST = ITEMS.register("wither_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.WITHER_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> BONE_CHEST = ITEMS.register("bone_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.BONE_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> CELESTIAL_CHEST = ITEMS.register("celestial_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.CELESTIAL_CHEST.get(), new Item.Properties()));
+	public static final DeferredItem<Item> INFERNAL_CHEST = ITEMS.register("infernal_chest",
+			() -> new TreasureChestBlockItem(TreasureBlocks.INFERNAL_CHEST.get(), new Item.Properties()));
 
+	// wishing wells (intentionally NOT added to the creative tab — obtained via world gen or Clover)
+	public static final DeferredItem<BlockItem> WISHING_WELL_ITEM = ITEMS.register("wishing_well_block",
+			() -> new BlockItem(TreasureBlocks.WISHING_WELL.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WISHING_WELL_COBBLESTONE_ITEM = ITEMS.register("wishing_well_cobblestone_block",
+			() -> new BlockItem(TreasureBlocks.WISHING_WELL_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WISHING_WELL_MOSSY_COBBLESTONE_ITEM = ITEMS.register("wishing_well_mossy_cobblestone_block",
+			() -> new BlockItem(TreasureBlocks.WISHING_WELL_MOSSY_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WISHING_WELL_STONE_BRICKS_ITEM = ITEMS.register("wishing_well_stone_bricks_block",
+			() -> new BlockItem(TreasureBlocks.WISHING_WELL_STONE_BRICKS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WISHING_WELL_MOSSY_STONE_BRICKS_ITEM = ITEMS.register("wishing_well_mossy_stone_bricks_block",
+			() -> new BlockItem(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> DESERT_WISHING_WELL_ITEM = ITEMS.register("desert_wishing_well_block",
+			() -> new BlockItem(TreasureBlocks.DESERT_WISHING_WELL.get(), new Item.Properties()));
 
 	// keys
 	public static final DeferredItem<KeyItem> WOOD_KEY = ITEMS.register("wood_key",
@@ -298,18 +358,148 @@ public class TreasureItems {
 	// keyring
 	public static final DeferredItem<KeyRingItem> KEY_RING = ITEMS.register("key_ring",
 			() -> new KeyRingItem(new Item.Properties()));
-//
-//	// wealth items
-//	public static RegistryObject<Item> COPPER_COIN = Registration.ITEMS.register("copper_coin", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> SILVER_COIN = Registration.ITEMS.register("silver_coin", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> GOLD_COIN = Registration.ITEMS.register("gold_coin", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> TOPAZ = Registration.ITEMS.register("topaz", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> ONYX = Registration.ITEMS.register("onyx", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> RUBY = Registration.ITEMS.register("ruby", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> SAPPHIRE = Registration.ITEMS.register("sapphire", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> WHITE_PEARL = Registration.ITEMS.register("white_pearl", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//	public static RegistryObject<Item> BLACK_PEARL = Registration.ITEMS.register("black_pearl", () -> new WealthItem(TREASURE_PROPS_SUPPLIER.get()));
-//
+
+	// wealth items (coins, gems, pearls) — wishable when thrown in water near a wishing well
+	public static final DeferredItem<WealthItem> COPPER_COIN = ITEMS.register("copper_coin",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> SILVER_COIN = ITEMS.register("silver_coin",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> GOLD_COIN = ITEMS.register("gold_coin",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> TOPAZ = ITEMS.register("topaz",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> ONYX = ITEMS.register("onyx",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> RUBY = ITEMS.register("ruby",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> SAPPHIRE = ITEMS.register("sapphire",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> WHITE_PEARL = ITEMS.register("white_pearl",
+			() -> new WealthItem(new Item.Properties()));
+	public static final DeferredItem<WealthItem> BLACK_PEARL = ITEMS.register("black_pearl",
+			() -> new WealthItem(new Item.Properties()));
+
+	// clover — right-click on cobblestone-family blocks to transform them into wishing well blocks
+	public static final DeferredItem<CloverItem> CLOVER = ITEMS.register("clover",
+			() -> new CloverItem(new Item.Properties()));
+
+	// falling block items
+	public static final DeferredItem<BlockItem> FALLING_GRASS = ITEMS.register("falling_grass",
+			() -> new BlockItem(TreasureBlocks.FALLING_GRASS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> FALLING_SAND = ITEMS.register("falling_sand",
+			() -> new BlockItem(TreasureBlocks.FALLING_SAND.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> FALLING_RED_SAND = ITEMS.register("falling_red_sand",
+			() -> new BlockItem(TreasureBlocks.FALLING_RED_SAND.get(), new Item.Properties()));
+
+	// spanish moss item
+	public static final DeferredItem<BlockItem> SPANISH_MOSS_ITEM = ITEMS.register("spanish_moss",
+			() -> new BlockItem(TreasureBlocks.SPANISH_MOSS.get(), new Item.Properties()));
+
+	// strangle vines (head) — placeable; body has no item form (matches vanilla TWISTING_VINES_PLANT)
+	public static final DeferredItem<BlockItem> STRANGLE_VINES = ITEMS.register("strangle_vines",
+			() -> new BlockItem(TreasureBlocks.STRANGLE_VINES.get(), new Item.Properties()));
+
+	// gravestones — 19 BlockItems
+	public static final DeferredItem<BlockItem> GRAVESTONE1_STONE_ITEM = ITEMS.register("gravestone1_stone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_STONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE1_COBBLESTONE_ITEM = ITEMS.register("gravestone1_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE1_MOSSY_COBBLESTONE_ITEM = ITEMS.register("gravestone1_mossy_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_MOSSY_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE1_POLISHED_GRANITE_ITEM = ITEMS.register("gravestone1_polished_granite",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_POLISHED_GRANITE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE1_OBSIDIAN_ITEM = ITEMS.register("gravestone1_obsidian",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_OBSIDIAN.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE1_SMOOTH_QUARTZ_ITEM = ITEMS.register("gravestone1_smooth_quartz",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_SMOOTH_QUARTZ.get(), new Item.Properties()));
+
+	public static final DeferredItem<BlockItem> GRAVESTONE2_STONE_ITEM = ITEMS.register("gravestone2_stone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_STONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_COBBLESTONE_ITEM = ITEMS.register("gravestone2_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_MOSSY_COBBLESTONE_ITEM = ITEMS.register("gravestone2_mossy_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_MOSSY_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_POLISHED_GRANITE_ITEM = ITEMS.register("gravestone2_polished_granite",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_POLISHED_GRANITE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_OBSIDIAN_ITEM = ITEMS.register("gravestone2_obsidian",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_OBSIDIAN.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_SMOOTH_QUARTZ_ITEM = ITEMS.register("gravestone2_smooth_quartz",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_SMOOTH_QUARTZ.get(), new Item.Properties()));
+
+	public static final DeferredItem<BlockItem> GRAVESTONE3_STONE_ITEM = ITEMS.register("gravestone3_stone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_STONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_COBBLESTONE_ITEM = ITEMS.register("gravestone3_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_MOSSY_COBBLESTONE_ITEM = ITEMS.register("gravestone3_mossy_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_MOSSY_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_POLISHED_GRANITE_ITEM = ITEMS.register("gravestone3_polished_granite",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_POLISHED_GRANITE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_OBSIDIAN_ITEM = ITEMS.register("gravestone3_obsidian",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_OBSIDIAN.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_SMOOTH_QUARTZ_ITEM = ITEMS.register("gravestone3_smooth_quartz",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_SMOOTH_QUARTZ.get(), new Item.Properties()));
+
+	public static final DeferredItem<BlockItem> SKULL_AND_CROSSBONES_ITEM = ITEMS.register("skull_and_crossbones",
+			() -> new BlockItem(TreasureBlocks.SKULL_AND_CROSSBONES.get(), new Item.Properties()));
+
+	public static final DeferredItem<SkeletonItem> SKELETON_ITEM = ITEMS.register("skeleton",
+			() -> new SkeletonItem(TreasureBlocks.SKELETON.get(), new Item.Properties()));
+
+	// gravestone spawners — 3 BlockItems
+	public static final DeferredItem<BlockItem> GRAVESTONE1_SPAWNER_STONE_ITEM = ITEMS.register("gravestone1_spawner_stone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE1_SPAWNER_STONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE2_SPAWNER_COBBLESTONE_ITEM = ITEMS.register("gravestone2_spawner_cobblestone",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE2_SPAWNER_COBBLESTONE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVESTONE3_SPAWNER_OBSIDIAN_ITEM = ITEMS.register("gravestone3_spawner_obsidian",
+			() -> new BlockItem(TreasureBlocks.GRAVESTONE3_SPAWNER_OBSIDIAN.get(), new Item.Properties()));
+
+	// witherwood structure blocks — 4 BlockItems
+	public static final DeferredItem<BlockItem> WITHERWOOD_BROKEN_LOG_ITEM = ITEMS.register("witherwood_broken_log",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_BROKEN_LOG.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_BRANCH_ITEM = ITEMS.register("witherwood_branch",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_BRANCH.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_ROOT_ITEM = ITEMS.register("witherwood_root",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_ROOT.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_TWIG_ITEM = ITEMS.register("witherwood_twig",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_TWIG.get(), new Item.Properties()));
+
+	// witherwood woodset — 13 BlockItems
+	public static final DeferredItem<BlockItem> WITHERWOOD_LOG_ITEM = ITEMS.register("witherwood_log",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_LOG.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_WOOD_ITEM = ITEMS.register("witherwood_wood",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_WOOD.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> STRIPPED_WITHERWOOD_LOG_ITEM = ITEMS.register("stripped_witherwood_log",
+			() -> new BlockItem(TreasureBlocks.STRIPPED_WITHERWOOD_LOG.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> STRIPPED_WITHERWOOD_WOOD_ITEM = ITEMS.register("stripped_witherwood_wood",
+			() -> new BlockItem(TreasureBlocks.STRIPPED_WITHERWOOD_WOOD.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_PLANKS_ITEM = ITEMS.register("witherwood_planks",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_PLANKS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_SLAB_ITEM = ITEMS.register("witherwood_slab",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_SLAB.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_STAIRS_ITEM = ITEMS.register("witherwood_stairs",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_STAIRS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_FENCE_ITEM = ITEMS.register("witherwood_fence",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_FENCE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_FENCE_GATE_ITEM = ITEMS.register("witherwood_fence_gate",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_FENCE_GATE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_BUTTON_ITEM = ITEMS.register("witherwood_button",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_BUTTON.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_PRESSURE_PLATE_ITEM = ITEMS.register("witherwood_pressure_plate",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_PRESSURE_PLATE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_DOOR_ITEM = ITEMS.register("witherwood_door",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_DOOR.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERWOOD_TRAPDOOR_ITEM = ITEMS.register("witherwood_trapdoor",
+			() -> new BlockItem(TreasureBlocks.WITHERWOOD_TRAPDOOR.get(), new Item.Properties()));
+
+	// witherwood signs — 2 items (standing + ceiling-hanging; wall variants share these)
+	public static final DeferredItem<net.minecraft.world.item.SignItem> WITHERWOOD_SIGN_ITEM = ITEMS.register("witherwood_sign",
+			() -> new net.minecraft.world.item.SignItem(new Item.Properties().stacksTo(16),
+					TreasureBlocks.WITHERWOOD_SIGN.get(), TreasureBlocks.WITHERWOOD_WALL_SIGN.get()));
+	public static final DeferredItem<net.minecraft.world.item.HangingSignItem> WITHERWOOD_HANGING_SIGN_ITEM = ITEMS.register("witherwood_hanging_sign",
+			() -> new net.minecraft.world.item.HangingSignItem(
+					TreasureBlocks.WITHERWOOD_HANGING_SIGN.get(), TreasureBlocks.WITHERWOOD_WALL_HANGING_SIGN.get(),
+					new Item.Properties().stacksTo(16)));
+
 	// pouch
 	public static final DeferredItem<PouchItem> POUCH = ITEMS.register("pouch",
 			() -> new PouchItem(new Item.Properties()));

@@ -127,6 +127,46 @@ public class TreasureBlockEntities {
 			BLOCK_ENTITIES.register("infernal_chest",
 					() -> BlockEntityType.Builder.of(InfernalChestBlockEntity::new, TreasureBlocks.INFERNAL_CHEST.get()).build(null));
 
+	// spawners
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TreasureProximitySpawnerBlockEntity>> TREASURE_PROXIMITY_SPAWNER_ENTITY_TYPE =
+			BLOCK_ENTITIES.register("treasure_proximity_spawner",
+					() -> BlockEntityType.Builder.of(TreasureProximitySpawnerBlockEntity::new, TreasureBlocks.PROXIMITY_SPAWNER.get()).build(null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TreasureProximityMultiSpawnerBlockEntity>> TREASURE_PROXIMITY_MULTI_SPAWNER_ENTITY_TYPE =
+			BLOCK_ENTITIES.register("treasure_proximity_multi_spawner",
+					() -> BlockEntityType.Builder.of(TreasureProximityMultiSpawnerBlockEntity::new, TreasureBlocks.PROXIMITY_MULTI_SPAWNER.get()).build(null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ProximityMobSetSpawnerBlockEntity>> PROXIMITY_MOBSET_SPAWNER_ENTITY_TYPE =
+			BLOCK_ENTITIES.register("proximity_mobset_spawner",
+					() -> BlockEntityType.Builder.of(ProximityMobSetSpawnerBlockEntity::new, TreasureBlocks.PROXIMITY_MOBSET_SPAWNER.get()).build(null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GravestoneProximitySpawnerBlockEntity>> GRAVESTONE_PROXIMITY_SPAWNER_ENTITY_TYPE =
+			BLOCK_ENTITIES.register("gravestone_proximity_spawner",
+					() -> BlockEntityType.Builder.of(GravestoneProximitySpawnerBlockEntity::new,
+							TreasureBlocks.GRAVESTONE1_SPAWNER_STONE.get(),
+							TreasureBlocks.GRAVESTONE2_SPAWNER_COBBLESTONE.get(),
+							TreasureBlocks.GRAVESTONE3_SPAWNER_OBSIDIAN.get()).build(null));
+
+	// structure markers
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StructureMobSetBlockEntity>> STRUCTURE_MOB_SET =
+			BLOCK_ENTITIES.register("structure_mob_set",
+					() -> BlockEntityType.Builder.of(StructureMobSetBlockEntity::new, TreasureBlocks.STRUCTURE_MOB_SET.get()).build(null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StructureNeighborDependentStateMarkerBlockEntity>> STRUCTURE_NEIGHBOR_DEPENDENT_STATE_MARKER =
+			BLOCK_ENTITIES.register("structure_neighbor_dependent_state_marker",
+					() -> BlockEntityType.Builder.of(StructureNeighborDependentStateMarkerBlockEntity::new, TreasureBlocks.STRUCTURE_NEIGHBOR_DEPENDENT_STATE_MARKER.get()).build(null));
+
+	// signs
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TreasureSignBlockEntity>> TREASURE_SIGN =
+			BLOCK_ENTITIES.register("treasure_sign",
+					() -> BlockEntityType.Builder.of(TreasureSignBlockEntity::new,
+							TreasureBlocks.WITHERWOOD_SIGN.get(), TreasureBlocks.WITHERWOOD_WALL_SIGN.get()).build(null));
+
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TreasureHangingSignBlockEntity>> TREASURE_HANGING_SIGN =
+			BLOCK_ENTITIES.register("treasure_hanging_sign",
+					() -> BlockEntityType.Builder.of(TreasureHangingSignBlockEntity::new,
+							TreasureBlocks.WITHERWOOD_HANGING_SIGN.get(), TreasureBlocks.WITHERWOOD_WALL_HANGING_SIGN.get()).build(null));
+
 //	public static final RegistryObject<BlockEntityType<TreasureProximitySpawnerBlockEntity>> TREASURE_PROXIMITY_SPAWNER_ENTITY_TYPE =
 //			Registration.BLOCK_ENTITIES.register("treasure_proximity_spawner",
 //			() -> BlockEntityType.Builder.of(TreasureProximitySpawnerBlockEntity::new,

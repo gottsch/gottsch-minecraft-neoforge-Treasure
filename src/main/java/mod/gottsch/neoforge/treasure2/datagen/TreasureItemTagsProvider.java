@@ -96,19 +96,38 @@ public class TreasureItemTagsProvider extends ItemTagsProvider {
         tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.RARE_LOCKS);
         tag(TreasureTags.Items.LOCKS).addTag(TreasureTags.Items.EPIC_LOCKS);
 
-        // wishables — vanilla only; wealth items (coins/gems/pearls) not yet ported
+        // wishables — wealth items (coins/gems/pearls) by rarity, matching Forge
+        tag(TreasureTags.Items.COMMON_WISHABLE).add(TreasureItems.COPPER_COIN.get());
+        tag(TreasureTags.Items.UNCOMMON_WISHABLE).add(TreasureItems.SILVER_COIN.get());
+        tag(TreasureTags.Items.SCARCE_WISHABLE).add(TreasureItems.GOLD_COIN.get());
+        tag(TreasureTags.Items.SCARCE_WISHABLE).add(TreasureItems.TOPAZ.get());
         tag(TreasureTags.Items.SCARCE_WISHABLE).add(Items.DIAMOND);
         tag(TreasureTags.Items.SCARCE_WISHABLE).add(Items.EMERALD);
-        // TODO: restore full wishable tags when WealthItem subclasses are ported
+        tag(TreasureTags.Items.RARE_WISHABLE).add(TreasureItems.ONYX.get());
+        tag(TreasureTags.Items.RARE_WISHABLE).add(TreasureItems.RUBY.get());
+        tag(TreasureTags.Items.RARE_WISHABLE).add(TreasureItems.WHITE_PEARL.get());
+        tag(TreasureTags.Items.EPIC_WISHABLE).add(TreasureItems.SAPPHIRE.get());
+        tag(TreasureTags.Items.EPIC_WISHABLE).add(TreasureItems.BLACK_PEARL.get());
 
-        // only scarce has entries; common/uncommon/rare/epic omitted until WealthItem subclasses are ported
+        tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.COMMON_WISHABLE);
+        tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.UNCOMMON_WISHABLE);
         tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.SCARCE_WISHABLE);
+        tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.RARE_WISHABLE);
+        tag(TreasureTags.Items.WISHABLES).addTag(TreasureTags.Items.EPIC_WISHABLE);
 
-        // pouchables — keys and locks only; wealth items not yet ported
+        // pouchables — keys, locks, coins, gems
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.COPPER_COIN.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.SILVER_COIN.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.GOLD_COIN.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.TOPAZ.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.ONYX.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.RUBY.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.SAPPHIRE.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.WHITE_PEARL.get());
+        tag(TreasureTags.Items.POUCH).add(TreasureItems.BLACK_PEARL.get());
         tag(TreasureTags.Items.POUCH).add(Items.DIAMOND);
         tag(TreasureTags.Items.POUCH).add(Items.EMERALD);
         tag(TreasureTags.Items.POUCH).addTag(TreasureTags.Items.KEYS);
         tag(TreasureTags.Items.POUCH).addTag(TreasureTags.Items.LOCKS);
-        // TODO: restore pouch gem/coin entries when WealthItem subclasses are ported
     }
 }

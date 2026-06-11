@@ -44,6 +44,9 @@ public class TreasureLootTableTypes {
     public static final DeferredRegister<ILootTableTypes> LOOT_TABLE_TYPES_REGISTRY =
             DeferredRegister.create(LOOT_TABLE_TYPES_REGISTRY_KEY, Treasure.MODID);
 
+    // actually create the custom registry (required for DeferredHolder.get() to resolve)
+    public static final Registry<ILootTableTypes> REGISTRY = LOOT_TABLE_TYPES_REGISTRY.makeRegistry(builder -> {});
+
     public static DeferredHolder<ILootTableTypes, ILootTableTypes> UNKNOWN = LOOT_TABLE_TYPES_REGISTRY.register("unknown", () -> new LootTableType("unknown"));
     public static DeferredHolder<ILootTableTypes, ILootTableTypes> CHESTS = LOOT_TABLE_TYPES_REGISTRY.register("chests", () -> new LootTableType("chests"));
     public static DeferredHolder<ILootTableTypes, ILootTableTypes> WISHABLES = LOOT_TABLE_TYPES_REGISTRY.register("wishables", () -> new LootTableType("wishables"));

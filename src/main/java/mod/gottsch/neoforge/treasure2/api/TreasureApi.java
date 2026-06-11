@@ -28,6 +28,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.IntSupplier;
 
 /**
  * 
@@ -36,6 +37,42 @@ import java.util.Optional;
  */
 public class TreasureApi {
 	public static final String FEATURE_TYPE = "featureType";
+
+	// -------------------------------------------------------------------------
+	// Config bridge
+	// -------------------------------------------------------------------------
+	// Live config suppliers wired in by Treasure#bindConfig() at startup. Exposing
+	// the values here lets public extension points (e.g. IWishableHandler, which is
+	// implementable by third-party mods) respect the server owner's config without
+	// importing the loader-specific Config class. Suppliers are read on every call,
+	// so config reloads are reflected automatically. Only config values that cross
+	// the public API boundary are bridged here; internal-only values keep reading
+	// Config directly. Defaults match the config defaults until bindConfig() runs.
+
+	private static IntSupplier wellScanRadius = () -> 1;
+	private static IntSupplier wellScanMinBlockCount = () -> 2;
+
+	/**
+	 * Wire live config suppliers into the API. Called once by {@code Treasure}
+	 * during mod construction, after the config is registered.
+	 *
+	 * @param wellScanRadius        supplier for the radius scanned around a wishable item to find a well
+	 * @param wellScanMinBlockCount supplier for the minimum well-block count required to detect a well
+	 */
+	public static void bindConfig(IntSupplier wellScanRadius, IntSupplier wellScanMinBlockCount) {
+		TreasureApi.wellScanRadius = wellScanRadius;
+		TreasureApi.wellScanMinBlockCount = wellScanMinBlockCount;
+	}
+
+	/** @return the radius (in blocks) scanned around a wishable item to detect a wishing well. */
+	public static int getWellScanRadius() {
+		return wellScanRadius.getAsInt();
+	}
+
+	/** @return the minimum number of well blocks within range required to count as a well. */
+	public static int getWellScanMinBlockCount() {
+		return wellScanMinBlockCount.getAsInt();
+	}
 
 	public static List<IRarity> getRarities() {
 		return TreasureRarities.getRarities();

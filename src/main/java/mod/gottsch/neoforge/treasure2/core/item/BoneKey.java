@@ -16,6 +16,7 @@
 package mod.gottsch.neoforge.treasure2.core.item;
 
 
+import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
 import mod.gottsch.neoforge.treasure2.core.block.entity.BoneChestBlockEntity;
 import mod.gottsch.neoforge.treasure2.core.block.entity.ITreasureChestBlockEntity;
 import mod.gottsch.neoforge.treasure2.core.lock.LockState;
@@ -94,5 +95,10 @@ public class BoneKey extends KeyItem {
 		LockItem lock = lockState.getLock();
 		lock.doUnlock(context.getLevel(), context.getPlayer(), context.getClickedPos(), lockState);
 		// NOTE does not drop the lock
+
+		// sync the cleared lock state to all tracking clients
+		if (chestTileEntity instanceof AbstractTreasureChestBlockEntity be) {
+			be.sendUpdates();
+		}
 	}
 }

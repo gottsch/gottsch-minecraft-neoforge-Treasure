@@ -1,5 +1,7 @@
 {
   "values": [
+    "treasure2:gold_coin",
+    "treasure2:topaz",
     "minecraft:diamond",
     "minecraft:emerald"
   ]

@@ -89,7 +89,87 @@ public class LanguageGen extends LanguageProvider {
 
         // pouch
         add(TreasureItems.POUCH.get(), "Pouch");
-        // TODO: restore TREASURE_TOOL, coins, gems, EYE_PATCH, CLOVER when ported
+
+        // wealth items
+        add(TreasureItems.COPPER_COIN.get(), "Copper Coin");
+        add(TreasureItems.SILVER_COIN.get(), "Silver Coin");
+        add(TreasureItems.GOLD_COIN.get(), "Gold Coin");
+        add(TreasureItems.TOPAZ.get(), "Topaz");
+        add(TreasureItems.ONYX.get(), "Onyx");
+        add(TreasureItems.RUBY.get(), "Ruby");
+        add(TreasureItems.SAPPHIRE.get(), "Sapphire");
+        add(TreasureItems.WHITE_PEARL.get(), "White Pearl");
+        add(TreasureItems.BLACK_PEARL.get(), "Black Pearl");
+
+        // clover
+        add(TreasureBlocks.CLOVER.get(), "Four Leaf Clover");
+        add(TreasureItems.CLOVER.get(), "Four Leaf Clover");
+
+        // falling blocks
+        add(TreasureBlocks.FALLING_GRASS.get(), "Falling Grass");
+        add(TreasureBlocks.FALLING_SAND.get(), "Falling Sand");
+        add(TreasureBlocks.FALLING_RED_SAND.get(), "Falling Red Sand");
+
+        // spanish moss
+        add(TreasureBlocks.SPANISH_MOSS.get(), "Spanish Moss");
+
+        // strangle vines
+        add(TreasureBlocks.STRANGLE_VINES.get(), "Strangle Vines");
+        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "Strangle Vines Plant");
+
+        // gravestones
+        add(TreasureBlocks.GRAVESTONE1_STONE.get(), "Stone Gravestone");
+        add(TreasureBlocks.GRAVESTONE1_COBBLESTONE.get(), "Cobblestone Gravestone");
+        add(TreasureBlocks.GRAVESTONE1_MOSSY_COBBLESTONE.get(), "Mossy Cobblestone Gravestone");
+        add(TreasureBlocks.GRAVESTONE1_POLISHED_GRANITE.get(), "Polished Granite Gravestone");
+        add(TreasureBlocks.GRAVESTONE1_OBSIDIAN.get(), "Obsidian Gravestone");
+        add(TreasureBlocks.GRAVESTONE1_SMOOTH_QUARTZ.get(), "Smooth Quartz Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_STONE.get(), "Stone Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_COBBLESTONE.get(), "Cobblestone Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_MOSSY_COBBLESTONE.get(), "Mossy Cobblestone Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_POLISHED_GRANITE.get(), "Polished Granite Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_OBSIDIAN.get(), "Obsidian Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE2_SMOOTH_QUARTZ.get(), "Smooth Quartz Cross Gravestone");
+        add(TreasureBlocks.GRAVESTONE3_STONE.get(), "Stone Tombstone");
+        add(TreasureBlocks.GRAVESTONE3_COBBLESTONE.get(), "Cobblestone Tombstone");
+        add(TreasureBlocks.GRAVESTONE3_MOSSY_COBBLESTONE.get(), "Mossy Cobblestone Tombstone");
+        add(TreasureBlocks.GRAVESTONE3_POLISHED_GRANITE.get(), "Polished Granite Tombstone");
+        add(TreasureBlocks.GRAVESTONE3_OBSIDIAN.get(), "Obsidian Tombstone");
+        add(TreasureBlocks.GRAVESTONE3_SMOOTH_QUARTZ.get(), "Smooth Quartz Tombstone");
+        add(TreasureBlocks.SKULL_AND_CROSSBONES.get(), "Skull and Crossbones");
+        add(TreasureBlocks.SKELETON.get(), "Skeleton");
+
+        // gravestone spawners
+        add(TreasureBlocks.GRAVESTONE1_SPAWNER_STONE.get(), "Stone Gravestone Spawner");
+        add(TreasureBlocks.GRAVESTONE2_SPAWNER_COBBLESTONE.get(), "Cobblestone Gravestone Spawner");
+        add(TreasureBlocks.GRAVESTONE3_SPAWNER_OBSIDIAN.get(), "Obsidian Gravestone Spawner");
+
+        // witherwood structure blocks
+        add(TreasureBlocks.WITHERWOOD_BROKEN_LOG.get(), "Witherwood Broken Log");
+        add(TreasureBlocks.WITHERWOOD_BRANCH.get(), "Witherwood Branch");
+        add(TreasureBlocks.WITHERWOOD_ROOT.get(), "Witherwood Root");
+        add(TreasureBlocks.WITHERWOOD_TWIG.get(), "Witherwood Twig");
+
+        // witherwood woodset
+        add(TreasureBlocks.WITHERWOOD_LOG.get(), "Witherwood Log");
+        add(TreasureBlocks.WITHERWOOD_WOOD.get(), "Witherwood Wood");
+        add(TreasureBlocks.STRIPPED_WITHERWOOD_LOG.get(), "Stripped Witherwood Log");
+        add(TreasureBlocks.STRIPPED_WITHERWOOD_WOOD.get(), "Stripped Witherwood Wood");
+        add(TreasureBlocks.WITHERWOOD_PLANKS.get(), "Witherwood Planks");
+        add(TreasureBlocks.WITHERWOOD_SLAB.get(), "Witherwood Slab");
+        add(TreasureBlocks.WITHERWOOD_STAIRS.get(), "Witherwood Stairs");
+        add(TreasureBlocks.WITHERWOOD_FENCE.get(), "Witherwood Fence");
+        add(TreasureBlocks.WITHERWOOD_FENCE_GATE.get(), "Witherwood Fence Gate");
+        add(TreasureBlocks.WITHERWOOD_BUTTON.get(), "Witherwood Button");
+        add(TreasureBlocks.WITHERWOOD_PRESSURE_PLATE.get(), "Witherwood Pressure Plate");
+        add(TreasureBlocks.WITHERWOOD_DOOR.get(), "Witherwood Door");
+        add(TreasureBlocks.WITHERWOOD_TRAPDOOR.get(), "Witherwood Trap Door");
+
+        // witherwood signs
+        add(TreasureBlocks.WITHERWOOD_SIGN.get(), "Witherwood Sign");
+        add(TreasureBlocks.WITHERWOOD_HANGING_SIGN.get(), "Witherwood Hanging Sign");
+
+        // TODO: restore TREASURE_TOOL, EYE_PATCH when ported
 
         // chests
         add(TreasureBlocks.WOOD_CHEST.get(), "Wood Chest");
@@ -129,6 +209,14 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureBlocks.DEEPSLATE_ONYX_ORE.get(), "Deepslate Onyx Ore");
         add(TreasureBlocks.DEEPSLATE_RUBY_ORE.get(), "Deepslate Ruby Ore");
         add(TreasureBlocks.DEEPSLATE_SAPPHIRE_ORE.get(), "Deepslate Sapphire Ore");
+
+        // wishing wells
+        add(TreasureBlocks.WISHING_WELL.get(), "Wishing Well");
+        add(TreasureBlocks.WISHING_WELL_COBBLESTONE.get(), "Cobblestone Wishing Well");
+        add(TreasureBlocks.WISHING_WELL_MOSSY_COBBLESTONE.get(), "Mossy Cobblestone Wishing Well");
+        add(TreasureBlocks.WISHING_WELL_STONE_BRICKS.get(), "Stone Brick Wishing Well");
+        add(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get(), "Mossy Stone Brick Wishing Well");
+        add(TreasureBlocks.DESERT_WISHING_WELL.get(), "Desert Wishing Well");
 
         // mobs
         add(TreasureEntities.BOUND_SOUL_ENTITY_TYPE.get(), "Bound Soul");

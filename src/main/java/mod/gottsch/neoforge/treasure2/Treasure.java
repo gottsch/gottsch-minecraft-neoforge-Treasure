@@ -1,5 +1,6 @@
 package mod.gottsch.neoforge.treasure2;
 
+import mod.gottsch.neoforge.treasure2.api.TreasureApi;
 import mod.gottsch.neoforge.treasure2.core.attachment.TreasureAttachments;
 import mod.gottsch.neoforge.treasure2.core.creativetab.TreasureCreativeModeTabs;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
@@ -10,11 +11,15 @@ import mod.gottsch.neoforge.treasure2.core.component.TreasureComponents;
 import mod.gottsch.neoforge.treasure2.core.config.Config;
 import mod.gottsch.neoforge.treasure2.core.entity.TreasureEntities;
 import mod.gottsch.neoforge.treasure2.core.inventory.TreasureContainers;
+import mod.gottsch.neoforge.treasure2.core.loot.TreasureLootTableTypes;
 import mod.gottsch.neoforge.treasure2.core.loot.modifier.TreasureLootModifiers;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
+import mod.gottsch.neoforge.treasure2.core.network.TreasureNetworking;
 import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities;
 import mod.gottsch.neoforge.treasure2.core.sound.TreasureSounds;
+import mod.gottsch.neoforge.treasure2.core.structure.TreasureStructures;
+import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.ModProcessors;
 import mod.gottsch.neoforge.treasure2.core.world.feature.TreasureFeatureTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,6 +46,14 @@ public class Treasure {
     public Treasure(IEventBus modEventBus, ModContainer modContainer) {
         Config.register(modContainer);
 
+        // wire live config values into the public API so extension points (e.g.
+        // third-party IWishableHandler implementations) can read them without
+        // importing the loader-specific Config class.
+        TreasureApi.bindConfig(
+                () -> Config.SERVER.wells.scanForWellRadius.get(),
+                () -> Config.SERVER.wells.scanMinBlockCount.get()
+        );
+
         TreasureRarities.register(modEventBus);
 
         TreasureFeatureTypes.register(modEventBus);
@@ -54,8 +67,14 @@ public class Treasure {
         TreasureParticles.register(modEventBus);
         TreasureSounds.register(modEventBus);
         TreasureEntities.register(modEventBus);
+        TreasureLootTableTypes.register(modEventBus);
         TreasureLootModifiers.register(modEventBus);
         TreasureCreativeModeTabs.register(modEventBus);
+        ModProcessors.register(modEventBus);
+        TreasureStructures.register(modEventBus);
+
+        // register network payload handlers
+        modEventBus.addListener(TreasureNetworking::register);
     }
 
     /**

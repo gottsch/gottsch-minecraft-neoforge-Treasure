@@ -67,7 +67,7 @@ public class SafeBlockEntity extends AbstractTreasureChestBlockEntity {
 
             if (isHandleOpen) {
                 if (this.lidAngle == 0.0F) {
-                    this.playSound(SoundEvents.CHEST_OPEN);
+                    doChestOpenEffects(level, null, getBlockPos());
                 }
                 if (this.lidAngle < 1.0F) {
                     isLidOpen = false;
@@ -97,7 +97,7 @@ public class SafeBlockEntity extends AbstractTreasureChestBlockEntity {
             }
 
             if (this.lidAngle < 0.06F && f2 >= 0.06F) {
-                this.playSound(SoundEvents.CHEST_CLOSE);
+                doChestCloseEffects(level, null, getBlockPos());
             }
 
             if (isLidClosed) {

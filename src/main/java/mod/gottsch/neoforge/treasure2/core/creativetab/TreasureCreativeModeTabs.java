@@ -82,11 +82,102 @@ public class TreasureCreativeModeTabs {
                         // utility
                         output.accept(TreasureItems.KEY_RING.get());
                         output.accept(TreasureItems.POUCH.get());
-                        // TODO: TREASURE_TOOL, coins, gems, EYE_PATCH, CLOVER when ported
+                        // TODO: TREASURE_TOOL, EYE_PATCH, CLOVER when ported
 
-                        // chests — only WOOD_CHEST has a registered block item so far
+                        // wealth items
+                        output.accept(TreasureItems.COPPER_COIN.get());
+                        output.accept(TreasureItems.SILVER_COIN.get());
+                        output.accept(TreasureItems.GOLD_COIN.get());
+                        output.accept(TreasureItems.TOPAZ.get());
+                        output.accept(TreasureItems.ONYX.get());
+                        output.accept(TreasureItems.RUBY.get());
+                        output.accept(TreasureItems.SAPPHIRE.get());
+                        output.accept(TreasureItems.WHITE_PEARL.get());
+                        output.accept(TreasureItems.BLACK_PEARL.get());
+
+                        // clover
+                        output.accept(TreasureItems.CLOVER.get());
+
+                        // decorative — falling blocks + spanish moss
+                        output.accept(TreasureItems.FALLING_GRASS.get());
+                        output.accept(TreasureItems.FALLING_SAND.get());
+                        output.accept(TreasureItems.FALLING_RED_SAND.get());
+                        output.accept(TreasureItems.SPANISH_MOSS_ITEM.get());
+                        output.accept(TreasureItems.STRANGLE_VINES.get());
+
+                        // gravestones
+                        output.accept(TreasureItems.GRAVESTONE1_STONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE1_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE1_MOSSY_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE1_POLISHED_GRANITE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE1_OBSIDIAN_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE1_SMOOTH_QUARTZ_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_STONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_MOSSY_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_POLISHED_GRANITE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_OBSIDIAN_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_SMOOTH_QUARTZ_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_STONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_MOSSY_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_POLISHED_GRANITE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_OBSIDIAN_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_SMOOTH_QUARTZ_ITEM.get());
+                        output.accept(TreasureItems.SKULL_AND_CROSSBONES_ITEM.get());
+                        output.accept(TreasureItems.SKELETON_ITEM.get());
+                        // gravestone spawners
+                        output.accept(TreasureItems.GRAVESTONE1_SPAWNER_STONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE2_SPAWNER_COBBLESTONE_ITEM.get());
+                        output.accept(TreasureItems.GRAVESTONE3_SPAWNER_OBSIDIAN_ITEM.get());
+                        // witherwood structure blocks
+                        output.accept(TreasureItems.WITHERWOOD_BROKEN_LOG_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_BRANCH_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_ROOT_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_TWIG_ITEM.get());
+                        // witherwood woodset
+                        output.accept(TreasureItems.WITHERWOOD_LOG_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_WOOD_ITEM.get());
+                        output.accept(TreasureItems.STRIPPED_WITHERWOOD_LOG_ITEM.get());
+                        output.accept(TreasureItems.STRIPPED_WITHERWOOD_WOOD_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_PLANKS_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_SLAB_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_STAIRS_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_FENCE_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_FENCE_GATE_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_BUTTON_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_PRESSURE_PLATE_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_DOOR_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_TRAPDOOR_ITEM.get());
+                        // witherwood signs
+                        output.accept(TreasureItems.WITHERWOOD_SIGN_ITEM.get());
+                        output.accept(TreasureItems.WITHERWOOD_HANGING_SIGN_ITEM.get());
+
+                        // chests
                         output.accept(TreasureItems.WOOD_CHEST.get());
-                        // TODO: register block items for remaining chests and add them here
+                        output.accept(TreasureItems.CRATE_CHEST.get());
+                        output.accept(TreasureItems.MOLDY_CRATE_CHEST.get());
+                        output.accept(TreasureItems.IRONBOUND_CHEST.get());
+                        output.accept(TreasureItems.PIRATE_CHEST.get());
+                        output.accept(TreasureItems.SAFE.get());
+                        output.accept(TreasureItems.IRON_STRONGBOX.get());
+                        output.accept(TreasureItems.GOLD_STRONGBOX.get());
+                        output.accept(TreasureItems.DREAD_PIRATE_CHEST.get());
+                        output.accept(TreasureItems.COMPRESSOR_CHEST.get());
+                        output.accept(TreasureItems.SKULL_CHEST.get());
+                        output.accept(TreasureItems.GOLD_SKULL_CHEST.get());
+                        output.accept(TreasureItems.CRYSTAL_SKULL_CHEST.get());
+                        output.accept(TreasureItems.CAULDRON_CHEST.get());
+                        output.accept(TreasureItems.SPIDER_CHEST.get());
+                        output.accept(TreasureItems.VIKING_CHEST.get());
+                        output.accept(TreasureItems.CARDBOARD_BOX.get());
+                        output.accept(TreasureItems.MILK_CRATE.get());
+                        output.accept(TreasureItems.BARREL_CHEST.get());
+                        output.accept(TreasureItems.VANILLA_CHEST.get());
+                        output.accept(TreasureItems.WITHER_CHEST.get());
+                        output.accept(TreasureItems.BONE_CHEST.get());
+                        output.accept(TreasureItems.CELESTIAL_CHEST.get());
+                        output.accept(TreasureItems.INFERNAL_CHEST.get());
                     })
                     .build());
 
