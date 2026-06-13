@@ -17,6 +17,10 @@ package mod.gottsch.neoforge.treasure2.core.block;
 
 import com.mojang.serialization.MapCodec;
 import mod.gottsch.neo.gottschcore.block.FacingBlock;
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.config.Config;
+import mod.gottsch.neoforge.treasure2.core.particle.CollidingParticleType;
+import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -77,12 +81,38 @@ public class WitherRootBlock extends FacingBlock implements ITreasureBlock, IMis
 		builder.add(ACTIVATED, FACING);
 	}
 
-	/**
-	 * TODO: particles stubbed until WITHER_MIST_PARTICLE is ported. See class javadoc.
-	 */
 	@Override
 	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-		// no-op (mist particles not yet ported)
+
+		if (!state.getValue(ACTIVATED)) {
+			return;
+		}
+
+		if (!Config.SERVER.witherTree.enableWitherFog.get()) {
+			return;
+		}
+
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+
+		if (!isMistAllowed(world, random, x, y, z)) {
+			return;
+		}
+
+		double xPos = (x + 0.5D) + (random.nextFloat() * 2.0D) - 1D;
+		double yPos = y + 0.125;
+		double zPos = (z + 0.5D) + (random.nextFloat() * 2.0D) - 1D;
+
+		// NOTE can override methods here as it is a factory that creates the particle
+		CollidingParticleType mistType = TreasureParticles.WITHER_MIST_PARTICLE.get();
+
+		try {
+			world.addParticle(mistType, false, xPos, yPos, zPos, 0, 0, 0);
+		}
+		catch(Exception e) {
+			Treasure.LOGGER.error("error with particle:", e);
+		}
 	}
 
 	/**

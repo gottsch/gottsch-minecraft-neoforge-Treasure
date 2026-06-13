@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "uncommon_potions",
+      "rolls": 1,
+      "entries": [
+        {
+          "entryName": "potion_uc1",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:invisibility"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc2",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:strength"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc3",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:weakness"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc4",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:swiftness"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc5",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:water_breathing"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

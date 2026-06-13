@@ -101,46 +101,49 @@ public class ChestGenerationHelper {
             return;
         }
 
-//        chestBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
-//            // 1. select a loot table for the chest
-//            Optional<ResourceLocation> lootTableIdOpt = selectLootTable(chestBlockEntity, random, rarity);
-//            if (lootTableIdOpt.isEmpty()) {
-//                Treasure.LOGGER.warn("could not determine a loot table for chest at -> {}", chestBlockEntity.getBlockPos());
-//                return;
-//            }
-//            ResourceLocation lootTableId = lootTableIdOpt.get();
-//
-//            LootTable lootTable = LootTableRegistry.getLootTable(level, lootTableId);
-//            if (lootTable == LootTable.EMPTY) {
-//                Treasure.LOGGER.warn("unable to load lootTable -> {}", lootTableId);
-//                return;
-//            }
-//            Treasure.LOGGER.debug("selected loot table -> {} for chest at -> {}", lootTableId, chestBlockEntity.getBlockPos());
-//
-//            // 2. prepare for loot generation
-//            LootContext lootContext = createLootContext(level, chestBlockEntity.getBlockPos(), player, lootTableId);
-//
-//            // 3. generate loot from the primary table
-//            List<ItemStack> treasureStacks = new ArrayList<>();
-//            List<ItemStack> fillerStacks = new ArrayList<>();
-//            generateLootFromPools(lootTable, lootContext, treasureStacks, fillerStacks);
-//            int originalTreasureSize = treasureStacks.size();
-//            int originalFillerSize = fillerStacks.size();
-//
-//            // 4. inject loot from other registered tables
-//            addInjectedLoot(level, rarity, lootContext, treasureStacks, fillerStacks);
-//            Treasure.LOGGER.debug("total treasure items: {}, injected items: {}", treasureStacks.size(), fillerStacks.size());
-//
-//            // 5. add a treasure map to the inventory
-//            // TODO should only add a treasure map to core OR have to get the order set ie core, speciality, etc.
-//            // TODO orders should be housed in TreasureRarities
-//            // TODO if an ordering cannot be found then don't add a map
-//            addTreasureMap(level, random, (ItemStackHandler) itemHandler, Coords.of(chestBlockEntity.getBlockPos()), rarity);
-//
-//            // 6. populate the chest inventory
-//            populateInventory((ItemStackHandler) itemHandler, random, treasureStacks, originalTreasureSize);
-//            populateInventory((ItemStackHandler) itemHandler, random, fillerStacks, originalFillerSize);
-//        });
+        // NeoForge 1.21.1 port: the chest BE exposes its inventory directly as a public ItemStackHandler
+        // (the Forge ForgeCapabilities.ITEM_HANDLER capability path is gone). The handler's
+        // onContentsChanged hook already marks the BE dirty and syncs the contents to clients.
+        ItemStackHandler itemHandler = chestBlockEntity.itemHandler;
+
+        // 1. select a loot table for the chest
+        Optional<ResourceLocation> lootTableIdOpt = selectLootTable(chestBlockEntity, random, rarity);
+        if (lootTableIdOpt.isEmpty()) {
+            Treasure.LOGGER.warn("could not determine a loot table for chest at -> {}", chestBlockEntity.getBlockPos());
+            return;
+        }
+        ResourceLocation lootTableId = lootTableIdOpt.get();
+
+        LootTable lootTable = LootTableRegistry.getLootTable(level, lootTableId);
+        if (lootTable == LootTable.EMPTY) {
+            Treasure.LOGGER.warn("unable to load lootTable -> {}", lootTableId);
+            return;
+        }
+        Treasure.LOGGER.debug("selected loot table -> {} for chest at -> {}", lootTableId, chestBlockEntity.getBlockPos());
+
+        // 2. prepare for loot generation
+        LootContext lootContext = createLootContext(level, chestBlockEntity.getBlockPos(), player, lootTableId);
+
+        // 3. generate loot from the primary table
+        List<ItemStack> treasureStacks = new ArrayList<>();
+        List<ItemStack> fillerStacks = new ArrayList<>();
+        generateLootFromPools(lootTable, lootContext, treasureStacks, fillerStacks);
+        int originalTreasureSize = treasureStacks.size();
+        int originalFillerSize = fillerStacks.size();
+
+        // 4. inject loot from other registered tables
+        addInjectedLoot(level, rarity, lootContext, treasureStacks, fillerStacks);
+        Treasure.LOGGER.debug("total treasure items: {}, injected items: {}", treasureStacks.size(), fillerStacks.size());
+
+        // 5. add a treasure map to the inventory
+        // TODO should only add a treasure map to core OR have to get the order set ie core, speciality, etc.
+        // TODO orders should be housed in TreasureRarities
+        // TODO if an ordering cannot be found then don't add a map
+        addTreasureMap(level, random, itemHandler, Coords.of(chestBlockEntity.getBlockPos()), rarity);
+
+        // 6. populate the chest inventory
+        populateInventory(itemHandler, random, treasureStacks, originalTreasureSize);
+        populateInventory(itemHandler, random, fillerStacks, originalFillerSize);
     }
 
     /**

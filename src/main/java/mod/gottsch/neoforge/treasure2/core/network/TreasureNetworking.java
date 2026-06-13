@@ -29,6 +29,18 @@ public class TreasureNetworking {
                 InventorySyncPacket.STREAM_CODEC,
                 InventorySyncPacket.Handler::handle
         );
+
+        // Client -> server: wither-tree mist particles ask the server to apply poison/wither effects.
+        payloadRegistrar.playToServer(
+                PoisonMistMessageToServer.TYPE,
+                PoisonMistMessageToServer.STREAM_CODEC,
+                PoisonMistMessageToServer::handle
+        );
+        payloadRegistrar.playToServer(
+                WitherMistMessageToServer.TYPE,
+                WitherMistMessageToServer.STREAM_CODEC,
+                WitherMistMessageToServer::handle
+        );
     }
 
     // --- Helper function for sending the synchronization packet ---

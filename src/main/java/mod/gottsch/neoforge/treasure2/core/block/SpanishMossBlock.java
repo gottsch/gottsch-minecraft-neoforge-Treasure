@@ -16,8 +16,15 @@
 package mod.gottsch.neoforge.treasure2.core.block;
 
 import com.mojang.serialization.MapCodec;
+import mod.gottsch.neo.gottschcore.random.RandomHelper;
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.config.Config;
+import mod.gottsch.neoforge.treasure2.core.particle.CollidingParticleType;
+import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -53,6 +60,48 @@ public class SpanishMossBlock extends BushBlock implements ITreasureBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVATED);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+
+        // NOTE moss emits poisonous fog when activated; gated by a server config option.
+        if (!Config.SERVER.witherTree.enablePoisonFog.get()) {
+            return;
+        }
+
+        if (!state.getValue(ACTIVATED)) {
+            return;
+        }
+
+        if (RandomHelper.checkProbability(new java.util.Random(), 75D)) {
+            return;
+        }
+
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        // initial positions - has a spread area of up to 1.5 blocks
+        double xPos = (x + 0.5D);
+        double yPos = y - 0.1D;
+        double zPos = (z + 0.5D);
+        // initial velocities
+        double velocityX = 0;
+        double velocityY = -0.1; //0
+        double velocityZ = 0;
+
+        try {
+            if (world.random.nextInt(10) < 8) {
+                world.addParticle(TreasureParticles.SPANISH_MOSS_PARTICLE.get(), false, xPos, yPos, zPos, velocityX, velocityY, velocityZ);
+            } else {
+                CollidingParticleType mistType = TreasureParticles.POISON_MIST_PARTICLE.get();
+                world.addParticle(mistType, false, xPos, yPos, zPos, velocityX, velocityY, velocityZ);
+            }
+        }
+        catch(Exception e) {
+            Treasure.LOGGER.error("error with particle:", e);
+        }
     }
 
     @Override

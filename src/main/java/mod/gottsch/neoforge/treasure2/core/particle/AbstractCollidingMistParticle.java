@@ -1,0 +1,89 @@
+/*
+ * This file is part of Treasure2.
+ * Copyright (c) 2025 Mark Gottschling (gottsch)
+ *
+ * Treasure2 is free software: you can redistribute it and/or modify
+ * it under the terms of the Open Software Licence 3.0.
+ *
+ * Treasure2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Open Software Licence 3.0 for more details.
+ *
+ * You should have received a copy of the Open Software Licence
+ * along with Treasure2. If not, see <https://www.tldrlegal.com/license/open-software-licence-3-0>.
+ */
+package mod.gottsch.neoforge.treasure2.core.particle;
+
+import mod.gottsch.neo.gottschcore.spatial.ICoords;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+
+/**
+ *
+ * @author Mark Gottschling on Aug 8, 2021
+ *
+ */
+public abstract class AbstractCollidingMistParticle extends AbstractMistParticle implements ICollidingParticle {
+	private static final float PROXIMITY = 0.5f;
+
+	private ICoords sourceCoords;
+
+	/**
+	 *
+	 * @param level
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param coords
+	 */
+	public AbstractCollidingMistParticle(ClientLevel level, double x, double y, double z, ICoords coords) {
+		super(level, x, y, z);
+		setSourceCoords(coords);
+	}
+
+	@Override
+	public void tick() {
+		if (level.getGameTime() % 5 == 0) {
+			doPlayerCollisions(level);
+		}
+		super.tick();
+	}
+
+	/**
+	 *
+	 * @param level
+	 */
+	@Override
+	public void doPlayerCollisions(Level level) {
+
+		// create an AxisAlignedBB for the particle
+		AABB aabb = new AABB(x - 0.125D, y, z - 0.125D, x + 0.125D, y + 0.25D,
+				z + 0.125D);
+
+		// for each player
+		for(Player player : level.getEntitiesOfClass(Player.class, new AABB((double)((float)x - PROXIMITY), (double)((float)y - PROXIMITY), (double)((float)z - PROXIMITY),
+				(double)((float)x + PROXIMITY), (double)((float)y + PROXIMITY), (double)((float)z  + PROXIMITY)))) {
+
+			inflictEffectOnPlayer(player);
+		}
+	}
+
+	/**
+	 *
+	 * @param player
+	 */
+	public abstract void inflictEffectOnPlayer(Player player);
+
+	@Override
+	public ICoords getSourceCoords() {
+		return sourceCoords;
+	}
+
+	@Override
+	public void setSourceCoords(ICoords parentEmitterCoords) {
+		this.sourceCoords = parentEmitterCoords;
+	}
+}

@@ -155,7 +155,8 @@ public class WishableHandler implements IWishableHandler {
                 .ifPresent(p -> lootParamsBuilder.withLuck(p.getLuck()).withParameter(LootContextParams.THIS_ENTITY, p));
 
         LootParams params = lootParamsBuilder.create(LootContextParamSets.CHEST);
-        return new LootContext.Builder(params).create(null);
+        // 1.21: Builder.create takes Optional<ResourceLocation> (was @Nullable in 1.20.1) — empty = no sequence.
+        return new LootContext.Builder(params).create(Optional.empty());
     }
 
     /**
@@ -167,7 +168,11 @@ public class WishableHandler implements IWishableHandler {
      * @param lootContext
      */
     public void injectLoot(Level level, Random random, List<ItemStack> itemStacks, IRarity rarity, LootContext lootContext) {
-        List<ResourceLocation> injectLootTableNames = LootTableRegistry.getLootTableIds(TreasureLootTableTypes.WISHABLES.get(), rarity);
+        // query the INJECTS type, then keep only the wishable-inject tables (matches Forge).
+        List<ResourceLocation> injectLootTableNames = LootTableRegistry.getLootTableIds(TreasureLootTableTypes.INJECTS.get(), rarity)
+                .stream()
+                .filter(s -> s.getPath().contains(TreasureLootTableTypes.WISHABLES.get().getName()))
+                .toList();
 
         if (!injectLootTableNames.isEmpty()) {
             Treasure.LOGGER.debug("size of injectable tables -> {}", injectLootTableNames.size());

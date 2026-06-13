@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "treasure",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "treasure2:chests/scarce/general_chest",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

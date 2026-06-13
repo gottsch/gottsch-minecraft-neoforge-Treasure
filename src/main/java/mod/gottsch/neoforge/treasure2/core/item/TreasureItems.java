@@ -17,10 +17,12 @@ package mod.gottsch.neoforge.treasure2.core.item;
 
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
+import mod.gottsch.neoforge.treasure2.core.entity.TreasureEntities;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -503,6 +505,33 @@ public class TreasureItems {
 	// pouch
 	public static final DeferredItem<PouchItem> POUCH = ITEMS.register("pouch",
 			() -> new PouchItem(new Item.Properties()));
+
+	// spawn eggs (12) — bg/highlight colors carried verbatim from Forge; NeoForge's
+	// DeferredSpawnEggItem registers the item-color handler automatically.
+	public static final DeferredItem<DeferredSpawnEggItem> BOUND_SOUL_EGG = ITEMS.register("bound_soul_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.BOUND_SOUL_ENTITY_TYPE, 0x000000, 0x2b2b2b, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> WITHERWOOD_GOLEM_EGG = ITEMS.register("witherwood_golem_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.WITHERWOOD_GOLEM_ENTITY_TYPE, 0x121110, 0x201e1a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> WOOD_CHEST_MIMIC_EGG = ITEMS.register("wood_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.WOOD_CHEST_MIMIC_ENTITY_TYPE, 0x9f844d, 0x54442c, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> PIRATE_CHEST_MIMIC_EGG = ITEMS.register("pirate_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.PIRATE_CHEST_MIMIC_ENTITY_TYPE, 0x010101, 0x3b3b3b, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> VIKING_CHEST_MIMIC_EGG = ITEMS.register("viking_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.VIKING_CHEST_MIMIC_ENTITY_TYPE, 0x642e1e, 0x753c27, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CAULDRON_CHEST_MIMIC_EGG = ITEMS.register("cauldron_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.CAULDRON_CHEST_MIMIC_ENTITY_TYPE, 0x6e5c30, 0x4a4a4a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CRATE_CHEST_MIMIC_EGG = ITEMS.register("crate_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.CRATE_CHEST_MIMIC_ENTITY_TYPE, 0x6e5c60, 0x434343, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> MOLDY_CRATE_CHEST_MIMIC_EGG = ITEMS.register("moldy_crate_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.MOLDY_CRATE_CHEST_MIMIC_ENTITY_TYPE, 0x635360, 0x464646, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CARDBOARD_BOX_MIMIC_EGG = ITEMS.register("cardboard_box_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.CARDBOARD_BOX_MIMIC_ENTITY_TYPE, 0x6f5e60, 0x404040, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> MILK_CRATE_MIMIC_EGG = ITEMS.register("milk_crate_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.MILK_CRATE_MIMIC_ENTITY_TYPE, 0x965738, 0x773e28, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> BARREL_MIMIC_EGG = ITEMS.register("barrel_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.BARREL_MIMIC_ENTITY_TYPE, 0x9f854d, 0x54452c, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> VANILLA_CHEST_MIMIC_EGG = ITEMS.register("vanilla_chest_mimic_egg",
+			() -> new DeferredSpawnEggItem(TreasureEntities.VANILLA_CHEST_MIMIC_ENTITY_TYPE, 0x8f691d, 0xab792d, new Item.Properties()));
 //
 //	/*
 //	 * block items

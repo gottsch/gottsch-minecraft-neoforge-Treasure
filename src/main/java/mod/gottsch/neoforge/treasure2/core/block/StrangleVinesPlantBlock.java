@@ -16,8 +16,14 @@
 package mod.gottsch.neoforge.treasure2.core.block;
 
 import com.mojang.serialization.MapCodec;
+import mod.gottsch.neo.gottschcore.random.RandomHelper;
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.BlockGetter;
@@ -55,6 +61,37 @@ public class StrangleVinesPlantBlock extends GrowingPlantBodyBlock {
     @Override
     protected GrowingPlantHeadBlock getHeadBlock() {
         return (GrowingPlantHeadBlock) TreasureBlocks.STRANGLE_VINES.get();
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+
+        if (RandomHelper.checkProbability(new java.util.Random(), 75D)) {
+            return;
+        }
+
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        // initial positions - has a spread area of up to 1.5 blocks
+        double xPos = (x + 0.5D);
+        double yPos = y - 0.1D;
+        double zPos = (z + 0.5D);
+        // initial velocities
+        double velocityX = 0;
+        double velocityY = -0.1; //0
+        double velocityZ = 0;
+
+        SimpleParticleType particle = ParticleTypes.SPORE_BLOSSOM_AIR;
+
+        try {
+            world.addParticle(particle, false, xPos, yPos, zPos, velocityX, velocityY, velocityZ);
+            world.addParticle(TreasureParticles.BLACK_SPORE_PARTICLE.get(), false, xPos, yPos, zPos, velocityX, velocityY, velocityZ);
+        }
+        catch(Exception e) {
+            Treasure.LOGGER.error("error with particle:", e);
+        }
     }
 
     @Override

@@ -72,7 +72,7 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
     private StructureTemplate.StructureBlockInfo cachedInfo;
 
     public static final MapCodec<TreasureChestProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IFeatureType.CODEC.fieldOf("feature_type").forGetter(TreasureChestProcessor::getFeatureType),
+            IFeatureType.BY_NAME_CODEC.fieldOf("feature_type").forGetter(TreasureChestProcessor::getFeatureType),
             ResourceLocation.CODEC.optionalFieldOf("dimension", ModUtil.asLocation("minecraft:overworld")).forGetter(TreasureChestProcessor::getDimension),
             ResourceLocation.CODEC.optionalFieldOf("loot_table").forGetter(VanillaChestProcessor::getLootTable)
     ).apply(instance, TreasureChestProcessor::new));

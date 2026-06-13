@@ -17,8 +17,15 @@ package mod.gottsch.neoforge.treasure2.core.block;
 
 import com.mojang.serialization.MapCodec;
 import mod.gottsch.neo.gottschcore.block.FacingBlock;
+import mod.gottsch.neo.gottschcore.random.RandomHelper;
+import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.config.Config;
+import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -62,6 +69,44 @@ public class GravestoneBlock extends FacingBlock implements ITreasureBlock, IMis
     @Override
     protected MapCodec<? extends GravestoneBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+
+        if (!Config.CLIENT.gui.enableFog.get()) {
+            return;
+        }
+
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        if (!isMistAllowed(world, random, x, y, z)) {
+            return;
+        }
+
+        // initial positions - has a spread area of up to 1.5 blocks
+        double xPos = (x + 0.5D) + (random.nextFloat() * 3.0) - 1.5D;
+        double yPos = y + 0.1D;
+        double zPos = (z + 0.5D) + (random.nextFloat() * 3.0) - 1.5D;
+
+        final boolean IGNORE_RANGE_CHECK = false; // if true, always render particle regardless of how far away the player is
+
+        // create particle
+        SimpleParticleType mistParticle;
+        if (RandomHelper.checkProbability(random, 80)) {
+            mistParticle = TreasureParticles.MIST_PARTICLE.get();
+        } else {
+            mistParticle = TreasureParticles.BILLOWING_MIST_PARTICLE.get();
+        }
+
+        try {
+            world.addParticle(mistParticle, IGNORE_RANGE_CHECK, xPos, yPos, zPos, 0, 0, 0);
+        }
+        catch(Exception e) {
+            Treasure.LOGGER.error("error with particle:", e);
+        }
     }
 
     @Override

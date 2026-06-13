@@ -23,6 +23,10 @@ public class TreasureFeatureTypes {
     public static final DeferredRegister<IFeatureType> FEATURE_TYPE_REGISTRY =
             DeferredRegister.create(FEATURE_TYPE_REGISTRY_KEY, Treasure.MODID);
 
+    // creates and registers the treasure2:feature_types registry with NeoForge.
+    // without this the registry is never built and getRegistry().get() returns null.
+    public static final Registry<IFeatureType> FEATURE_TYPES_REGISTRY = FEATURE_TYPE_REGISTRY.makeRegistry(builder -> {});
+
     /*
      * register all the feature types
      */

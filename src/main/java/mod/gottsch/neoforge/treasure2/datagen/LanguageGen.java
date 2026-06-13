@@ -90,6 +90,20 @@ public class LanguageGen extends LanguageProvider {
         // pouch
         add(TreasureItems.POUCH.get(), "Pouch");
 
+        // spawn eggs
+        add(TreasureItems.BOUND_SOUL_EGG.get(), "Bound Soul Spawn Egg");
+        add(TreasureItems.WITHERWOOD_GOLEM_EGG.get(), "Witherwood Golem Spawn Egg");
+        add(TreasureItems.WOOD_CHEST_MIMIC_EGG.get(), "Wood Chest Mimic Spawn Egg");
+        add(TreasureItems.PIRATE_CHEST_MIMIC_EGG.get(), "Pirate Chest Mimic Spawn Egg");
+        add(TreasureItems.VIKING_CHEST_MIMIC_EGG.get(), "Viking Chest Mimic Spawn Egg");
+        add(TreasureItems.CAULDRON_CHEST_MIMIC_EGG.get(), "Cauldron Chest Mimic Spawn Egg");
+        add(TreasureItems.CRATE_CHEST_MIMIC_EGG.get(), "Crate Chest Mimic Spawn Egg");
+        add(TreasureItems.MOLDY_CRATE_CHEST_MIMIC_EGG.get(), "Moldy Crate Chest Mimic Spawn Egg");
+        add(TreasureItems.CARDBOARD_BOX_MIMIC_EGG.get(), "Cardboard Box Mimic Spawn Egg");
+        add(TreasureItems.MILK_CRATE_MIMIC_EGG.get(), "Milk Crate Mimic Spawn Egg");
+        add(TreasureItems.BARREL_MIMIC_EGG.get(), "Barrel Mimic Spawn Egg");
+        add(TreasureItems.VANILLA_CHEST_MIMIC_EGG.get(), "Chest Mimic Spawn Egg");
+
         // wealth items
         add(TreasureItems.COPPER_COIN.get(), "Copper Coin");
         add(TreasureItems.SILVER_COIN.get(), "Silver Coin");

@@ -477,10 +477,12 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 		// load be from item
 		AbstractTreasureChestBlockEntity newBlockEntity = (AbstractTreasureChestBlockEntity) level.getBlockEntity(pos);
-//		newBlockEntity.loadProperties(tag);
-//		newBlockEntity.sendUpdates();
-		// overwrite sealed,
-		chestComponents.setSealed(new SealedComponent(false));
+		// NOTE: preserve the captured chest state as-is. discovered() re-places the block (for the
+		// different "discovered" light level), which spawns a fresh BE; we copy the original chest data
+		// onto it. Crucially the sealed flag must be preserved — discovery happens on first interaction
+		// (incl. unlocking a locked chest), which is BEFORE the chest is opened. Resetting sealed here
+		// would skip loot generation in createMenu (chest opens empty). Matches Forge's saveAdditional/
+		// loadProperties round-trip, which preserved the full state.
 		chestComponents.to(newBlockEntity);
 
 		// mark as dirty

@@ -153,6 +153,20 @@ public class TreasureCreativeModeTabs {
                         output.accept(TreasureItems.WITHERWOOD_SIGN_ITEM.get());
                         output.accept(TreasureItems.WITHERWOOD_HANGING_SIGN_ITEM.get());
 
+                        // spawn eggs
+                        output.accept(TreasureItems.BOUND_SOUL_EGG.get());
+                        output.accept(TreasureItems.WITHERWOOD_GOLEM_EGG.get());
+                        output.accept(TreasureItems.WOOD_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.PIRATE_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.VIKING_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.CAULDRON_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.CRATE_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.MOLDY_CRATE_CHEST_MIMIC_EGG.get());
+                        output.accept(TreasureItems.CARDBOARD_BOX_MIMIC_EGG.get());
+                        output.accept(TreasureItems.MILK_CRATE_MIMIC_EGG.get());
+                        output.accept(TreasureItems.BARREL_MIMIC_EGG.get());
+                        output.accept(TreasureItems.VANILLA_CHEST_MIMIC_EGG.get());
+
                         // chests
                         output.accept(TreasureItems.WOOD_CHEST.get());
                         output.accept(TreasureItems.CRATE_CHEST.get());

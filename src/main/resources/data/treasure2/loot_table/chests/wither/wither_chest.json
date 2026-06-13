@@ -1,0 +1,281 @@
+{
+  "version": "4.0.0",
+  "since": "mc1.18.2-v.3.0.0",
+  "category": "general",
+  "rarity": "scarce",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "treasure",
+      "rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 30,
+          "value": "treasure2:pools/treasure/scarce_treasure"
+        }
+      ]
+    },
+    {
+      "name": "combat",
+      "rolls": 2,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 20,
+          "value": "treasure2:pools/combat/scarce"
+        }
+      ]
+    },
+    {
+      "name": "bones",
+      "rolls": 1,
+      "entries": [
+        {
+          "entryName": "bone",
+          "type": "minecraft:item",
+          "name": "minecraft:bone",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 0,
+                "max": 25
+              }
+            }
+          ],
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "name": "enchanted books",
+      "rolls": {
+        "min": 1,
+        "max": 3
+      },
+      "entries": [
+        {
+          "entryName": "enchanted_book",
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": 30,
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "random_items",
+      "rolls": {
+        "min": 1,
+        "max": 3
+      },
+      "entries": [
+        {
+          "entryName": "book",
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "weight": 20
+        },
+        {
+          "entryName": "enchanted_book",
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": 30,
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "entryName": "decorated_pot",
+          "type": "minecraft:item",
+          "name": "minecraft:decorated_pot",
+          "weight": 10
+        },
+        {
+          "entryName": "suspicious_gravel",
+          "type": "minecraft:item",
+          "name": "minecraft:suspicious_gravel",
+          "weight": 10
+        },
+        {
+          "entryName": "suspicious_sand",
+          "type": "minecraft:item",
+          "name": "minecraft:suspicious_sand",
+          "weight": 10
+        },
+        {
+          "entryName": "chiseled_bookshelf",
+          "type": "minecraft:item",
+          "name": "minecraft:chiseled_bookshelf",
+          "weight": 5
+        }
+      ]
+    },
+    {
+      "name": "crafting",
+      "rolls": 1,
+      "entries": [
+        {
+          "entryName": "table",
+          "type": "minecraft:item",
+          "name": "minecraft:enchanting_table",
+          "weight": 1,
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sherds",
+      "rolls": {
+        "min": 1,
+        "max": 3
+      },
+      "entries": [
+        {
+          "entryName": "angler_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:angler_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "archer_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:archer_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "arms_up_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:arms_up_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "blade_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:blade_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "brewer_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:brewer_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "burn_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:burn_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "entryName": "danger_sherd",
+          "type": "minecraft:item",
+          "name": "minecraft:danger_pottery_sherd",
+          "weight": 1
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.4
+        }
+      ]
+    },
+    {
+      "name": "smithing_templates",
+      "rolls": 1,
+      "entries": [
+        {
+          "entryName": "vex_template",
+          "type": "minecraft:item",
+          "name": "minecraft:vex_armor_trim_smithing_template",
+          "weight": 1
+        },
+        {
+          "entryName": "ward_template",
+          "type": "minecraft:item",
+          "name": "minecraft:ward_armor_trim_smithing_template",
+          "weight": 1
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.4
+        }
+      ]
+    },
+    {
+      "name": "common_potions",
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 30,
+          "value": "treasure2:pools/potions/common"
+        }
+      ]
+    },
+    {
+      "name": "uncommon_potions",
+      "rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 40,
+          "value": "treasure2:pools/potions/uncommon"
+        }
+      ]
+    },
+    {
+      "name": "scarce_potions",
+      "rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 50,
+          "value": "treasure2:pools/potions/scarce"
+        }
+      ]
+    },
+    {
+      "name": "rare_potions",
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 30,
+          "value": "treasure2:pools/potions/rare"
+        }
+      ]
+    }
+  ]
+}

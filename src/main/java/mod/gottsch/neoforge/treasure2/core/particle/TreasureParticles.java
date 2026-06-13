@@ -41,16 +41,16 @@ public class TreasureParticles {
 	public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Treasure.MODID);
 
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SPANISH_MOSS_PARTICLE = PARTICLES.register("spanish_moss_particle", () -> new SimpleParticleType(true));
-//	public static final RegistryObject<SimpleParticleType> MIST_PARTICLE = Registration.PARTICLES.register("mist_particle", () -> new SimpleParticleType(false));
-//	public static final RegistryObject<SimpleParticleType> BILLOWING_MIST_PARTICLE = Registration.PARTICLES.register("billowing_mist_particle", () -> new SimpleParticleType(false));
-//	public static final RegistryObject<CollidingParticleType> POISON_MIST_PARTICLE = Registration.PARTICLES.register("poison_mist_particle", () -> new CollidingParticleType(null, CollidingParticleType.DESERIALIZER));
-//	public static final RegistryObject<CollidingParticleType> WITHER_MIST_PARTICLE = Registration.PARTICLES.register("wither_mist_particle", () -> new CollidingParticleType(null, CollidingParticleType.DESERIALIZER));
-	
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MIST_PARTICLE = PARTICLES.register("mist_particle", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BILLOWING_MIST_PARTICLE = PARTICLES.register("billowing_mist_particle", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, CollidingParticleType> POISON_MIST_PARTICLE = PARTICLES.register("poison_mist_particle", CollidingParticleType::new);
+	public static final DeferredHolder<ParticleType<?>, CollidingParticleType> WITHER_MIST_PARTICLE = PARTICLES.register("wither_mist_particle", CollidingParticleType::new);
+
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> COPPER_COIN_PARTICLE = PARTICLES.register("copper_coin_particle", () -> new SimpleParticleType(true));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SILVER_COIN_PARTICLE = PARTICLES.register("silver_coin_particle", () -> new SimpleParticleType(true));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOLD_COIN_PARTICLE = PARTICLES.register("gold_coin_particle", () -> new SimpleParticleType(true));
 
-//	public static final RegistryObject<SimpleParticleType> BLACK_SPORE_PARTICLE = Registration.PARTICLES.register("black_spore", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BLACK_SPORE_PARTICLE = PARTICLES.register("black_spore", () -> new SimpleParticleType(false));
 
 	// DOESNT WORK?
 	public static void register(IEventBus bus) {
@@ -60,17 +60,16 @@ public class TreasureParticles {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(RegisterParticleProvidersEvent event) {
-//		event.registerSpriteSet(SPANISH_MOSS_PARTICLE.get(), SpanishMossParticle.Provider::new);
-//		event.registerSpriteSet(MIST_PARTICLE.get(), MistParticle.Provider::new);
-//		event.registerSpriteSet(BILLOWING_MIST_PARTICLE.get(), BillowingMistParticle.Provider::new);
-//		event.registerSpriteSet(POISON_MIST_PARTICLE.get(), PoisonMistParticle.Provider::new);
-//		event.registerSpriteSet(WITHER_MIST_PARTICLE.get(), WitherMistParticle.Provider::new);
-		
+		event.registerSpriteSet(SPANISH_MOSS_PARTICLE.get(), SpanishMossParticle.Provider::new);
+		event.registerSpriteSet(MIST_PARTICLE.get(), MistParticle.Provider::new);
+		event.registerSpriteSet(BILLOWING_MIST_PARTICLE.get(), BillowingMistParticle.Provider::new);
+		event.registerSpriteSet(POISON_MIST_PARTICLE.get(), PoisonMistParticle.Provider::new);
+		event.registerSpriteSet(WITHER_MIST_PARTICLE.get(), WitherMistParticle.Provider::new);
+
 		event.registerSpriteSet(COPPER_COIN_PARTICLE.get(), CoinParticle.Provider::new);
 		event.registerSpriteSet(SILVER_COIN_PARTICLE.get(), CoinParticle.Provider::new);
 		event.registerSpriteSet(GOLD_COIN_PARTICLE.get(), CoinParticle.Provider::new);
 
-//		event.registerSpriteSet(BLACK_SPORE_PARTICLE.get(), BlackSporeParticle.Provider::new);
-
+		event.registerSpriteSet(BLACK_SPORE_PARTICLE.get(), BlackSporeParticle.Provider::new);
 	}
 }

@@ -89,6 +89,20 @@ public class JapaneseLanguageGen extends LanguageProvider {
 
         // pouch
         add(TreasureItems.POUCH.get(), "小銭入れ");
+
+        // spawn eggs
+        add(TreasureItems.BOUND_SOUL_EGG.get(), "地縛霊のスポーンエッグ");
+        add(TreasureItems.WITHERWOOD_GOLEM_EGG.get(), "ウィザーウッドゴーレムのスポーンエッグ");
+        add(TreasureItems.WOOD_CHEST_MIMIC_EGG.get(), "チェストミミックのスポーンエッグ");
+        add(TreasureItems.PIRATE_CHEST_MIMIC_EGG.get(), "海賊チェストミミックのスポーンエッグ");
+        add(TreasureItems.VIKING_CHEST_MIMIC_EGG.get(), "バイキングミミックのスポーンエッグ");
+        add(TreasureItems.CAULDRON_CHEST_MIMIC_EGG.get(), "大釜ミミックのスポーンエッグ");
+        add(TreasureItems.CRATE_CHEST_MIMIC_EGG.get(), "木箱ミミックのスポーンエッグ");
+        add(TreasureItems.MOLDY_CRATE_CHEST_MIMIC_EGG.get(), "苔むした木箱ミミックのスポーンエッグ");
+        add(TreasureItems.CARDBOARD_BOX_MIMIC_EGG.get(), "段ボールミミックのスポーンエッグ");
+        add(TreasureItems.MILK_CRATE_MIMIC_EGG.get(), "ミルク入れミミックのスポーンエッグ");
+        add(TreasureItems.BARREL_MIMIC_EGG.get(), "樽ミミックのスポーンエッグ");
+        add(TreasureItems.VANILLA_CHEST_MIMIC_EGG.get(), "宝箱ミミックのスポーンエッグ");
         // TODO: restore TREASURE_TOOL, coins, gems, EYE_PATCH, CLOVER when ported
 
         // chests

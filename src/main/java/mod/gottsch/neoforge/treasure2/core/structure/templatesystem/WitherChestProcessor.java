@@ -50,7 +50,7 @@ import java.util.Optional;
 public class WitherChestProcessor extends TreasureChestProcessor {
 
     public static final MapCodec<WitherChestProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IFeatureType.CODEC.fieldOf("feature_type").forGetter(TreasureChestProcessor::getFeatureType),
+            IFeatureType.BY_NAME_CODEC.fieldOf("feature_type").forGetter(TreasureChestProcessor::getFeatureType),
             ResourceLocation.CODEC.optionalFieldOf("dimension", ModUtil.asLocation("minecraft:overworld")).forGetter(TreasureChestProcessor::getDimension),
             ResourceLocation.CODEC.optionalFieldOf("loot_table").forGetter(VanillaChestProcessor::getLootTable)
     ).apply(instance, WitherChestProcessor::new));

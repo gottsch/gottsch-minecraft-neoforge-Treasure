@@ -252,7 +252,21 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.WITHERWOOD_HANGING_SIGN_ITEM.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("item/witherwood_hanging_sign"));
 
-        // TODO: restore TREASURE_TOOL, EYE_PATCH, weapons, spawn eggs when ported
+        // spawn eggs — all share vanilla's template_spawn_egg model (tints come from the item)
+        withExistingParent(TreasureItems.BOUND_SOUL_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.WITHERWOOD_GOLEM_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.WOOD_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.PIRATE_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.VIKING_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.CAULDRON_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.CRATE_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.MOLDY_CRATE_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.CARDBOARD_BOX_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.MILK_CRATE_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.BARREL_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(TreasureItems.VANILLA_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+        // TODO: restore TREASURE_TOOL, EYE_PATCH, weapons when ported
         // TODO: restore ore block items (TOPAZ_ORE_ITEM, etc.) when ported
         // TODO: restore witherwood block items when ported
         // TODO: restore wishing well block items when ported
