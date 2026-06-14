@@ -27,11 +27,15 @@ import mod.gottsch.neo.gottschcore.world.WorldInfo;
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
 import mod.gottsch.neoforge.treasure2.core.block.entity.ITreasureChestBlockEntity;
+import mod.gottsch.neoforge.treasure2.core.cache.TreasureChestCache;
 import mod.gottsch.neoforge.treasure2.core.component.*;
+import mod.gottsch.neoforge.treasure2.core.entity.monster.Mimic;
 import mod.gottsch.neoforge.treasure2.core.inventory.InventoryHelper;
 import mod.gottsch.neoforge.treasure2.core.lock.LockLayout;
 import mod.gottsch.neoforge.treasure2.core.lock.LockSlot;
 import mod.gottsch.neoforge.treasure2.core.lock.LockState;
+import mod.gottsch.neoforge.treasure2.core.network.MimicSpawnS2C;
+import mod.gottsch.neoforge.treasure2.core.persistence.TreasureSavedData;
 import mod.gottsch.neoforge.treasure2.core.rarity.IRarity;
 import mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities;
 import mod.gottsch.neoforge.treasure2.core.registry.RarityTagAssociationRegistry;
@@ -40,6 +44,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -66,9 +73,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
@@ -406,15 +415,14 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		};
 
 		Mob mob = spawn((ServerLevel)level, level.getRandom(), entityType, pos, player, yRot);
-		if (mob != null) {
-			// DEFERRED (workstream C): give the spawned mimic the chest's loot table + notify the client.
-			// Blocked on (1) Mimic#setLootTable (see Mimic.java — Forge's ObfuscationReflectionHelper hack
-			// doesn't apply; 1.21 uses Optional<ResourceKey<LootTable>>) and (2) a new MimicSpawn S2C payload
-			// (model it on core/network/*MistMessageToServer). Mimic currently spawns with its own loot table.
-//			((Mimic)mob).setLootTable(blockEntity.getLootTable());
-//			// update client
-//			MimicSpawnS2C message = new MimicSpawnS2C(mob.getId(), yRot);
-//			TreasureNetworking.channel.send(PacketDistributor.TRACKING_ENTITY.with(() -> mob), message);
+		if (mob instanceof Mimic mimic) {
+			// give the spawned mimic the chest's loot table so killing it drops the chest's loot
+			ResourceLocation lootTable = blockEntity.getLootTable();
+			if (lootTable != null) {
+				mimic.setLootTable(ResourceKey.create(Registries.LOOT_TABLE, lootTable));
+			}
+			// correct the mimic's body rotation on tracking clients (vanilla spawn doesn't sync yBodyRot)
+			PacketDistributor.sendToPlayersTrackingEntity(mimic, new MimicSpawnS2C(mimic.getId(), yRot));
 		}
 	}
 
@@ -489,20 +497,20 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		// mark as dirty
 		newBlockEntity.setChanged();
 
-//		DEFERRED (workstream C): mark this chest as discovered in the persistent cache. TreasureChestCache +
-//		TreasureSavedData exist in the port, but the cache is slated to migrate to a data Attachment
-//		(see TreasureChestCacheData "needs to be converted to an Attachment"); restore once that lands so
-//		the cache shape isn't reworked twice. Discovery still works visually (block state DISCOVERED above).
-//		TreasureChestCache.getCache().stream()
-//				// if matching on dimension and pos, doesn't require to match on biome
-//				.filter(chest -> chest.getDimensionName().equals(level.dimensionType().effectsLocation()))
-//				.filter(chest -> chest.getCoords().equals(Coords.of(pos)))
-//				.findFirst().ifPresent(chest -> {
-//					Treasure.LOGGER.debug("marking chest at pos {} as discovered", pos.toShortString());
-//					chest.setDiscovered(true);
-//					// mark the persistence data as dirty
-//					TreasureSavedData.get(level).setDirty();
-//				});
+		// mark this chest as discovered in the persistent cache. NOTE: the cache is still the static
+		// TreasureChestCache (slated to migrate to a data Attachment per TreasureChestCacheData); this
+		// marking may need a light touch-up if/when that migration lands. The dimension filter matches
+		// what the chest processors store at generation time (dimensionType().effectsLocation()).
+		TreasureChestCache.getCache().stream()
+				// if matching on dimension and pos, doesn't require to match on biome
+				.filter(chest -> chest.getDimensionName().equals(level.dimensionType().effectsLocation()))
+				.filter(chest -> chest.getCoords().equals(Coords.of(pos)))
+				.findFirst().ifPresent(chest -> {
+					Treasure.LOGGER.debug("marking chest at pos {} as discovered", pos.toShortString());
+					chest.setDiscovered(true);
+					// mark the persistence data as dirty
+					TreasureSavedData.get((ServerLevel) level).setDirty();
+				});
 
 		return newBlockEntity;
 	}

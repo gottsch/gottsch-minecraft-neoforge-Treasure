@@ -131,6 +131,12 @@
           "type": "minecraft:item",
           "name": "treasure2:axe_of_durin",
           "weight": 10
+        },
+        {
+          "entryName": "mace",
+          "type": "minecraft:item",
+          "name": "minecraft:mace",
+          "weight": 10
         }
       ]
     }

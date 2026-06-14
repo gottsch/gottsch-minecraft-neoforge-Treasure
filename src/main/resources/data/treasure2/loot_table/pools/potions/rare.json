@@ -165,6 +165,18 @@
               }
             }
           ]
+        },
+        {
+          "entryName": "potion_r11",
+          "type": "minecraft:item",
+          "name": "minecraft:ominous_bottle",
+          "functions": [
+            {
+              "function": "minecraft:set_ominous_bottle_amplifier",
+              "amplifier": 1
+            }
+          ],
+          "weight": 5
         }
       ]
     }

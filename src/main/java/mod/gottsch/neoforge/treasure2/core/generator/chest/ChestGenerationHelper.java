@@ -310,19 +310,7 @@ public class ChestGenerationHelper {
         // check the registry(s) for the rarity
         List<RarityOrder> rarityOrders = new ArrayList<>(RarityOrderRegistry.getCore());
         rarityOrders.sort(RarityOrder.BY_ORDER);
-//        List<IRarity> sortedRarities = rarityOrders.stream()
-//                // sort by the 'order' field comparator in ascending order.
-//                .sorted(RarityOrder.BY_ORDER)
-//                // map the RarityOrder to an Optional<IRarity> using the resource location.
-//                .map(order -> TreasureRarities.getRarityByName(order.rarity()))
-//                // filter out any entries that didn't resolve to an IRarity.
-//                .filter(Optional::isPresent)
-//                // unwrap the Optional to get the IRarity object.
-//                .map(Optional::get)
-//                // collect the results into a List<IRarity>.
-//                .toList(); // or .collect(Collectors.toList()) for older Java versions
 
-//        Treasure.LOGGER.debug("sorted rarity order -> {}", sortedRarities);
         int index = getIndex(registries, rarityOrders, rarity);
         Treasure.LOGGER.debug("index of current rarity {} -> {}", rarity, index);
 
@@ -331,7 +319,6 @@ public class ChestGenerationHelper {
             RarityOrder rarityOrder = rarityOrders.get(index + amount);
             Treasure.LOGGER.debug("boosted rarity order -> {}", rarityOrder);
             Optional<IRarity> boostedRarity = TreasureRarities.getRarityByName(rarityOrder.rarity(), registries);
-//            return TreasureRarities.getRarityByName(rarityOrder.rarity());
             Treasure.LOGGER.debug("boosted rarity -> {}", boostedRarity.orElse(TreasureRarities.UNKNOWN.get()));
             return boostedRarity;
         }

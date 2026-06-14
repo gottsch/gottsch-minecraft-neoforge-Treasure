@@ -78,7 +78,7 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/potions/epic"
+          "value": "treasure2:pools/potions/mythical"
         }
       ]
     },

@@ -187,6 +187,26 @@
           "type": "minecraft:item",
           "name": "minecraft:recovery_compass",
           "weight": 5
+        },
+        {
+          "entryName": "heavy_core",
+          "type": "minecraft:item",
+          "name": "minecraft:heavy_core",
+          "weight": 5
+        },
+        {
+          "entryName": "breeze_rod",
+          "type": "minecraft:item",
+          "name": "minecraft:breeze_rod",
+          "weight": 5,
+          "functions": [{
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
         }
       ]
     }

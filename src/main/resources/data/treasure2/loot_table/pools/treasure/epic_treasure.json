@@ -81,6 +81,18 @@
           "type": "item",
           "name": "treasure2:skeleton_key",
           "weight": 12
+        },
+        {
+          "entryName": "trial_key",
+          "type": "item",
+          "name": "minecraft:trial_key",
+          "weight": 10
+        },
+        {
+          "entryName": "ominous_trial_key",
+          "type": "item",
+          "name": "minecraft:ominous_trial_key",
+          "weight": 5
         }
       ]
     },

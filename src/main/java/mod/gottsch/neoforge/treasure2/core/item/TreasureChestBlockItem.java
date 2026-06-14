@@ -15,11 +15,12 @@
  */
 package mod.gottsch.neoforge.treasure2.core.item;
 
-import mod.gottsch.neo.gottschcore.util.ModUtil;
+import mod.gottsch.neo.gottschcore.spatial.Coords;
 import mod.gottsch.neo.gottschcore.world.WorldInfo;
 import mod.gottsch.neoforge.treasure2.core.block.AbstractTreasureChestBlock;
 import mod.gottsch.neoforge.treasure2.core.block.IWishingWellBlock;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
+import mod.gottsch.neoforge.treasure2.core.util.ModUtil;
 import mod.gottsch.neoforge.treasure2.core.component.ComponentHelper;
 import mod.gottsch.neoforge.treasure2.core.component.LockStatesComponent;
 import mod.gottsch.neoforge.treasure2.core.component.TreasureComponents;
@@ -31,6 +32,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
@@ -121,6 +123,17 @@ public class TreasureChestBlockItem extends BlockItem {
 			return super.onEntityItemUpdate(stack, entity);
 		}
 
+		// only a locked chest reacts to a wishing well (throw a locked chest in to unlock it)
+		Optional<LockStatesComponent> lockStatesComponent = ComponentHelper.lockStates(stack);
+		boolean isLocked = lockStatesComponent
+				.map(LockStatesComponent::lockStates)
+				.stream()
+				.flatMap(List::stream)
+				.anyMatch(lockState -> lockState.getLock() != null);
+		if (!isLocked) {
+			return super.onEntityItemUpdate(stack, entity);
+		}
+
 		List<BlockPos> wishingWellPosList = isValidLocation(entity);
 		if (!wishingWellPosList.isEmpty()) {
 
@@ -128,68 +141,65 @@ public class TreasureChestBlockItem extends BlockItem {
 			BlockPos pos = wishingWellPosList.get(0);
 			BlockState state = level.getBlockState(pos);
 
-			// DEFERRED (workstream C): when a chest item is thrown into a wishing well, revert the connected
-			// well blocks back to their normal (non-well) form via a BFS. Blocked on a WISHING_WELLS block tag
-			// (not yet added to TreasureTags.Blocks) — or rewrite the gate as `instanceof IWishingWellBlock`
-			// (that interface IS ported). Throwing a chest in still works for loot; only the block revert is off.
-			// determine if block at pos is a wishing well block candidate
-//			if (state.is(TreasureTags.Blocks.WISHING_WELLS)) {
-//			if (state.getBlock() instanceof IWishingWellBlock) {
-//				// start search for all attached well blocks up to radius X
-//				List<BlockPos> visited = new ArrayList<>();
-//				Queue<BlockPos> active = new LinkedList<>();
-//
-//				active.add(pos);
-//				while (!active.isEmpty()) {
-//					BlockPos activePos = active.poll();
-//					// update activePos block to wishing well block
-//					// NOTE if adding any more types of bricks, use a Map
-//					Block activeBlock = level.getBlockState(activePos).getBlock();
-//					if (activeBlock.equals(TreasureBlocks.WISHING_WELL.get())) {
-//						level.setBlockAndUpdate(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
-//					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_COBBLESTONE.get())) {
-//						level.setBlock(activePos, Blocks.COBBLESTONE.defaultBlockState(), 3);
-//					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_MOSSY_COBBLESTONE.get())) {
-//						level.setBlock(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState(), 3);
-//					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get())) {
-//						level.setBlock(activePos, Blocks.MOSSY_STONE_BRICKS.defaultBlockState(), 3);
-//					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_STONE_BRICKS.get())) {
-//						level.setBlockAndUpdate(activePos, Blocks.STONE_BRICKS.defaultBlockState());
-//					} else {
-//						level.setBlockAndUpdate(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
-//					}
-//
-//					// check all adjacent neighbors
-//					checkAndAdd(level, pos, activePos.north(), active, visited);
-//					checkAndAdd(level, pos, activePos.south(), active, visited);
-//					checkAndAdd(level, pos, activePos.east(), active, visited);
-//					checkAndAdd(level, pos, activePos.west(), active, visited);
-//					checkAndAdd(level, pos, activePos.above(), active, visited);
-//					checkAndAdd(level, pos, activePos.below(), active, visited);
-//
-//					// remove activePos from active list
-//					active.remove(activePos);
-//
-//					// add active pos to the visited list
-//					visited.add(activePos);
-//				}
-//			}
-//
-//			// call lightning
-//			ModUtil.SpawnEntityHelper.spawn((ServerLevel) level, level.getRandom(), EntityType.LIGHTNING_BOLT, EntityType.LIGHTNING_BOLT.create(level), new Coords(entity.blockPosition()));
-//
-//			explode(level, entity, wishingWellPosList.get(0));
+			// determine if block at pos is a wishing well block candidate. NOTE: rewritten from Forge's
+			// optional WISHING_WELLS tag gate to an instanceof IWishingWellBlock check (interface is ported).
+			if (state.getBlock() instanceof IWishingWellBlock) {
+				// start search for all attached well blocks up to radius X
+				List<BlockPos> visited = new ArrayList<>();
+				Queue<BlockPos> active = new LinkedList<>();
 
-			// remove chest lock from each lock state
-//			ListTag newLockStates = new ListTag();
-//			lockStateTags.forEach(lockStateTag -> {
-//				LockState lockState = LockState.load((CompoundTag) lockStateTag);
-//				lockState.removeLock();
-//				newLockStates.add(lockState.save(new CompoundTag()));
-//			});
-//			tag.put("lockStates", newLockStates);
-//
-//			return true;
+				active.add(pos);
+				while (!active.isEmpty()) {
+					BlockPos activePos = active.poll();
+					// update activePos block to wishing well block
+					// NOTE if adding any more types of bricks, use a Map
+					Block activeBlock = level.getBlockState(activePos).getBlock();
+					if (activeBlock.equals(TreasureBlocks.WISHING_WELL.get())) {
+						level.setBlockAndUpdate(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
+					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_COBBLESTONE.get())) {
+						level.setBlock(activePos, Blocks.COBBLESTONE.defaultBlockState(), 3);
+					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_MOSSY_COBBLESTONE.get())) {
+						level.setBlock(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState(), 3);
+					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get())) {
+						level.setBlock(activePos, Blocks.MOSSY_STONE_BRICKS.defaultBlockState(), 3);
+					} else if (activeBlock.equals(TreasureBlocks.WISHING_WELL_STONE_BRICKS.get())) {
+						level.setBlockAndUpdate(activePos, Blocks.STONE_BRICKS.defaultBlockState());
+					} else {
+						level.setBlockAndUpdate(activePos, Blocks.MOSSY_COBBLESTONE.defaultBlockState());
+					}
+
+					// check all adjacent neighbors
+					checkAndAdd(level, pos, activePos.north(), active, visited);
+					checkAndAdd(level, pos, activePos.south(), active, visited);
+					checkAndAdd(level, pos, activePos.east(), active, visited);
+					checkAndAdd(level, pos, activePos.west(), active, visited);
+					checkAndAdd(level, pos, activePos.above(), active, visited);
+					checkAndAdd(level, pos, activePos.below(), active, visited);
+
+					// remove activePos from active list
+					active.remove(activePos);
+
+					// add active pos to the visited list
+					visited.add(activePos);
+				}
+			}
+
+			// call lightning
+			ModUtil.SpawnEntityHelper.spawn((ServerLevel) level, level.getRandom(), EntityType.LIGHTNING_BOLT,
+					EntityType.LIGHTNING_BOLT.create(level), new Coords(entity.blockPosition()));
+
+			explode(level, entity, wishingWellPosList.get(0));
+
+			// remove the lock from each lock state, writing back an unlocked component
+			List<LockState> clearedLockStates = lockStatesComponent
+					.map(LockStatesComponent::lockStates)
+					.stream()
+					.flatMap(List::stream)
+					.map(ls -> new LockState(ls.getSlot(), null))
+					.toList();
+			stack.set(TreasureComponents.LOCK_STATES, new LockStatesComponent(clearedLockStates));
+
+			return true;
 		}
 		return super.onEntityItemUpdate(stack, entity);
 	}

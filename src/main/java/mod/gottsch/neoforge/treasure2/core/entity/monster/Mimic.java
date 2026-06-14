@@ -18,14 +18,18 @@ package mod.gottsch.neoforge.treasure2.core.entity.monster;
 import mod.gottsch.neo.gottschcore.world.WorldInfo;
 import mod.gottsch.neoforge.treasure2.core.sound.TreasureSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.storage.loot.LootTable;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -47,6 +51,15 @@ public abstract class Mimic extends Monster {
 
     private float amount;
     public boolean isOpening = true;
+
+    /**
+     * Per-instance death loot table, set when a chest "becomes" a mimic so the mimic drops the
+     * chest's loot when killed. Forge mutated Mob.lootTable via ObfuscationReflectionHelper; in
+     * 1.21 getLootTable() is final but getDefaultLootTable() is overridable, so we store the
+     * override here and surface it through that hook (the private lootTable field stays null).
+     */
+    @Nullable
+    private ResourceKey<LootTable> lootTableOverride;
 
     protected Mimic(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -118,8 +131,17 @@ public abstract class Mimic extends Monster {
         this.playSound(getAmbientSound(), 0.10F, 0.80F);
     }
 
-    // TODO: restore setLootTable when loot key API (Optional<ResourceKey<LootTable>>) is ported
-    // Forge ObfuscationReflectionHelper approach does not apply in NeoForge 1.21.1
+    /**
+     * Override the mimic's death loot table (e.g. with the loot table of the chest it spawned from).
+     */
+    public void setLootTable(ResourceKey<LootTable> lootTable) {
+        this.lootTableOverride = lootTable;
+    }
+
+    @Override
+    protected ResourceKey<LootTable> getDefaultLootTable() {
+        return this.lootTableOverride != null ? this.lootTableOverride : super.getDefaultLootTable();
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {

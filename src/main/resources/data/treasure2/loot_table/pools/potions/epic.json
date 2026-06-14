@@ -117,6 +117,18 @@
               }
             }
           ]
+        },
+        {
+          "entryName": "potion_e8",
+          "type": "minecraft:item",
+          "name": "minecraft:ominous_bottle",
+          "functions": [
+            {
+              "function": "minecraft:set_ominous_bottle_amplifier",
+              "amplifier": 2
+            }
+          ],
+          "weight": 5
         }
       ]
     }

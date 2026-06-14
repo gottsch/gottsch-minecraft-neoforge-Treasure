@@ -30,6 +30,13 @@ public class TreasureNetworking {
                 InventorySyncPacket.Handler::handle
         );
 
+        // Server -> client: correct a freshly-spawned mimic's body rotation.
+        payloadRegistrar.playToClient(
+                MimicSpawnS2C.TYPE,
+                MimicSpawnS2C.STREAM_CODEC,
+                MimicSpawnS2C::handle
+        );
+
         // Client -> server: wither-tree mist particles ask the server to apply poison/wither effects.
         payloadRegistrar.playToServer(
                 PoisonMistMessageToServer.TYPE,

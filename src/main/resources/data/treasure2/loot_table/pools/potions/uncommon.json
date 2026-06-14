@@ -85,6 +85,70 @@
               }
             }
           ]
+        },
+        {
+          "entryName": "potion_uc6",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:infested"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc7",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:oozing"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc8",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:weaving"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "entryName": "potion_uc9",
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:potion_contents": {
+                  "potion": "minecraft:wind_charged"
+                }
+              }
+            }
+          ]
         }
       ]
     }

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "mythical_potions",
+      "rolls": {
+        "min": 2,
+        "max": 3
+      },
+      "entries": [
+        {
+          "type": "loot_table",
+          "weight": 100,
+          "value": "treasure2:pools/potions/epic"
+        },
+        {
+          "entryName": "potion_ominous_bottle",
+          "type": "minecraft:item",
+          "name": "minecraft:ominous_bottle",
+          "functions": [
+            {
+              "function": "minecraft:set_ominous_bottle_amplifier",
+              "amplifier": 4
+            }
+          ],
+          "weight": 20
+        }
+      ]
+    }
+  ]
+}
