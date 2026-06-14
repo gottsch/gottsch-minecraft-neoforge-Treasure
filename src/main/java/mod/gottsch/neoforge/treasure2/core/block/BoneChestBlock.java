@@ -16,6 +16,8 @@
 package mod.gottsch.neoforge.treasure2.core.block;
 
 import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
+import mod.gottsch.neoforge.treasure2.core.item.LockItem;
+import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
 import mod.gottsch.neoforge.treasure2.core.lock.LockLayout;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,8 +46,7 @@ public class BoneChestBlock extends StandardChestBlock {
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		AbstractTreasureChestBlockEntity entity = (AbstractTreasureChestBlockEntity) super.newBlockEntity(pos, state);
-		// TODO: restore when BONE_LOCK is ported
-		// entity.getLockStates().get(0).setLock((LockItem) TreasureItems.BONE_LOCK.get());
+		entity.getLockStates().get(0).setLock((LockItem) TreasureItems.BONE_LOCK.get());
 		return entity;
 	}
 }

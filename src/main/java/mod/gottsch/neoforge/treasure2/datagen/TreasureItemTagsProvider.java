@@ -19,6 +19,7 @@ import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
 import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
@@ -43,6 +44,9 @@ public class TreasureItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        // vanity armor — make the eye patch dyeable (1.21 gates the armor-dye recipe on this tag)
+        tag(ItemTags.DYEABLE).add(TreasureItems.EYE_PATCH.get());
+
         // keys by rarity
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.WOOD_KEY.get());
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.STONE_KEY.get());
@@ -65,14 +69,14 @@ public class TreasureItemTagsProvider extends ItemTagsProvider {
         tag(TreasureTags.Items.RARE_KEY).add(TreasureItems.WITHER_KEY.get());
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.PILFERERS_LOCK_PICK.get());
         tag(TreasureTags.Items.UNCOMMON_KEY).add(TreasureItems.THIEFS_LOCK_PICK.get());
-        // TODO: tag(TreasureTags.Items.MYTHICAL_KEY).add(TreasureItems.ONE_KEY.get()) — ONE_KEY not yet ported
+        tag(TreasureTags.Items.MYTHICAL_KEY).add(TreasureItems.ONE_KEY.get());
 
         tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.COMMON_KEY);
         tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.UNCOMMON_KEY);
         tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.SCARCE_KEY);
         tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.RARE_KEY);
         tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.EPIC_KEY);
-        // MYTHICAL_KEY omitted — ONE_KEY not yet ported
+        tag(TreasureTags.Items.KEYS).addTag(TreasureTags.Items.MYTHICAL_KEY);
 
         // locks by rarity
         tag(TreasureTags.Items.COMMON_LOCKS).add(TreasureItems.WOOD_LOCK.get());

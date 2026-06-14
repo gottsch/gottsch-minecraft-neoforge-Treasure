@@ -173,7 +173,6 @@ public class RuinsStructure extends Structure {
         // NOTE this method is also called 4 or 5 times for some reason with different Bounding Boxes
         //  event though the piece pos does not change. so this has to be single pass protected.
 
-//        // TODO
 //        Set<StructureTemplate.StructureBlockInfo> originalBlocks = Sets.newHashSet();
 //        Set<StructureTemplate.StructureBlockInfo> processedBlocks = Sets.newHashSet();
 //
@@ -223,7 +222,6 @@ public class RuinsStructure extends Structure {
 ////            });
 //
 //
-//        // TODO if this ever works, have to single pass protect this as well
 ////        // retrieve the data from the thread-safe cache using the structure's origin.
 ////        Set<StructureTemplate.StructureBlockInfo> originalBlocks = BlockDataCache.getOriginalBlocks(origin);
 ////        Set<StructureTemplate.StructureBlockInfo> processedBlocks = BlockDataCache.getProcessedBlocks(origin);
@@ -238,7 +236,6 @@ public class RuinsStructure extends Structure {
 //            Map<BlockPos, StructureTemplate.StructureBlockInfo> processedBlockMap = processedBlocks.stream()
 //                    .collect(Collectors.toMap(StructureTemplate.StructureBlockInfo::pos, block -> block));
 //
-//            // TODO originalBlocks is RELATIVE - need to put into real world pos before caching.
 //            // map of original blocks for checking the "air" condition.
 //            Map<BlockPos, StructureTemplate.StructureBlockInfo> originalBlockMap = originalBlocks.stream()
 //                    .collect(Collectors.toMap(StructureTemplate.StructureBlockInfo::pos, block -> block));
@@ -250,7 +247,6 @@ public class RuinsStructure extends Structure {
 //                BlockPos currentPos = currentBlockInfo.pos();
 //                BlockPos belowPos = currentPos.below();
 //
-//                // TODO special case for Treaasure Chest. It should be moved down to the first solid block
 //                // check the condition for removal.
 //                // condition 1: the block below was solid in the original structure but is now missing.
 //                Treasure.LOGGER.debug("processing block {} -> {}", currentPos.toShortString(), processedBlockMap.get(currentPos).state().getBlock());
@@ -270,7 +266,6 @@ public class RuinsStructure extends Structure {
 //                    boolean isBelowRemoved = removedPositions.contains(belowPos);
 //                    Treasure.LOGGER.debug("isBelowRemoved -> {}", removedPositions.contains(belowPos));
 //
-//                    // TODO currentPos is not the right rotation!! how the heck?
 //                    if (wasBelowSolidAndIsNowAir || isBelowRemoved) {
 //                        Treasure.LOGGER.debug("adding {} {} to removed", currentPos, processedBlockMap.get(currentPos).state().getBlock());
 //                        removedPositions.add(currentPos);

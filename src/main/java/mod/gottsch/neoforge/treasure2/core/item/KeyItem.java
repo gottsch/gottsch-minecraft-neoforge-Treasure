@@ -137,7 +137,6 @@ public class KeyItem extends Item implements IKeyEffects {
 	 */
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-		// TODO this optional probably can be better written
 //		if (stack.getCapability(DURABILITY).isPresent()) {
 //			stack.getCapability(DURABILITY).ifPresent(cap -> {
 //				if (cap.isInfinite()) {
@@ -181,8 +180,6 @@ public class KeyItem extends Item implements IKeyEffects {
 			appendHoverExtras(stack, context.level(), tooltipComponents, tooltipFlag);
 		});
 		// NOTE adding curse here makes it unremovable.
-		// TODO adding curse AFTER the HOLD lambda only adds it once to the tooltip.
-		// if added BEFORE, like in initCapabilities(), it is added twice to the tooltip
 		// TEMP fix for double Curses displayed
 		appendCurse(stack, tooltipComponents);
 	}
@@ -396,7 +393,7 @@ public class KeyItem extends Item implements IKeyEffects {
 				}
 			}
 		}
-		return null; // <-- TODO should return EMPTY_LOCKSTATE
+		return null;
 	}
 
 	/**

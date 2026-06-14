@@ -185,7 +185,6 @@ public class BoneChestModel extends AbstractTreasureChestModel {
 			getSkull().y = (amount * MAX_DIST);
 		}
 
-		// TODO lock property is not being synced and thereofr in the TE the angles aren't being calculated on the client
 		float lockRotation = be.prevLockAngle + (be.lockAngle - be.prevLockAngle) * partialTicks;
 		lockRotation = 1.0F - lockRotation;
 		lockRotation = 1.0F - lockRotation * lockRotation * lockRotation;

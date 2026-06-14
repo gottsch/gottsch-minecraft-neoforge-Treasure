@@ -15,9 +15,17 @@
  */
 package mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest;
 
+import mod.gottsch.neo.gottschcore.spatial.Rotate;
+import mod.gottsch.neoforge.treasure2.core.item.LockItem;
+import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
 import mod.gottsch.neoforge.treasure2.core.lock.LockLayout;
+import mod.gottsch.neoforge.treasure2.core.lock.LockState;
+import mod.gottsch.neoforge.treasure2.core.rarity.IRarity;
 import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.data.ChestSubprocessorData;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.RandomSource;
+
+import java.util.List;
 
 /**
  * @author by Mark Gottschling on 9/17/2025
@@ -36,8 +44,11 @@ public class BoneChestSubprocessor extends ChestSubprocessor {
         return 1;
     }
 
-    // NOTE the Forge version overrode buildLocks() to force a single BONE_LOCK. The bone lock item is
-    // not yet ported (see TreasureItems#BONE_LOCK, currently commented out), so the bone chest falls
-    // back to the default rarity-based lock selection (1 lock, per randomizedNumberOfLocks above).
-    // TODO restore the forced single bone lock once TreasureItems.BONE_LOCK is ported.
+    @Override
+    public List<LockState> buildLocks(RandomSource random, LockLayout layout, IRarity defaultRarity, Rotate rotate, HolderLookup.Provider provider) {
+        // determine the number of locks to use
+        int numLocks = randomizedNumberOfLocks(random, layout);
+        // force chest to use a single bone lock
+        return buildLocks(random, layout, List.<LockItem>of(TreasureItems.BONE_LOCK.get()), numLocks, rotate);
+    }
 }

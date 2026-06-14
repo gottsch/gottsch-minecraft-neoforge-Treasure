@@ -53,6 +53,16 @@ public class TreasureBlockLootTables extends BlockLootSubProvider {
         this.dropOther(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get(), Items.MOSSY_STONE_BRICKS);
         this.dropOther(TreasureBlocks.DESERT_WISHING_WELL.get(), Items.SAND);
 
+        // gem ores — drop their gem (stone + deepslate variants both drop the same gem)
+        this.dropOther(TreasureBlocks.TOPAZ_ORE.get(), TreasureItems.TOPAZ.get());
+        this.dropOther(TreasureBlocks.DEEPSLATE_TOPAZ_ORE.get(), TreasureItems.TOPAZ.get());
+        this.dropOther(TreasureBlocks.ONYX_ORE.get(), TreasureItems.ONYX.get());
+        this.dropOther(TreasureBlocks.DEEPSLATE_ONYX_ORE.get(), TreasureItems.ONYX.get());
+        this.dropOther(TreasureBlocks.RUBY_ORE.get(), TreasureItems.RUBY.get());
+        this.dropOther(TreasureBlocks.DEEPSLATE_RUBY_ORE.get(), TreasureItems.RUBY.get());
+        this.dropOther(TreasureBlocks.SAPPHIRE_ORE.get(), TreasureItems.SAPPHIRE.get());
+        this.dropOther(TreasureBlocks.DEEPSLATE_SAPPHIRE_ORE.get(), TreasureItems.SAPPHIRE.get());
+
         // falling blocks drop themselves
         this.dropSelf(TreasureBlocks.FALLING_GRASS.get());
         this.dropSelf(TreasureBlocks.FALLING_SAND.get());
@@ -137,6 +147,14 @@ public class TreasureBlockLootTables extends BlockLootSubProvider {
                 TreasureBlocks.WISHING_WELL_STONE_BRICKS.get(),
                 TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get(),
                 TreasureBlocks.DESERT_WISHING_WELL.get(),
+                TreasureBlocks.TOPAZ_ORE.get(),
+                TreasureBlocks.DEEPSLATE_TOPAZ_ORE.get(),
+                TreasureBlocks.ONYX_ORE.get(),
+                TreasureBlocks.DEEPSLATE_ONYX_ORE.get(),
+                TreasureBlocks.RUBY_ORE.get(),
+                TreasureBlocks.DEEPSLATE_RUBY_ORE.get(),
+                TreasureBlocks.SAPPHIRE_ORE.get(),
+                TreasureBlocks.DEEPSLATE_SAPPHIRE_ORE.get(),
                 TreasureBlocks.FALLING_GRASS.get(),
                 TreasureBlocks.FALLING_SAND.get(),
                 TreasureBlocks.FALLING_RED_SAND.get(),

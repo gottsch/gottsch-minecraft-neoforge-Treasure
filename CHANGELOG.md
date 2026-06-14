@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.3] - 2026-06-13
+
+### Added
+- Spawn eggs for every Treasure2 mob — the bound soul, the witherwood golem, and all of the chest mimics (wood, pirate, viking, cauldron, crate, moldy crate, cardboard box, milk crate, barrel, and vanilla chest).
+- A whole armory of weapons to find and fight with: short swords, a rapier, longswords, broadswords, machetes, falchions, katanas, maces, and battle axes — including one-of-a-kind named weapons like Mjolnir, Callandor, Oathbringer, the Sword of Power, the Sword of Omens, Orcus, and the Axe of Durin. The named weapons can land an extra-strong "power attack" for bonus damage.
+- The One Key — a rare key that opens any lock and never breaks.
+- The Treasure Tool — the special item needed for most Treasure2 crafting recipes.
+- Wishing wells now work: toss a coin or gem into the water by a wishing well and it can reward you with treasure.
+
+### Changed
+- The floating particle effects are back — the mist and fog around gravestones, black spores off wither twigs and strangle vines, dripping Spanish moss, and the poison and wither mists. (These are the effects promised in the previous update's notes.)
+- You can now combine two of the same key in an anvil to merge their leftover uses into a single, longer-lasting key.
+
+---
+
 ## [1.0.0-alpha.2] - 2026-06-09
 
 ### Added

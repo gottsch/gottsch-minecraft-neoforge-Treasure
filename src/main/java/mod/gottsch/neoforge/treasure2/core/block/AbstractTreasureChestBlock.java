@@ -407,8 +407,10 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 		Mob mob = spawn((ServerLevel)level, level.getRandom(), entityType, pos, player, yRot);
 		if (mob != null) {
-			// TODO re-enable for NeoForge 1.21.1
-			// update the loot table in the mimic
+			// DEFERRED (workstream C): give the spawned mimic the chest's loot table + notify the client.
+			// Blocked on (1) Mimic#setLootTable (see Mimic.java — Forge's ObfuscationReflectionHelper hack
+			// doesn't apply; 1.21 uses Optional<ResourceKey<LootTable>>) and (2) a new MimicSpawn S2C payload
+			// (model it on core/network/*MistMessageToServer). Mimic currently spawns with its own loot table.
 //			((Mimic)mob).setLootTable(blockEntity.getLootTable());
 //			// update client
 //			MimicSpawnS2C message = new MimicSpawnS2C(mob.getId(), yRot);
@@ -467,7 +469,6 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		// save chest state
 		BlockState oldState = state;
 
-		// TODO need to check for ITreasureChestProxy or need a multiple block flag.
 		
 		// place new chest with old state, but different light
 		level.setBlockAndUpdate(pos, oldState.getBlock()
@@ -488,7 +489,10 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		// mark as dirty
 		newBlockEntity.setChanged();
 
-//		TODO reenable for Neoforge 1.21.1
+//		DEFERRED (workstream C): mark this chest as discovered in the persistent cache. TreasureChestCache +
+//		TreasureSavedData exist in the port, but the cache is slated to migrate to a data Attachment
+//		(see TreasureChestCacheData "needs to be converted to an Attachment"); restore once that lands so
+//		the cache shape isn't reworked twice. Discovery still works visually (block state DISCOVERED above).
 //		TreasureChestCache.getCache().stream()
 //				// if matching on dimension and pos, doesn't require to match on biome
 //				.filter(chest -> chest.getDimensionName().equals(level.dimensionType().effectsLocation()))

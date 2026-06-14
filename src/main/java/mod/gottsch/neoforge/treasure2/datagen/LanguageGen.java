@@ -63,7 +63,7 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureItems.PILFERERS_LOCK_PICK.get(), "Pilferer's Lock Pick");
         add(TreasureItems.THIEFS_LOCK_PICK.get(), "Thief's Lock Pick");
         add(TreasureItems.BONE_KEY.get(), "Bone Key");
-        // TODO: add(TreasureItems.ONE_KEY.get(), "The One Key") when ONE_KEY is ported
+        add(TreasureItems.ONE_KEY.get(), "The One Key");
 
         // locks
         add(TreasureItems.WOOD_LOCK.get(), "Wood Lock");
@@ -82,13 +82,16 @@ public class LanguageGen extends LanguageProvider {
 
         add(TreasureItems.SPIDER_LOCK.get(), "Spider Lock");
         add(TreasureItems.WITHER_LOCK.get(), "Wither Lock");
-        // TODO: add(TreasureItems.BONE_LOCK.get(), "Bone Lock") when BONE_LOCK is ported
+        add(TreasureItems.BONE_LOCK.get(), "Bone Lock");
 
         // key ring
         add(TreasureItems.KEY_RING.get(), "Key Ring");
 
         // pouch
         add(TreasureItems.POUCH.get(), "Pouch");
+
+        // treasure tool
+        add(TreasureItems.TREASURE_TOOL.get(), "Treasure Tool");
 
         // spawn eggs
         add(TreasureItems.BOUND_SOUL_EGG.get(), "Bound Soul Spawn Egg");
@@ -183,7 +186,8 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureBlocks.WITHERWOOD_SIGN.get(), "Witherwood Sign");
         add(TreasureBlocks.WITHERWOOD_HANGING_SIGN.get(), "Witherwood Hanging Sign");
 
-        // TODO: restore TREASURE_TOOL, EYE_PATCH when ported
+        // vanity armor
+        add(TreasureItems.EYE_PATCH.get(), "Eye Patch");
 
         // chests
         add(TreasureBlocks.WOOD_CHEST.get(), "Wood Chest");
@@ -211,7 +215,6 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureBlocks.BONE_CHEST.get(), "Bone Chest");
         add(TreasureBlocks.CELESTIAL_CHEST.get(), "Celestial Chest");
         add(TreasureBlocks.INFERNAL_CHEST.get(), "Infernal Chest");
-        // TODO: restore witherwood, gravestone, wishing well, clover, spanish moss block translations when ported
 
         // ore
         add(TreasureBlocks.TOPAZ_ORE.get(), "Topaz Ore");
@@ -245,7 +248,6 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureEntities.MILK_CRATE_MIMIC_ENTITY_TYPE.get(), "Milk Crate Mimic");
         add(TreasureEntities.BARREL_MIMIC_ENTITY_TYPE.get(), "Barrel Mimic");
         add(TreasureEntities.VANILLA_CHEST_MIMIC_ENTITY_TYPE.get(), "Chest Mimic");
-        // TODO: restore spawn eggs when ported
 
         /*
          * tooltips
@@ -293,7 +295,42 @@ public class LanguageGen extends LanguageProvider {
         add(LangUtil.tooltip("cap.durability.repairs"), "R[%s/%s]");
         add(LangUtil.tooltip("cap.spell.recharges"), "R[%s/%s]");
 
-        // weapons (lang keys only; items not yet ported)
+        // weapons
+        add(TreasureItems.COPPER_SHORT_SWORD.get(), "Copper Short Sword");
+        add(TreasureItems.CHIPPED_COPPER_SHORT_SWORD.get(), "Chipped Copper Short Sword");
+        add(TreasureItems.IRON_SHORT_SWORD.get(), "Iron Short Sword");
+        add(TreasureItems.CHIPPED_IRON_SHORT_SWORD.get(), "Chipped Iron Short Sword");
+        add(TreasureItems.STEEL_SHORT_SWORD.get(), "Steel Short Sword");
+        add(TreasureItems.CHIPPED_STEEL_SHORT_SWORD.get(), "Chipped Steel Short Sword");
+        add(TreasureItems.COPPER_RAPIER.get(), "Copper Rapier");
+        add(TreasureItems.STEEL_SWORD.get(), "Steel Sword");
+        add(TreasureItems.SKULL_SWORD.get(), "Skull Sword");
+        add(TreasureItems.SWORD_POWER.get(), "The Sword of Power");
+        add(TreasureItems.BLACK_SWORD.get(), "The Black Sword");
+        add(TreasureItems.OATHBRINGER.get(), "Oathbringer");
+        add(TreasureItems.SWORD_OMENS.get(), "The Sword of Omens");
+        add(TreasureItems.CALLANDOR.get(), "Callandor");
+        add(TreasureItems.IRON_BROADSWORD.get(), "Iron Broadsword");
+        add(TreasureItems.STEEL_BROADSWORD.get(), "Steel Broadsword");
+        add(TreasureItems.ORCUS.get(), "Orcus");
+        add(TreasureItems.SNAKE_EYES_KATANA.get(), "Snake Eye's Katana");
+        add(TreasureItems.STORM_SHADOWS_KATANA.get(), "Storm Shadow's Daisho");
+        add(TreasureItems.STEEL_MACHETE.get(), "Steel Machete");
+        add(TreasureItems.SHADOW_MACHETE.get(), "Shadow Machete");
+        add(TreasureItems.IRON_FALCHION.get(), "Iron Falchion");
+        add(TreasureItems.STEEL_FALCHION.get(), "Steel Falchion");
+        add(TreasureItems.SHADOW_FALCHION.get(), "Shadow Falchion");
+        add(TreasureItems.IRON_MACE.get(), "Iron Mace");
+        add(TreasureItems.STEEL_MACE.get(), "Steel Mace");
+        add(TreasureItems.MJOLNIR.get(), "Mjolnir");
+        add(TreasureItems.COPPER_BROAD_AXE.get(), "Copper Broad Axe");
+        add(TreasureItems.IRON_BROAD_AXE.get(), "Iron Broad Axe");
+        add(TreasureItems.STEEL_BROAD_AXE.get(), "Steel Broad Axe");
+        add(TreasureItems.IRON_DWARVEN_AXE.get(), "Iron Dwarven Axe");
+        add(TreasureItems.AXE_DURIN.get(), "Axe of Durin");
+        add(TreasureItems.HEADSMANS_AXE.get(), "The Headsman's Axe");
+
+        // weapon lore
         add(LangUtil.tooltip("weapons.black_sword.lore"), "Sword of the Avatar. Host of the daemon Arcadion.");
         add(LangUtil.tooltip("weapons.sword_of_omens.lore"), "'Thunder... Thunder... Thunder... ThunderCats HO!'");
         add(LangUtil.tooltip("weapons.sword_of_power.lore"), "'By the power of Grayskull.... I have the power!'");

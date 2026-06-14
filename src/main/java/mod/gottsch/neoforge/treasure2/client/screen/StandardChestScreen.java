@@ -50,7 +50,6 @@ public class StandardChestScreen extends AbstractChestScreen<StandardChestContai
 			this.imageHeight = 176;
 			this.titleLabelY =+8;
 			this.inventoryLabelY = this.imageHeight - 102;
-			// TODO lookup a registry based on name to get the BG
 			setBgTexture(BG_TEXTURE);
 		}
 	}

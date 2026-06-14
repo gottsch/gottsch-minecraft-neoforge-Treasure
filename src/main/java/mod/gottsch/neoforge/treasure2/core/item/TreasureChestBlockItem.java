@@ -109,7 +109,6 @@ public class TreasureChestBlockItem extends BlockItem {
 //			tooltip.add(Component.translatable(LangUtil.tooltip("chest.container_size"), ChatFormatting.DARK_GREEN + String.valueOf(inventorySize)));
 //
 //		}
-			// TODO if locked at tooltip to throw into well
 	}
 
 	/**
@@ -129,7 +128,10 @@ public class TreasureChestBlockItem extends BlockItem {
 			BlockPos pos = wishingWellPosList.get(0);
 			BlockState state = level.getBlockState(pos);
 
-			// TODO neoforge, re-enable
+			// DEFERRED (workstream C): when a chest item is thrown into a wishing well, revert the connected
+			// well blocks back to their normal (non-well) form via a BFS. Blocked on a WISHING_WELLS block tag
+			// (not yet added to TreasureTags.Blocks) — or rewrite the gate as `instanceof IWishingWellBlock`
+			// (that interface IS ported). Throwing a chest in still works for loot; only the block revert is off.
 			// determine if block at pos is a wishing well block candidate
 //			if (state.is(TreasureTags.Blocks.WISHING_WELLS)) {
 //			if (state.getBlock() instanceof IWishingWellBlock) {

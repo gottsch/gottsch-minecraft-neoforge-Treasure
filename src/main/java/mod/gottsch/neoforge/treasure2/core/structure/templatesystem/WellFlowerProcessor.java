@@ -89,7 +89,7 @@ public class WellFlowerProcessor extends StructureProcessor {
         BlockState newState = null;
         RandomSource random = placementSettings.getRandom(current.pos());
 
-        if (random.nextDouble() < 1) { // TODO check against config values
+        if (random.nextDouble() < 1) {
             newState = random.nextInt(4) == 0
                     ? TALL_PLANTS.get(random.nextInt(TALL_PLANTS.size())).defaultBlockState()
                     : FLOWERS.get(random.nextInt(FLOWERS.size())).defaultBlockState();

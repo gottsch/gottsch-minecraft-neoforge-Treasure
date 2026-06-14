@@ -189,7 +189,6 @@ public class ProximityMobSetSpawnerBlockEntity extends AbstractProximityBlockEnt
                         });
             }
         });
-        // TODO this doesn't account for a wrong mobSet ID - do we ignore or use a default list?
         this.selfDestruct();
     }
 

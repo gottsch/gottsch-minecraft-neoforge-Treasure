@@ -110,15 +110,6 @@ public class TreasureComponents {
                     .networkSynchronized(StreamCodec.unit(Unit.INSTANCE))
     );
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<DurabilityComponent>> DURABILITY = REGISTRAR.registerComponentType(
-            "durability",
-            builder -> builder
-                    // the codec to read/write the data to disk
-                    .persistent(DurabilityComponent.CODEC)
-                    // the codec to read/write the data across the network
-                    .networkSynchronized(DurabilityComponent.STREAM_CODEC)
-    );
-
     public static void register(IEventBus modEventBus) {
         REGISTRAR.register(modEventBus);
     }

@@ -136,9 +136,6 @@ public class ChestGenerationHelper {
         Treasure.LOGGER.debug("total treasure items: {}, injected items: {}", treasureStacks.size(), fillerStacks.size());
 
         // 5. add a treasure map to the inventory
-        // TODO should only add a treasure map to core OR have to get the order set ie core, speciality, etc.
-        // TODO orders should be housed in TreasureRarities
-        // TODO if an ordering cannot be found then don't add a map
         addTreasureMap(level, random, itemHandler, Coords.of(chestBlockEntity.getBlockPos()), rarity);
 
         // 6. populate the chest inventory

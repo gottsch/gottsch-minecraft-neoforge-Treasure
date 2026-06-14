@@ -138,7 +138,6 @@ public class ModJigsawStructure extends Structure {
 			return Optional.empty();
 		}
 
-        // TODO could interrogate the structure resourelocation to extract the featureType
 
 
         // vanilla

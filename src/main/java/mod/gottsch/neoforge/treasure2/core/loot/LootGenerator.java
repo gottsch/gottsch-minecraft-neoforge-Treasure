@@ -130,9 +130,7 @@ public abstract class LootGenerator implements ILootGenerator {
 				.stream().map(k -> (KeyItem)k).toList();
 
 		if (keyItems.isEmpty()) {
-			// TODO neoforge re-enable
-//			return new ItemStack(TreasureItems.THIEFS_LOCK_PICK.get());
-			return new ItemStack(Items.APPLE);
+			return new ItemStack(TreasureItems.THIEFS_LOCK_PICK.get());
 		}
 		return new ItemStack(keyItems.get(random.nextInt(keyItems.size())));
 	}
@@ -262,7 +260,6 @@ public abstract class LootGenerator implements ILootGenerator {
 //		// get a list of "inject" loot tables
 //		List<LootTableShell> injectLootTableShells = buildLootTableList(LootTableType.INJECTS, rarity, type);
 //
-//		// TODO this is only removing Treasure Pools instead of separating the pools
 //		if (!injectLootTableShells.isEmpty()) {
 //			// add predicate
 //			lootStacks.getLeft().addAll(getInjectedLootItems(level, random, injectLootTableShells, lootContext, p -> {
@@ -296,7 +293,6 @@ public abstract class LootGenerator implements ILootGenerator {
 //			LootTable injectLootTable = world.getServer().getLootData().getLootTable(injectLootTableShell.getResourceLocation());
 //
 //			if (injectLootTable != null) {
-//				// TODO why do i want this filter!! can't inject into treasure or charms pool??!!
 //				// filter the pool
 //				List<LootPoolShell> lootPoolShells = injectLootTableShell.getPools().stream()
 //						.filter(pool -> predicate.test(pool) )

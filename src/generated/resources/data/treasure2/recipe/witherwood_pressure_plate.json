@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "w": {
+      "item": "treasure2:witherwood_planks"
+    }
+  },
+  "pattern": [
+    "ww"
+  ],
+  "result": {
+    "count": 1,
+    "id": "treasure2:witherwood_pressure_plate"
+  }
+}

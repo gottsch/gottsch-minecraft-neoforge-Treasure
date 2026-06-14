@@ -63,7 +63,7 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureItems.PILFERERS_LOCK_PICK.get(), "コソ泥のピッキング");
         add(TreasureItems.THIEFS_LOCK_PICK.get(), "盗賊のピッキング");
         add(TreasureItems.BONE_KEY.get(), "骨のカギ");
-        // TODO: add(TreasureItems.ONE_KEY.get(), "マスターキー") when ONE_KEY is ported
+        add(TreasureItems.ONE_KEY.get(), "マスターキー");
 
         // locks
         add(TreasureItems.WOOD_LOCK.get(), "木の錠前");
@@ -82,13 +82,16 @@ public class JapaneseLanguageGen extends LanguageProvider {
 
         add(TreasureItems.SPIDER_LOCK.get(), "クモの錠前");
         add(TreasureItems.WITHER_LOCK.get(), "ウィザーの錠前");
-        // TODO: add(TreasureItems.BONE_LOCK.get(), ...) when BONE_LOCK is ported
+        add(TreasureItems.BONE_LOCK.get(), "骨の錠前");
 
         // key ring
         add(TreasureItems.KEY_RING.get(), "キーホルダー");
 
         // pouch
         add(TreasureItems.POUCH.get(), "小銭入れ");
+
+        // treasure tool
+        add(TreasureItems.TREASURE_TOOL.get(), "宝探しツール");
 
         // spawn eggs
         add(TreasureItems.BOUND_SOUL_EGG.get(), "地縛霊のスポーンエッグ");
@@ -103,7 +106,84 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureItems.MILK_CRATE_MIMIC_EGG.get(), "ミルク入れミミックのスポーンエッグ");
         add(TreasureItems.BARREL_MIMIC_EGG.get(), "樽ミミックのスポーンエッグ");
         add(TreasureItems.VANILLA_CHEST_MIMIC_EGG.get(), "宝箱ミミックのスポーンエッグ");
-        // TODO: restore TREASURE_TOOL, coins, gems, EYE_PATCH, CLOVER when ported
+
+        // coins
+        add(TreasureItems.COPPER_COIN.get(), "銅貨");
+        add(TreasureItems.SILVER_COIN.get(), "銀貨");
+        add(TreasureItems.GOLD_COIN.get(), "金貨");
+
+        // gems
+        add(TreasureItems.TOPAZ.get(), "トパーズ");
+        add(TreasureItems.ONYX.get(), "オニキス");
+        add(TreasureItems.RUBY.get(), "ルビー");
+        add(TreasureItems.SAPPHIRE.get(), "サファイヤ");
+        add(TreasureItems.WHITE_PEARL.get(), "白真珠");
+        add(TreasureItems.BLACK_PEARL.get(), "黒真珠");
+
+        // clover
+        add(TreasureBlocks.CLOVER.get(), "四葉のクローバー");
+        add(TreasureItems.CLOVER.get(), "四葉のクローバー");
+
+        // vanity armor
+        add(TreasureItems.EYE_PATCH.get(), "眼帯");
+
+        // falling blocks
+        add(TreasureBlocks.FALLING_GRASS.get(), "草");
+        add(TreasureBlocks.FALLING_SAND.get(), "砂");
+        add(TreasureBlocks.FALLING_RED_SAND.get(), "赤砂");
+
+        // spanish moss
+        add(TreasureBlocks.SPANISH_MOSS.get(), "しだれコケ");
+
+        // strangle vines
+        add(TreasureBlocks.STRANGLE_VINES.get(), "絞めつけるツタ");
+        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "絞めつけるツタ植物");
+
+        // gravestones
+        add(TreasureBlocks.GRAVESTONE1_STONE.get(), "墓石");
+        add(TreasureBlocks.GRAVESTONE1_COBBLESTONE.get(), "丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE1_MOSSY_COBBLESTONE.get(), "苔むした丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE1_POLISHED_GRANITE.get(), "花崗岩の墓石");
+        add(TreasureBlocks.GRAVESTONE1_OBSIDIAN.get(), "黒曜石の墓石");
+        add(TreasureBlocks.GRAVESTONE1_SMOOTH_QUARTZ.get(), "クォーツの墓石");
+        add(TreasureBlocks.GRAVESTONE2_STONE.get(), "墓石");
+        add(TreasureBlocks.GRAVESTONE2_COBBLESTONE.get(), "丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE2_MOSSY_COBBLESTONE.get(), "苔むした丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE2_POLISHED_GRANITE.get(), "花崗岩の墓石");
+        add(TreasureBlocks.GRAVESTONE2_OBSIDIAN.get(), "黒曜石の墓石");
+        add(TreasureBlocks.GRAVESTONE2_SMOOTH_QUARTZ.get(), "クォーツの墓石");
+        add(TreasureBlocks.GRAVESTONE3_STONE.get(), "墓石");
+        add(TreasureBlocks.GRAVESTONE3_COBBLESTONE.get(), "丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE3_MOSSY_COBBLESTONE.get(), "苔むした丸石の墓石");
+        add(TreasureBlocks.GRAVESTONE3_POLISHED_GRANITE.get(), "花崗岩の墓石");
+        add(TreasureBlocks.GRAVESTONE3_OBSIDIAN.get(), "黒曜石の墓石");
+        add(TreasureBlocks.GRAVESTONE3_SMOOTH_QUARTZ.get(), "クォーツの墓石");
+        add(TreasureBlocks.SKULL_AND_CROSSBONES.get(), "ドクロと骨十字");
+        add(TreasureBlocks.SKELETON.get(), "ガイコツ");
+        add(TreasureBlocks.GRAVESTONE1_SPAWNER_STONE.get(), "墓石スポナー");
+        add(TreasureBlocks.GRAVESTONE2_SPAWNER_COBBLESTONE.get(), "丸石の墓石スポナー");
+        add(TreasureBlocks.GRAVESTONE3_SPAWNER_OBSIDIAN.get(), "黒曜石の墓石スポナー");
+
+        // witherwood woodset
+        add(TreasureBlocks.WITHERWOOD_BROKEN_LOG.get(), "壊れたウィザーウッドの原木");
+        add(TreasureBlocks.WITHERWOOD_BRANCH.get(), "ウィザーウッドの枝");
+        add(TreasureBlocks.WITHERWOOD_ROOT.get(), "ウィザーウッドの根");
+        add(TreasureBlocks.WITHERWOOD_TWIG.get(), "ウィザーウッドの小枝");
+        add(TreasureBlocks.WITHERWOOD_LOG.get(), "ウィザーウッドの原木");
+        add(TreasureBlocks.WITHERWOOD_WOOD.get(), "ウィザーウッドの板材");
+        add(TreasureBlocks.STRIPPED_WITHERWOOD_LOG.get(), "樹皮を剥いだウィザーウッドの原木");
+        add(TreasureBlocks.STRIPPED_WITHERWOOD_WOOD.get(), "樹皮を剥いだウィザーウッド");
+        add(TreasureBlocks.WITHERWOOD_PLANKS.get(), "ウィザーウッドの幹");
+        add(TreasureBlocks.WITHERWOOD_SLAB.get(), "ウィザーウッドのハーフブロック");
+        add(TreasureBlocks.WITHERWOOD_STAIRS.get(), "ウィザーウッドの階段");
+        add(TreasureBlocks.WITHERWOOD_FENCE.get(), "ウィザーウッドのフェンス");
+        add(TreasureBlocks.WITHERWOOD_FENCE_GATE.get(), "ウィザーウッドのフェンスゲート");
+        add(TreasureBlocks.WITHERWOOD_BUTTON.get(), "ウィザーウッドのボタン");
+        add(TreasureBlocks.WITHERWOOD_PRESSURE_PLATE.get(), "ウィザーウッドの感圧版");
+        add(TreasureBlocks.WITHERWOOD_DOOR.get(), "ウィザーウッドのドア");
+        add(TreasureBlocks.WITHERWOOD_TRAPDOOR.get(), "ウィザーウッドのトラップドア");
+        add(TreasureBlocks.WITHERWOOD_SIGN.get(), "ウィザーウッドの看板");
+        add(TreasureBlocks.WITHERWOOD_HANGING_SIGN.get(), "ウィザーウッドの吊り看板");
 
         // chests
         add(TreasureBlocks.WOOD_CHEST.get(), "木のチェスト");
@@ -131,7 +211,14 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureBlocks.BONE_CHEST.get(), "骨のチェスト");
         add(TreasureBlocks.CELESTIAL_CHEST.get(), "天界のチェスト");
         add(TreasureBlocks.INFERNAL_CHEST.get(), "魔界のチェスト");
-        // TODO: restore witherwood, gravestone, wishing well, clover, spanish moss block translations when ported
+
+        // wishing wells
+        add(TreasureBlocks.WISHING_WELL.get(), "願い井戸の石");
+        add(TreasureBlocks.WISHING_WELL_COBBLESTONE.get(), "願い井戸の丸石");
+        add(TreasureBlocks.WISHING_WELL_MOSSY_COBBLESTONE.get(), "願い井戸の苔むした丸石");
+        add(TreasureBlocks.WISHING_WELL_STONE_BRICKS.get(), "願い井戸の石レンガ");
+        add(TreasureBlocks.WISHING_WELL_MOSSY_STONE_BRICKS.get(), "願い井戸の苔むした石レンガ");
+        add(TreasureBlocks.DESERT_WISHING_WELL.get(), "砂漠の願い井戸の石");
 
         // ore
         add(TreasureBlocks.TOPAZ_ORE.get(), "トパーズ鉱石");
@@ -157,7 +244,6 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureEntities.MILK_CRATE_MIMIC_ENTITY_TYPE.get(), "ミルク入れミミック");
         add(TreasureEntities.BARREL_MIMIC_ENTITY_TYPE.get(), "樽ミミック");
         add(TreasureEntities.VANILLA_CHEST_MIMIC_ENTITY_TYPE.get(), "宝箱ミミック");
-        // TODO: restore spawn eggs when ported
 
         /*
          * tooltips
@@ -190,6 +276,7 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(LangUtil.tooltip("key_lock.one_key.specials"), "あらゆる錠前を開けることができる");
         add(LangUtil.tooltip("key_lock.one_key.lore"), "マスターキーは全てを支配する");
         add(LangUtil.tooltip("key_lock.key_ring"), "複数のカギを付けておける");
+        add(LangUtil.tooltip("key_lock.bone_key.specials"), "骨のチェストを開けることができる");
 
         // chests
         add(LangUtil.tooltip("chest.locked"), "施錠されている！");
@@ -204,7 +291,42 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(LangUtil.tooltip("cap.durability.repairs"), "R[%s/%s]");
         add(LangUtil.tooltip("cap.spell.recharges"), "R[%s/%s]");
 
-        // weapons (lang keys only; items not yet ported)
+        // weapons
+        add(TreasureItems.COPPER_SHORT_SWORD.get(), "銅の短剣");
+        add(TreasureItems.CHIPPED_COPPER_SHORT_SWORD.get(), "欠けた銅の短剣");
+        add(TreasureItems.IRON_SHORT_SWORD.get(), "鉄の短剣");
+        add(TreasureItems.CHIPPED_IRON_SHORT_SWORD.get(), "欠けた鉄の短剣");
+        add(TreasureItems.STEEL_SHORT_SWORD.get(), "鋼の短剣");
+        add(TreasureItems.CHIPPED_STEEL_SHORT_SWORD.get(), "欠けた鋼の短剣");
+        add(TreasureItems.COPPER_RAPIER.get(), "銅のレイピア");
+        add(TreasureItems.STEEL_SWORD.get(), "鋼の剣");
+        add(TreasureItems.SKULL_SWORD.get(), "ドクロの剣");
+        add(TreasureItems.SWORD_POWER.get(), "閃光の剣");
+        add(TreasureItems.BLACK_SWORD.get(), "黒剣");
+        add(TreasureItems.OATHBRINGER.get(), "神剣オースブリンガー");
+        add(TreasureItems.SWORD_OMENS.get(), "地の神の剣");
+        add(TreasureItems.CALLANDOR.get(), "霊剣カランドル");
+        add(TreasureItems.IRON_BROADSWORD.get(), "鉄の大剣");
+        add(TreasureItems.STEEL_BROADSWORD.get(), "鋼の大剣");
+        add(TreasureItems.ORCUS.get(), "オルクスの大鎌");
+        add(TreasureItems.SNAKE_EYES_KATANA.get(), "妖刀蛇ノ目");
+        add(TreasureItems.STORM_SHADOWS_KATANA.get(), "黒風丸");
+        add(TreasureItems.STEEL_MACHETE.get(), "鋼のマチェット");
+        add(TreasureItems.SHADOW_MACHETE.get(), "シャドーマチェット");
+        add(TreasureItems.IRON_FALCHION.get(), "鉄のファルシオン");
+        add(TreasureItems.STEEL_FALCHION.get(), "鋼のファルシオン");
+        add(TreasureItems.SHADOW_FALCHION.get(), "シャドーファルシオン");
+        add(TreasureItems.IRON_MACE.get(), "鉄のメイス");
+        add(TreasureItems.STEEL_MACE.get(), "鋼のメイス");
+        add(TreasureItems.MJOLNIR.get(), "ミョッルニル");
+        add(TreasureItems.COPPER_BROAD_AXE.get(), "銅の大斧");
+        add(TreasureItems.IRON_BROAD_AXE.get(), "鉄の大斧");
+        add(TreasureItems.STEEL_BROAD_AXE.get(), "鋼の大斧");
+        add(TreasureItems.IRON_DWARVEN_AXE.get(), "鉄のドワーフ斧");
+        add(TreasureItems.AXE_DURIN.get(), "ドゥリンの戦斧");
+        add(TreasureItems.HEADSMANS_AXE.get(), "首長の長斧");
+
+        // weapon lore
         add(LangUtil.tooltip("weapons.black_sword.lore"), "アバターの剣。~悪魔アルカディオンを招き入れし者。");
         add(LangUtil.tooltip("weapons.sword_of_omens.lore"), "'時を超え 今すぐに 旅立て'");
         add(LangUtil.tooltip("weapons.sword_of_power.lore"), "'人よ 生命よ 力を見る'");

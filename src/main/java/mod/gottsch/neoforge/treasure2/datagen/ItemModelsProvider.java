@@ -100,7 +100,8 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.LOGO.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("item/treasure_tab"));
 
-        // TODO: add ONE_KEY model when ported (uses vertical_left_key parent)
+        singleTexture(TreasureItems.ONE_KEY.getId().getPath(),
+                modLoc("item/vertical_left_key"), "layer0", modLoc("item/key/one_key"));
 
         // locks
         singleTexture(TreasureItems.WOOD_LOCK.getId().getPath(),
@@ -145,7 +146,9 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.WITHER_LOCK.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("item/lock/wither_lock"));
 
-        // TODO: add BONE_LOCK model when ported (not in tab but needs model to suppress warnings)
+        // bone lock — not in the tab, but needs a model for when it appears on a bone chest
+        singleTexture(TreasureItems.BONE_LOCK.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/lock/bone_lock"));
 
         // key ring
         singleTexture(TreasureItems.KEY_RING.getId().getPath(),
@@ -266,10 +269,60 @@ public class ItemModelsProvider extends ItemModelProvider {
         withExistingParent(TreasureItems.BARREL_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         withExistingParent(TreasureItems.VANILLA_CHEST_MIMIC_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
 
-        // TODO: restore TREASURE_TOOL, EYE_PATCH, weapons when ported
-        // TODO: restore ore block items (TOPAZ_ORE_ITEM, etc.) when ported
-        // TODO: restore witherwood block items when ported
-        // TODO: restore wishing well block items when ported
+        // weapons — short swords
+        singleTexture(TreasureItems.COPPER_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/copper_short_sword"));
+        singleTexture(TreasureItems.CHIPPED_COPPER_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/chipped_copper_short_sword"));
+        singleTexture(TreasureItems.IRON_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/iron_short_sword"));
+        singleTexture(TreasureItems.CHIPPED_IRON_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/chipped_iron_short_sword"));
+        singleTexture(TreasureItems.STEEL_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/steel_short_sword"));
+        singleTexture(TreasureItems.CHIPPED_STEEL_SHORT_SWORD.getId().getPath(), modLoc("item/short_sword"), "layer0", modLoc("item/weapon/chipped_steel_short_sword"));
+        // rapier
+        singleTexture(TreasureItems.COPPER_RAPIER.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/copper_rapier"));
+        // longswords
+        singleTexture(TreasureItems.STEEL_SWORD.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/steel_sword"));
+        singleTexture(TreasureItems.SKULL_SWORD.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/skull_sword2"));
+        singleTexture(TreasureItems.SWORD_OMENS.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/sword_of_omens"));
+        singleTexture(TreasureItems.SWORD_POWER.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/sword_of_power"));
+        singleTexture(TreasureItems.CALLANDOR.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/callandor"));
+        // broad / bastard swords
+        singleTexture(TreasureItems.IRON_BROADSWORD.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/iron_broadsword"));
+        singleTexture(TreasureItems.STEEL_BROADSWORD.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/steel_broadsword"));
+        // large swords (x32)
+        singleTexture(TreasureItems.BLACK_SWORD.getId().getPath(), modLoc("item/large_sword"), "layer0", modLoc("item/weapon/the_black_sword_x32"));
+        singleTexture(TreasureItems.OATHBRINGER.getId().getPath(), modLoc("item/large_sword"), "layer0", modLoc("item/weapon/oathbringer_x32"));
+        // machetes
+        singleTexture(TreasureItems.STEEL_MACHETE.getId().getPath(), modLoc("item/machete"), "layer0", modLoc("item/weapon/steel_machete"));
+        singleTexture(TreasureItems.SHADOW_MACHETE.getId().getPath(), modLoc("item/machete"), "layer0", modLoc("item/weapon/shadow_machete"));
+        // falchions
+        singleTexture(TreasureItems.IRON_FALCHION.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/iron_falchion"));
+        singleTexture(TreasureItems.STEEL_FALCHION.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/steel_falchion"));
+        singleTexture(TreasureItems.SHADOW_FALCHION.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/shadow_falchion"));
+        // scythe
+        singleTexture(TreasureItems.ORCUS.getId().getPath(), modLoc("item/scythe"), "layer0", modLoc("item/weapon/orcus_x32"));
+        // katanas
+        singleTexture(TreasureItems.SNAKE_EYES_KATANA.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/snake_eyes_katana"));
+        singleTexture(TreasureItems.STORM_SHADOWS_KATANA.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/storm_shadows_katana"));
+        // hammers / maces / mauls
+        singleTexture(TreasureItems.IRON_MACE.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/iron_mace"));
+        singleTexture(TreasureItems.STEEL_MACE.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/steel_mace"));
+        singleTexture(TreasureItems.MJOLNIR.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/mjolnir"));
+        // axes
+        singleTexture(TreasureItems.COPPER_BROAD_AXE.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/copper_broad_axe"));
+        singleTexture(TreasureItems.IRON_BROAD_AXE.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/iron_broad_axe"));
+        singleTexture(TreasureItems.STEEL_BROAD_AXE.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/steel_broad_axe"));
+        singleTexture(TreasureItems.IRON_DWARVEN_AXE.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/iron_dwarven_axe"));
+        singleTexture(TreasureItems.AXE_DURIN.getId().getPath(), modLoc("item/single_edge_sword"), "layer0", modLoc("item/weapon/axe_of_durin"));
+        singleTexture(TreasureItems.HEADSMANS_AXE.getId().getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/weapon/headsmans_axe"));
+
+        // treasure tool
+        singleTexture(TreasureItems.TREASURE_TOOL.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/treasure_tool"));
+
+        // eye patch (vanity armor) — inventory icon
+        singleTexture(TreasureItems.EYE_PATCH.getId().getPath(),
+                mcLoc("item/generated"), "layer0", modLoc("item/eye_patch"));
+
+        // (witherwood block items generated above ~L228-256; ore block items by TreasureBlockStateProvider#oreBlock; wishing-well block items added below)
 
         // chest block items
         withExistingParent(TreasureItems.WOOD_CHEST.getId().getPath(), modLoc("block/wood_chest"));

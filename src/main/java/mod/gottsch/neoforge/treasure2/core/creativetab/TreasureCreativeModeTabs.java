@@ -60,7 +60,7 @@ public class TreasureCreativeModeTabs {
                         output.accept(TreasureItems.PILFERERS_LOCK_PICK.get());
                         output.accept(TreasureItems.THIEFS_LOCK_PICK.get());
                         output.accept(TreasureItems.BONE_KEY.get());
-                        // TODO: ONE_KEY when ported
+                        output.accept(TreasureItems.ONE_KEY.get());
 
                         // locks
                         output.accept(TreasureItems.WOOD_LOCK.get());
@@ -77,12 +77,48 @@ public class TreasureCreativeModeTabs {
                         output.accept(TreasureItems.SAPPHIRE_LOCK.get());
                         output.accept(TreasureItems.SPIDER_LOCK.get());
                         output.accept(TreasureItems.WITHER_LOCK.get());
-                        // TODO: BONE_LOCK when ported
+                        // BONE_LOCK intentionally excluded (permanent lock on bone chests, like Forge)
 
                         // utility
                         output.accept(TreasureItems.KEY_RING.get());
                         output.accept(TreasureItems.POUCH.get());
-                        // TODO: TREASURE_TOOL, EYE_PATCH, CLOVER when ported
+                        output.accept(TreasureItems.TREASURE_TOOL.get());
+
+                        // weapons
+                        output.accept(TreasureItems.COPPER_SHORT_SWORD.get());
+                        output.accept(TreasureItems.CHIPPED_COPPER_SHORT_SWORD.get());
+                        output.accept(TreasureItems.IRON_SHORT_SWORD.get());
+                        output.accept(TreasureItems.CHIPPED_IRON_SHORT_SWORD.get());
+                        output.accept(TreasureItems.STEEL_SHORT_SWORD.get());
+                        output.accept(TreasureItems.CHIPPED_STEEL_SHORT_SWORD.get());
+                        output.accept(TreasureItems.COPPER_RAPIER.get());
+                        output.accept(TreasureItems.STEEL_SWORD.get());
+                        output.accept(TreasureItems.SKULL_SWORD.get());
+                        output.accept(TreasureItems.IRON_BROADSWORD.get());
+                        output.accept(TreasureItems.STEEL_BROADSWORD.get());
+                        output.accept(TreasureItems.SWORD_POWER.get());
+                        output.accept(TreasureItems.BLACK_SWORD.get());
+                        output.accept(TreasureItems.OATHBRINGER.get());
+                        output.accept(TreasureItems.SWORD_OMENS.get());
+                        output.accept(TreasureItems.CALLANDOR.get());
+                        output.accept(TreasureItems.ORCUS.get());
+                        output.accept(TreasureItems.SNAKE_EYES_KATANA.get());
+                        output.accept(TreasureItems.STORM_SHADOWS_KATANA.get());
+                        output.accept(TreasureItems.STEEL_MACHETE.get());
+                        output.accept(TreasureItems.SHADOW_MACHETE.get());
+                        output.accept(TreasureItems.IRON_FALCHION.get());
+                        output.accept(TreasureItems.STEEL_FALCHION.get());
+                        output.accept(TreasureItems.SHADOW_FALCHION.get());
+                        output.accept(TreasureItems.IRON_MACE.get());
+                        output.accept(TreasureItems.STEEL_MACE.get());
+                        output.accept(TreasureItems.MJOLNIR.get());
+                        output.accept(TreasureItems.COPPER_BROAD_AXE.get());
+                        output.accept(TreasureItems.IRON_BROAD_AXE.get());
+                        output.accept(TreasureItems.STEEL_BROAD_AXE.get());
+                        output.accept(TreasureItems.IRON_DWARVEN_AXE.get());
+                        output.accept(TreasureItems.AXE_DURIN.get());
+                        output.accept(TreasureItems.HEADSMANS_AXE.get());
+                        output.accept(TreasureItems.EYE_PATCH.get());
 
                         // wealth items
                         output.accept(TreasureItems.COPPER_COIN.get());
@@ -97,6 +133,16 @@ public class TreasureCreativeModeTabs {
 
                         // clover
                         output.accept(TreasureItems.CLOVER.get());
+
+                        // gem ores
+                        output.accept(TreasureItems.TOPAZ_ORE_ITEM.get());
+                        output.accept(TreasureItems.DEEPSLATE_TOPAZ_ORE_ITEM.get());
+                        output.accept(TreasureItems.ONYX_ORE_ITEM.get());
+                        output.accept(TreasureItems.DEEPSLATE_ONYX_ORE_ITEM.get());
+                        output.accept(TreasureItems.RUBY_ORE_ITEM.get());
+                        output.accept(TreasureItems.DEEPSLATE_RUBY_ORE_ITEM.get());
+                        output.accept(TreasureItems.SAPPHIRE_ORE_ITEM.get());
+                        output.accept(TreasureItems.DEEPSLATE_SAPPHIRE_ORE_ITEM.get());
 
                         // decorative — falling blocks + spanish moss
                         output.accept(TreasureItems.FALLING_GRASS.get());

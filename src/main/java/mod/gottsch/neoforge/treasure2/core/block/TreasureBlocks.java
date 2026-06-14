@@ -484,7 +484,6 @@ public class TreasureBlocks {
 //	public static final RegistryObject<Block> WISHING_WELL = Registration.BLOCKS.register("wishing_well_block", () -> new WishingWellBlock(
 //			Properties.of().mapColor(MapColor.STONE).strength(2.0F).sound(SoundType.STONE)));
 //
-//	// TODO add wishing_well_cobblestone to replace wishing_well_block (but keep it for legacy)
 //	public static final RegistryObject<Block> WISHING_WELL_COBBLESTONE = Registration.BLOCKS.register("wishing_well_cobblestone_block", () -> new WishingWellBlock(
 //			Properties.of().mapColor(MapColor.STONE).strength(2.0F).sound(SoundType.STONE)));
 //	public static final RegistryObject<Block> WISHING_WELL_MOSSY_COBBLESTONE = Registration.BLOCKS.register("wishing_well_mossy_cobblestone_block", () -> new WishingWellBlock(

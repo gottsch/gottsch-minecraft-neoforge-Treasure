@@ -26,7 +26,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 /**
- * TODO look at AbstractContainerMenu for how to do custom props with only using 1 set of variables
  * ie it is moving the Config check out to the concrete classes
  * @author Mark Gottschling on Nov 20, 2022
  *
@@ -52,7 +51,6 @@ public abstract class AbstractChestScreen<T extends AbstractTreasureContainerMen
 		imageWidth = 176;
 		imageHeight = 167;
 		
-		// TODO research - this might be custom label position because of the shadow
 		this.inventoryLabelY +=1;
 	}
 	

@@ -23,7 +23,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -123,7 +125,8 @@ public class WitherwoodGolem extends Monster {
         this.level().broadcastEntityEvent(this, (byte) 4);
         float attackDamage = this.getAttackDamage();
         float calculatedAttackDamage = (int) attackDamage > 0 ? attackDamage / 2.0F + (float) this.random.nextInt((int) attackDamage) : attackDamage;
-        boolean isTargetEntityHurt = entity.hurt(this.damageSources().mobAttack(this), calculatedAttackDamage);
+        DamageSource damageSource = this.damageSources().mobAttack(this);
+        boolean isTargetEntityHurt = entity.hurt(damageSource, calculatedAttackDamage);
         if (isTargetEntityHurt) {
             double targetEntityKnockbackResistence;
             if (entity instanceof LivingEntity livingentity) {
@@ -133,7 +136,11 @@ public class WitherwoodGolem extends Monster {
             }
             double d1 = Math.max(0.0D, 1.0D - targetEntityKnockbackResistence);
             entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, (double) 0.4F * d1, 0.0D));
-            // TODO: restore doEnchantDamageEffects when enchantment component API is available
+            // apply post-attack enchantment effects (e.g. the target's Thorns) — the 1.21 replacement
+            // for Forge's LivingEntity#doEnchantDamageEffects; mirrors vanilla Mob#doHurtTarget
+            if (this.level() instanceof ServerLevel serverLevel) {
+                EnchantmentHelper.doPostAttackEffects(serverLevel, entity, damageSource);
+            }
         }
         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return isTargetEntityHurt;

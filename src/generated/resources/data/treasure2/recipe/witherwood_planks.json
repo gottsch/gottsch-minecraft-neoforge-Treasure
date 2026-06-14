@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    [
+      {
+        "item": "treasure2:witherwood_log"
+      },
+      {
+        "item": "treasure2:witherwood_wood"
+      }
+    ]
+  ],
+  "result": {
+    "count": 4,
+    "id": "treasure2:witherwood_planks"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "treasure2:witherwood_planks"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "treasure2:witherwood_button"
+  }
+}

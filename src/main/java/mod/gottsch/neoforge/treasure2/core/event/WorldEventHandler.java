@@ -45,13 +45,15 @@ public class WorldEventHandler {
 
             if (!isLoaded) {
                 Treasure.LOGGER.debug("reading in chests config...");
-                // TODO: restore TreasureDataFixer.fix() when TreasureDataFixer is ported
+                // NOTE: TreasureDataFixer (legacy save-format migration) is intentionally NOT ported.
+                // It upgraded pre-1.16/old-Treasure save data; a fresh NeoForge 1.21.1 release has no
+                // legacy saves to migrate. Re-port only if upgrading existing Forge worlds becomes a goal.
                 TreasureSavedData.get((ServerLevel) event.getLevel());
                 isLoaded = true;
             }
         } else {
             if (!isClientLoaded) {
-                // TODO: restore TreasureDataFixer.fix() when TreasureDataFixer is ported
+                // NOTE: client-side TreasureDataFixer.fix() intentionally not ported (see server branch above).
                 isClientLoaded = true;
             }
         }

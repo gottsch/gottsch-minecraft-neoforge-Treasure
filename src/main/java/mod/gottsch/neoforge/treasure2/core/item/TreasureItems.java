@@ -15,11 +15,25 @@
  */
 package mod.gottsch.neoforge.treasure2.core.item;
 
+import java.util.List;
+
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.neoforge.treasure2.core.entity.TreasureEntities;
+import mod.gottsch.neoforge.treasure2.core.item.weapon.Axe;
+import mod.gottsch.neoforge.treasure2.core.item.weapon.Sword;
+import mod.gottsch.neoforge.treasure2.core.item.weapon.TreasureWeapons;
+import mod.gottsch.neoforge.treasure2.core.material.TreasureArmorMaterials;
+import mod.gottsch.neoforge.treasure2.core.util.LangUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -301,6 +315,10 @@ public class TreasureItems {
 					.setBreakable(true)
 					.setCraftable(false));
 
+	// opens all locks and never breaks (infinite use)
+	public static final DeferredItem<KeyItem> ONE_KEY = ITEMS.register("one_key",
+			() -> new OneKey(new Item.Properties(), 1000));
+
 //	// FUTURE
 //	// opens all epic/rare/scarce/uncommon/common but not infinite use
 //	public static RegistryObject<KeyItem> DRAGON_KEY;
@@ -347,8 +365,10 @@ public class TreasureItems {
 	public static final DeferredItem<LockItem> SPIDER_LOCK = ITEMS.register("spider_lock", () -> new LockItem(new Item.Properties(), new KeyItem[] {SPIDER_KEY.get()})
 			.setCategory(KeyLockCategory.MOB));
 
-//	public static RegistryObject<Item> BONE_LOCK = Registration.ITEMS.register("bone_lock", () -> new BoneLock(LOCK_ITEM_PROPERTIES.get(), new KeyItem[] {BONE_KEY.get()})
-//			.setCategory(KeyLockCategory.ELEMENTAL));
+	// bone lock — permanent lock on Bone Chests; intentionally NOT added to the creative tab
+	public static final DeferredItem<LockItem> BONE_LOCK = ITEMS.register("bone_lock",
+			() -> new BoneLock(new Item.Properties(), new KeyItem[] {BONE_KEY.get()})
+					.setCategory(KeyLockCategory.ELEMENTAL));
 
 	public static final DeferredItem<LockItem> WITHER_LOCK = ITEMS.register("wither_lock", () -> new LockItem(new Item.Properties(), new KeyItem[] {WITHER_KEY.get()}) {
 		@Override
@@ -356,6 +376,259 @@ public class TreasureItems {
 			return mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities.WITHER.get();
 		}
 	}.setCategory(KeyLockCategory.WITHER));
+
+	/*
+	 * weapons
+	 */
+	// short swords
+	public static final DeferredItem<Sword> COPPER_SHORT_SWORD = ITEMS.register("copper_short_sword",
+			() -> new Sword(TreasureWeapons.COPPER, 2.5f, -2.0F, new Item.Properties()));
+	public static final DeferredItem<Sword> CHIPPED_COPPER_SHORT_SWORD = ITEMS.register("chipped_copper_short_sword",
+			() -> new Sword(TreasureWeapons.COPPER, 2.4f, -2.0F, new Item.Properties()));
+	public static final DeferredItem<Sword> IRON_SHORT_SWORD = ITEMS.register("iron_short_sword",
+			() -> new Sword(Tiers.IRON, 2.5f, -2.0F, new Item.Properties()));
+	public static final DeferredItem<Sword> CHIPPED_IRON_SHORT_SWORD = ITEMS.register("chipped_iron_short_sword",
+			() -> new Sword(Tiers.IRON, 2.4f, -2.0F, new Item.Properties()));
+	public static final DeferredItem<Sword> STEEL_SHORT_SWORD = ITEMS.register("steel_short_sword",
+			() -> new Sword(TreasureWeapons.STEEL, 2.5f, -2.0F, new Item.Properties()));
+	public static final DeferredItem<Sword> CHIPPED_STEEL_SHORT_SWORD = ITEMS.register("chipped_steel_short_sword",
+			() -> new Sword(TreasureWeapons.STEEL, 2.4f, -2.0F, new Item.Properties()));
+
+	// rapier
+	public static final DeferredItem<Sword> COPPER_RAPIER = ITEMS.register("copper_rapier",
+			() -> new Sword(TreasureWeapons.COPPER, 2.6f, -2.0F, new Item.Properties()));
+
+	// longswords
+	public static final DeferredItem<Sword> STEEL_SWORD = ITEMS.register("steel_sword",
+			() -> new Sword(TreasureWeapons.STEEL, 3f, -2.4F, new Item.Properties()));
+	public static final DeferredItem<Sword> SKULL_SWORD = ITEMS.register("skull_sword",
+			() -> new Sword(TreasureWeapons.SKULL, 3f, -2.4F, new Item.Properties()));
+
+	public static final DeferredItem<Sword> SWORD_POWER = ITEMS.register("sword_of_power",
+			() -> new Sword(TreasureWeapons.MYTHICAL, 3f, -2.4F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					tooltip.add(Component.literal(LangUtil.INDENT4)
+							.append(Component.translatable(LangUtil.tooltip("weapons.sword_of_power.lore"))
+									.append(Component.literal(LangUtil.INDENT4)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC)));
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Sword> BLACK_SWORD = ITEMS.register("black_sword",
+			() -> new Sword(TreasureWeapons.MYTHICAL, 3f, -2.4F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					tooltip.add(Component.literal(LangUtil.INDENT4)
+							.append(Component.translatable(LangUtil.tooltip("weapons.black_sword.lore"))
+									.append(Component.literal(LangUtil.INDENT4)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC)));
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Sword> OATHBRINGER = ITEMS.register("oathbringer",
+			() -> new Sword(TreasureWeapons.MYTHICAL, 3f, -2.0F, 50F, 7F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.oathbringer.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Sword> SWORD_OMENS = ITEMS.register("sword_of_omens",
+			() -> new Sword(TreasureWeapons.EPIC, 3f, -2.4F, 35F, 5F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					tooltip.add(Component.literal(LangUtil.INDENT4)
+							.append(Component.translatable(LangUtil.tooltip("weapons.sword_of_omens.lore"))
+									.append(Component.literal(LangUtil.INDENT4)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC)));
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Sword> CALLANDOR = ITEMS.register("callandor",
+			() -> new Sword(TreasureWeapons.MYTHICAL, 3f, -2.0F, 75F, 9F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.callandor.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	// broad / bastard swords
+	public static final DeferredItem<Sword> IRON_BROADSWORD = ITEMS.register("iron_broadsword",
+			() -> new Sword(Tiers.IRON, 3.5f, -2.8F, new Item.Properties()));
+	public static final DeferredItem<Sword> STEEL_BROADSWORD = ITEMS.register("steel_broadsword",
+			() -> new Sword(TreasureWeapons.STEEL, 3.5f, -2.8F, new Item.Properties()));
+
+	// scythe
+	public static final DeferredItem<Sword> ORCUS = ITEMS.register("orcus",
+			() -> new Sword(TreasureWeapons.LEGENDARY, 3f, -2.4F, 40F, 5F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.orcus.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	// katanas
+	public static final DeferredItem<Sword> SNAKE_EYES_KATANA = ITEMS.register("snake_eyes_katana",
+			() -> new Sword(TreasureWeapons.RARE, 3f, -1.5F, 25f, 5f, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.snake_eyes_katana.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Sword> STORM_SHADOWS_KATANA = ITEMS.register("storm_shadows_katana",
+			() -> new Sword(TreasureWeapons.RARE, 3f, -1.5f, 25f, 5f, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.storm_shadows_katana.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	// machetes
+	public static final DeferredItem<Sword> STEEL_MACHETE = ITEMS.register("steel_machete",
+			() -> new Sword(TreasureWeapons.STEEL, 2.7F, -2.6F, new Item.Properties()));
+	public static final DeferredItem<Sword> SHADOW_MACHETE = ITEMS.register("shadow_machete",
+			() -> new Sword(TreasureWeapons.SHADOW, 2.7F, -2.6F, new Item.Properties()));
+
+	// falchions
+	public static final DeferredItem<Sword> IRON_FALCHION = ITEMS.register("iron_falchion",
+			() -> new Sword(Tiers.IRON, 2.8F, -2.4F, new Item.Properties()));
+	public static final DeferredItem<Sword> STEEL_FALCHION = ITEMS.register("steel_falchion",
+			() -> new Sword(TreasureWeapons.STEEL, 2.8F, -2.4F, new Item.Properties()));
+	public static final DeferredItem<Sword> SHADOW_FALCHION = ITEMS.register("shadow_falchion",
+			() -> new Sword(TreasureWeapons.SHADOW, 2.8F, -2.4F, new Item.Properties()));
+
+	// hammers / maces / mauls
+	public static final DeferredItem<Sword> IRON_MACE = ITEMS.register("iron_mace",
+			() -> new Sword(Tiers.IRON, TreasureWeapons.HAMMER_BASE_DAMAGE, TreasureWeapons.HAMMER_BASE_SPEED, new Item.Properties()));
+	public static final DeferredItem<Sword> STEEL_MACE = ITEMS.register("steel_mace",
+			() -> new Sword(TreasureWeapons.STEEL, TreasureWeapons.HAMMER_BASE_DAMAGE, TreasureWeapons.HAMMER_BASE_SPEED, new Item.Properties()));
+
+	public static final DeferredItem<Sword> MJOLNIR = ITEMS.register("mjolnir",
+			() -> new Sword(TreasureWeapons.MYTHICAL, TreasureWeapons.HAMMER_BASE_DAMAGE, TreasureWeapons.HAMMER_BASE_SPEED + 0.7f, 75F, 9F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					Component lore = Component.translatable(LangUtil.tooltip("weapons.mjolnir.lore"));
+					for (String s : lore.getString().split("~")) {
+						tooltip.add(Component.literal(LangUtil.INDENT4)
+								.append(Component.translatable(s)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC));
+					}
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	// axes
+	public static final DeferredItem<Axe> COPPER_BROAD_AXE = ITEMS.register("copper_broad_axe",
+			() -> new Axe(TreasureWeapons.COPPER, TreasureWeapons.AXE_BASE_DAMAGE - 1.0F, TreasureWeapons.AXE_BASE_SPEED + 0.2f, new Item.Properties()));
+	public static final DeferredItem<Axe> IRON_BROAD_AXE = ITEMS.register("iron_broad_axe",
+			() -> new Axe(Tiers.IRON, TreasureWeapons.AXE_BASE_DAMAGE - 1.0F, TreasureWeapons.AXE_BASE_SPEED + 0.2f, new Item.Properties()));
+	public static final DeferredItem<Axe> STEEL_BROAD_AXE = ITEMS.register("steel_broad_axe",
+			() -> new Axe(TreasureWeapons.STEEL, TreasureWeapons.AXE_BASE_DAMAGE - 1.0F, TreasureWeapons.AXE_BASE_SPEED + 0.2f, new Item.Properties()));
+	public static final DeferredItem<Axe> IRON_DWARVEN_AXE = ITEMS.register("iron_dwarven_axe",
+			() -> new Axe(Tiers.IRON, TreasureWeapons.AXE_BASE_DAMAGE + 0.5F, TreasureWeapons.AXE_BASE_SPEED + 0.1f, new Item.Properties()));
+
+	public static final DeferredItem<Axe> AXE_DURIN = ITEMS.register("axe_of_durin",
+			() -> new Axe(TreasureWeapons.LEGENDARY, TreasureWeapons.AXE_BASE_DAMAGE, TreasureWeapons.AXE_BASE_SPEED + 0.5f, 65F, 7F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					tooltip.add(Component.literal(LangUtil.INDENT4)
+							.append(Component.translatable(LangUtil.tooltip("weapons.axe_of_durin.lore"))
+									.append(Component.literal(LangUtil.INDENT4)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC)));
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
+
+	public static final DeferredItem<Axe> HEADSMANS_AXE = ITEMS.register("headsmans_axe",
+			() -> new Axe(TreasureWeapons.EPIC, TreasureWeapons.AXE_BASE_DAMAGE, TreasureWeapons.AXE_BASE_SPEED + 0.3f, 55F, 6F, new Item.Properties()) {
+				@Override
+				public void appendHoverExtras(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+					tooltip.add(Component.literal(LangUtil.INDENT4)
+							.append(Component.translatable(LangUtil.tooltip("weapons.headsmans_axe.lore"))
+									.append(Component.literal(LangUtil.INDENT4)).withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.ITALIC)));
+					tooltip.add(Component.literal(LangUtil.NEWLINE));
+				}
+				@Override
+				public boolean isUnique() { return true; }
+				@Override
+				public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) { return false; }
+			});
 
 	// keyring
 	public static final DeferredItem<KeyRingItem> KEY_RING = ITEMS.register("key_ring",
@@ -506,6 +779,16 @@ public class TreasureItems {
 	public static final DeferredItem<PouchItem> POUCH = ITEMS.register("pouch",
 			() -> new PouchItem(new Item.Properties()));
 
+	// treasure tool — required (not consumed) by most Treasure2 recipes
+	public static final DeferredItem<TreasureToolItem> TREASURE_TOOL = ITEMS.register("treasure_tool",
+			() -> new TreasureToolItem(new Item.Properties()));
+
+	// vanity armor — dyeable eye patch (helmet slot); dyeability via the minecraft:dyeable item tag
+	// (see TreasureItemTagsProvider) + the material's dyeable base layer. Mirrors vanilla leather_helmet.
+	public static final DeferredItem<ArmorItem> EYE_PATCH = ITEMS.register("eye_patch",
+			() -> new ArmorItem(TreasureArmorMaterials.EYE_PATCH, ArmorItem.Type.HELMET,
+					new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(5))));
+
 	// spawn eggs (12) — bg/highlight colors carried verbatim from Forge; NeoForge's
 	// DeferredSpawnEggItem registers the item-color handler automatically.
 	public static final DeferredItem<DeferredSpawnEggItem> BOUND_SOUL_EGG = ITEMS.register("bound_soul_egg",
@@ -532,6 +815,24 @@ public class TreasureItems {
 			() -> new DeferredSpawnEggItem(TreasureEntities.BARREL_MIMIC_ENTITY_TYPE, 0x9f854d, 0x54452c, new Item.Properties()));
 	public static final DeferredItem<DeferredSpawnEggItem> VANILLA_CHEST_MIMIC_EGG = ITEMS.register("vanilla_chest_mimic_egg",
 			() -> new DeferredSpawnEggItem(TreasureEntities.VANILLA_CHEST_MIMIC_ENTITY_TYPE, 0x8f691d, 0xab792d, new Item.Properties()));
+
+	// ore block items (gem ores — generate in the overworld, drop their gem when mined)
+	public static final DeferredItem<BlockItem> TOPAZ_ORE_ITEM = ITEMS.register("topaz_ore",
+			() -> new BlockItem(TreasureBlocks.TOPAZ_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> DEEPSLATE_TOPAZ_ORE_ITEM = ITEMS.register("deepslate_topaz_ore",
+			() -> new BlockItem(TreasureBlocks.DEEPSLATE_TOPAZ_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> ONYX_ORE_ITEM = ITEMS.register("onyx_ore",
+			() -> new BlockItem(TreasureBlocks.ONYX_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> DEEPSLATE_ONYX_ORE_ITEM = ITEMS.register("deepslate_onyx_ore",
+			() -> new BlockItem(TreasureBlocks.DEEPSLATE_ONYX_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> RUBY_ORE_ITEM = ITEMS.register("ruby_ore",
+			() -> new BlockItem(TreasureBlocks.RUBY_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> DEEPSLATE_RUBY_ORE_ITEM = ITEMS.register("deepslate_ruby_ore",
+			() -> new BlockItem(TreasureBlocks.DEEPSLATE_RUBY_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> SAPPHIRE_ORE_ITEM = ITEMS.register("sapphire_ore",
+			() -> new BlockItem(TreasureBlocks.SAPPHIRE_ORE.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> DEEPSLATE_SAPPHIRE_ORE_ITEM = ITEMS.register("deepslate_sapphire_ore",
+			() -> new BlockItem(TreasureBlocks.DEEPSLATE_SAPPHIRE_ORE.get(), new Item.Properties()));
 //
 //	/*
 //	 * block items
