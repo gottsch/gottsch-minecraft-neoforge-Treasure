@@ -1,5 +1,5 @@
 {
-  "name": "treasure2:well/desert/well_rooms",
+  "name": "treasure2:well/desert/general/well_rooms",
   "fallback": "minecraft:empty",
   "elements": [
     {

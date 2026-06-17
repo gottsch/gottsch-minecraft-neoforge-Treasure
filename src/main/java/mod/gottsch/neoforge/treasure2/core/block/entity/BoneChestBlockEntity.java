@@ -50,16 +50,6 @@ public class BoneChestBlockEntity extends AbstractTreasureChestBlockEntity {
     }
 
     @Override
-    public Component getDefaultName() {
-        return Component.translatable(LangUtil.screen("bone_chest.name"));
-    }
-
-    @Override
-    public int getInventorySize() {
-        return ChestInventorySize.STANDARD.getSize();
-    }
-
-    @Override
     public boolean isLocked() {
         return locked;
     }
@@ -88,6 +78,16 @@ public class BoneChestBlockEntity extends AbstractTreasureChestBlockEntity {
         } catch (Exception e) {
             Treasure.LOGGER.error("error reading BoneChest properties from NBT:", e);
         }
+    }
+
+    @Override
+    public Component getDefaultName() {
+        return Component.translatable(LangUtil.screen("bone_chest.name"));
+    }
+
+    @Override
+    public int getInventorySize() {
+        return ChestInventorySize.STANDARD.getSize();
     }
 
     @Override

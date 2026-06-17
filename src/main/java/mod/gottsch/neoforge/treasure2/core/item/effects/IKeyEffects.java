@@ -50,7 +50,7 @@ public interface IKeyEffects {
 		if (be instanceof ITreasureChestBlockEntity) {
 			ITreasureChestBlockEntity chestBe = (ITreasureChestBlockEntity)be;
 			for (LockState lockState : chestBe.getLockStates()) {
-				if (lockState.getLock() != null) {((ServerLevel) worldIn).sendParticles(ParticleTypes.CRIT, chestPos.getX() + lockState.getSlot().getXOffset(), chestPos.getY() + lockState.getSlot().getYOffset(), chestPos.getZ() + lockState.getSlot().getZOffset(), 6, 0.0D, 0.0D, 0.0D, 0.1D);
+				if (lockState.getLock().isPresent()) {((ServerLevel) worldIn).sendParticles(ParticleTypes.CRIT, chestPos.getX() + lockState.getSlot().getXOffset(), chestPos.getY() + lockState.getSlot().getYOffset(), chestPos.getZ() + lockState.getSlot().getZOffset(), 6, 0.0D, 0.0D, 0.0D, 0.1D);
 				}
 			}
 		}
@@ -69,7 +69,7 @@ public interface IKeyEffects {
 		if (be instanceof ITreasureChestBlockEntity) {
 			ITreasureChestBlockEntity chestBe = (ITreasureChestBlockEntity)be;
 			for (LockState lockState : chestBe.getLockStates()) {
-				if (lockState.getLock() != null) {((ServerLevel) worldIn).sendParticles(ParticleTypes.CRIT, chestPos.getX() + lockState.getSlot().getXOffset(), chestPos.getY() + lockState.getSlot().getYOffset(), chestPos.getZ() + lockState.getSlot().getZOffset(), 6, 0.0D, 0.0D, 0.0D, 0.1D);
+				if (lockState.getLock().isPresent()) {((ServerLevel) worldIn).sendParticles(ParticleTypes.CRIT, chestPos.getX() + lockState.getSlot().getXOffset(), chestPos.getY() + lockState.getSlot().getYOffset(), chestPos.getZ() + lockState.getSlot().getZOffset(), 6, 0.0D, 0.0D, 0.0D, 0.1D);
 				}
 			}
 		}

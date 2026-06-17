@@ -132,7 +132,7 @@ public class KeyRingItem extends Item implements MenuProvider {
 						Treasure.LOGGER.debug("key fits lock -> {}", lockState);
 
 						if (fitsLock) {
-							if (key.unlock(context.getLevel(), lockState.getLock())) {
+							if (key.unlock(context.getLevel(), lockState.getLock().orElseThrow())) {
 								// unlock the lock
 								doUnlock(context, (AbstractTreasureChestBlockEntity)chestBlockEntity, key, lockState);
 

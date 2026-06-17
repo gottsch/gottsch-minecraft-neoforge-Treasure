@@ -80,7 +80,7 @@ public class TreasureChestBlockItem extends BlockItem {
 				.map(LockStatesComponent::lockStates) // 1. Map Optional<Component> to Optional<List<LockState>>
 				.stream()                                 				// 2. Turn the Optional into a Stream
 				.flatMap(List::stream)                    			// 3. Flatten the list into a stream of LockState objects
-				.anyMatch(lockState -> lockState.getLock() != null); // 4. Check for any non-null lock (short-circuit)
+				.anyMatch(lockState -> lockState.getLock().isPresent()); // 4. Check for any non-null lock (short-circuit)
 
 		if (isLocked) {
 			tooltip.add(Component.translatable(LangUtil.tooltip("chest.locked")).withStyle(ChatFormatting.RED));
@@ -129,7 +129,7 @@ public class TreasureChestBlockItem extends BlockItem {
 				.map(LockStatesComponent::lockStates)
 				.stream()
 				.flatMap(List::stream)
-				.anyMatch(lockState -> lockState.getLock() != null);
+				.anyMatch(lockState -> lockState.getLock().isPresent());
 		if (!isLocked) {
 			return super.onEntityItemUpdate(stack, entity);
 		}
@@ -190,14 +190,8 @@ public class TreasureChestBlockItem extends BlockItem {
 
 			explode(level, entity, wishingWellPosList.get(0));
 
-			// remove the lock from each lock state, writing back an unlocked component
-			List<LockState> clearedLockStates = lockStatesComponent
-					.map(LockStatesComponent::lockStates)
-					.stream()
-					.flatMap(List::stream)
-					.map(ls -> new LockState(ls.getSlot(), null))
-					.toList();
-			stack.set(TreasureComponents.LOCK_STATES, new LockStatesComponent(clearedLockStates));
+			// remove the LOCK_STATES component entirely - an unlocked chest item has none
+			stack.remove(TreasureComponents.LOCK_STATES);
 
 			return true;
 		}

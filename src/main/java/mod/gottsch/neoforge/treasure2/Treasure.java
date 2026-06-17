@@ -28,6 +28,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
@@ -77,6 +78,29 @@ public class Treasure {
 
         // register network payload handlers
         modEventBus.addListener(TreasureNetworking::register);
+
+        // register mimic chest -> mimic-entity associations (after registries are populated)
+        modEventBus.addListener(this::commonSetup);
+    }
+
+    /**
+     * Registers the default chest -> mimic-entity associations once all registries are populated.
+     * Without these, {@code MimicRegistry} is empty and chests can never become mimics (e.g. the
+     * {@code /t2 chest ... mimic} command silently places an ordinary chest).
+     */
+    private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            TreasureApi.registerMimic(TreasureBlocks.WOOD_CHEST.getId(), TreasureEntities.WOOD_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.CRATE_CHEST.getId(), TreasureEntities.CRATE_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.MOLDY_CRATE_CHEST.getId(), TreasureEntities.MOLDY_CRATE_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.PIRATE_CHEST.getId(), TreasureEntities.PIRATE_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.CAULDRON_CHEST.getId(), TreasureEntities.CAULDRON_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.VIKING_CHEST.getId(), TreasureEntities.VIKING_CHEST_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.CARDBOARD_BOX.getId(), TreasureEntities.CARDBOARD_BOX_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.MILK_CRATE.getId(), TreasureEntities.MILK_CRATE_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.BARREL_CHEST.getId(), TreasureEntities.BARREL_MIMIC_ENTITY_TYPE.getId());
+            TreasureApi.registerMimic(TreasureBlocks.VANILLA_CHEST.getId(), TreasureEntities.VANILLA_CHEST_MIMIC_ENTITY_TYPE.getId());
+        });
     }
 
     /**

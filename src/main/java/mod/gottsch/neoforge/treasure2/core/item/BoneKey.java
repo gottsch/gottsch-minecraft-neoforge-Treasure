@@ -69,7 +69,7 @@ public class BoneKey extends KeyItem {
 		BoneChestBlockEntity boneChestBlockEntity = (BoneChestBlockEntity)blockEntity;
 
 		if (boneChestBlockEntity.isLocked()) {
-			if (unlock(context.getLevel(), lockState.getLock())) {
+			if (unlock(context.getLevel(), lockState.getLock().orElseThrow())) {
 				doUnlock(context, boneChestBlockEntity, lockState);
 				boneChestBlockEntity.updateAttachmentAndSync();
 				return false; // key not broken, successfully unlocked
@@ -79,6 +79,7 @@ public class BoneKey extends KeyItem {
 			// lock the chest
 			boneChestBlockEntity.setLocked(true);
 			boneChestBlockEntity.updateAttachmentAndSync();
+			boneChestBlockEntity.sendUpdates();
 			return false; // key not broken, successfully locked
 		}
 
@@ -92,7 +93,7 @@ public class BoneKey extends KeyItem {
 	 */
 	@Override
 	public void doUnlock(UseOnContext context, ITreasureChestBlockEntity chestTileEntity, LockState lockState) {
-		LockItem lock = lockState.getLock();
+		LockItem lock = lockState.getLock().orElseThrow();
 		lock.doUnlock(context.getLevel(), context.getPlayer(), context.getClickedPos(), lockState);
 		// NOTE does not drop the lock
 

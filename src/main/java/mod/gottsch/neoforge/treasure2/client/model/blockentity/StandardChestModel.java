@@ -81,7 +81,7 @@ public class StandardChestModel extends AbstractTreasureChestModel {
 		latch3.visible = false;
 		
 		for (LockState state : blockEntity.getLockStates()) {
-			if (state.getLock() != null) {
+			if (state.getLock().isPresent()) {
 				switch(state.getSlot().getIndex()) {
 					case 1:
 						latch3.visible = true;

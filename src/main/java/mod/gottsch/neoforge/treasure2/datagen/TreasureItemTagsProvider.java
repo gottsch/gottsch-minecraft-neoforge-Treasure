@@ -19,7 +19,6 @@ import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
 import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
@@ -44,9 +43,6 @@ public class TreasureItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        // vanity armor — make the eye patch dyeable (1.21 gates the armor-dye recipe on this tag)
-        tag(ItemTags.DYEABLE).add(TreasureItems.EYE_PATCH.get());
-
         // keys by rarity
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.WOOD_KEY.get());
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.STONE_KEY.get());

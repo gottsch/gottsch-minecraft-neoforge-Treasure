@@ -23,7 +23,7 @@ import net.minecraft.world.entity.player.Player;
 public class CelestialChestContainerMenu extends AbstractTreasureContainerMenu {
 
     public CelestialChestContainerMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, extraData.readBlockPos(), inv, inv.player);
+        this(containerId, extraData != null ? extraData.readBlockPos() : BlockPos.ZERO, inv, inv.player);
     }
 
     public CelestialChestContainerMenu(int containerId, BlockPos pos, Inventory playerInventory, Player player) {

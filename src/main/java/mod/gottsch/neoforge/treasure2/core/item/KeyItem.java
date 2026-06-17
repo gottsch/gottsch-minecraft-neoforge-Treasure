@@ -271,10 +271,10 @@ public class KeyItem extends Item implements IKeyEffects {
 
 						heldItemStack.setDamageValue(damage);
 						Treasure.LOGGER.debug("damaging key -> {}", heldItemStack.getDamageValue());
-//						if (heldItemStack.getDamageValue() >= cap.durability(heldItemStack.getItem())) {
-//							// break key;
-//							heldItemStack.shrink(1);
-//						}
+						if (heldItemStack.getDamageValue() >= heldItemStack.getMaxDamage()) {
+							// key is fully consumed
+							heldItemStack.shrink(1);
+						}
 
 						// do effects
 						doKeyBreakEffects(context.getLevel(), context.getPlayer(), chestPos);
@@ -318,7 +318,7 @@ public class KeyItem extends Item implements IKeyEffects {
 	 * @return a boolean value to indicate whether the key should be broken
 	 */
 	protected boolean useKeyOnLock(UseOnContext context, Block block, BlockState state, BlockPos chestPos, ITreasureChestBlockEntity blockEntity, LockState lockState) {
-		if (unlock(context.getLevel(), lockState.getLock())) {
+		if (unlock(context.getLevel(), lockState.getLock().orElseThrow())) {
 			// unlock the lock
 			doUnlock(context, blockEntity, lockState);
 
@@ -343,7 +343,7 @@ public class KeyItem extends Item implements IKeyEffects {
 	 * @param lockState
 	 */
 	public void doUnlock(UseOnContext context, ITreasureChestBlockEntity chestTileEntity, LockState lockState) {
-		LockItem lock = lockState.getLock();
+		LockItem lock = lockState.getLock().orElseThrow();
 		lock.doUnlock(context.getLevel(), context.getPlayer(), context.getClickedPos(), lockState);
 
 		if (!breaksLock(lock)) {
@@ -386,9 +386,9 @@ public class KeyItem extends Item implements IKeyEffects {
 		LockState lockState = null;
 		// check if this key is one that opens a lock (only first lock that key fits is unlocked).
 		for (LockState ls : lockStates) {
-			if (ls.getLock() != null) {
+			if (ls.getLock().isPresent()) {
 				lockState = ls;
-				if (lockState.getLock().acceptsKey(this) || fitsLock(level, lockState.getLock())) {
+				if (lockState.getLock().get().acceptsKey(this) || fitsLock(level, lockState.getLock().get())) {
 					return ls;
 				}
 			}
@@ -438,10 +438,10 @@ public class KeyItem extends Item implements IKeyEffects {
 	 */
 	public boolean anyLockBreaksKey(List<LockState> lockStates, KeyItem key) {
 		for (LockState ls : lockStates) {
-			if (ls.getLock() != null) {
-				if (ls.getLock().breaksKey(key)) {
+			if (ls.getLock().isPresent()) {
+				if (ls.getLock().get().breaksKey(key)) {
 					return true;
-				}				
+				}
 			}
 		}
 		return false;

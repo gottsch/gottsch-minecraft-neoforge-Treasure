@@ -23,6 +23,7 @@ import mod.gottsch.neoforge.treasure2.core.block.effects.IChestEffects;
 import mod.gottsch.neoforge.treasure2.core.config.Config;
 import mod.gottsch.neoforge.treasure2.core.generator.chest.ChestGenerationHelper;
 import mod.gottsch.neoforge.treasure2.core.inventory.StandardChestContainerMenu;
+import mod.gottsch.neoforge.treasure2.core.lock.LockSlot;
 import mod.gottsch.neoforge.treasure2.core.lock.LockState;
 import mod.gottsch.neoforge.treasure2.core.network.InventorySyncPacket;
 import mod.gottsch.neoforge.treasure2.core.network.TreasureNetworking;
@@ -113,6 +114,9 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	/** Server sync counter (once per 20 ticks) */
 	public int ticksSinceSync;
 
+	/** flag used by getFullInventoryContents() to bypass the locked-chest read guard */
+	private boolean bypassLockForRead = false;
+
 	/**
 	 * 
 	 * @param type
@@ -187,7 +191,7 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 			
 			@Override
 			public ItemStack getStackInSlot(int slot) {
-				if (isLocked()) {
+				if (!bypassLockForRead && isLocked()) {
 					return ItemStack.EMPTY;
 				}
 				return super.getStackInSlot(slot);
@@ -327,6 +331,23 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		return this.itemHandler;
 	}
 
+	/**
+	 * Returns the full inventory contents, bypassing the locked-chest read guard.
+	 * Used when breaking a locked chest to preserve its inventory on the dropped item.
+	 */
+	public ItemContainerContents getFullInventoryContents() {
+		bypassLockForRead = true;
+		try {
+			List<ItemStack> stacks = new ArrayList<>(itemHandler.getSlots());
+			for (int i = 0; i < itemHandler.getSlots(); i++) {
+				stacks.add(itemHandler.getStackInSlot(i));
+			}
+			return ItemContainerContents.fromItems(stacks);
+		} finally {
+			bypassLockForRead = false;
+		}
+	}
+
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		super.saveAdditional(tag, registries);
@@ -396,7 +417,26 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		if (data.contains(LOCK_STATES_TAG)) {
 			LockState.CODEC.listOf().parse(ops, data.get(LOCK_STATES_TAG))
 					.resultOrPartial(err -> Treasure.LOGGER.warn("unable to parse generation lock states -> {}", err))
-					.ifPresent(this::setLockStates);
+					.ifPresent(decodedLocks -> {
+						// buildLocks only encodes locked slots; reconstruct the full per-layout slot
+						// list so empty slots aren't lost (which would cap the chest at fewer than
+						// its layout-defined maximum).
+						if (getBlockState().getBlock() instanceof AbstractTreasureChestBlock chestBlock) {
+							List<LockState> fullSlots = new ArrayList<>();
+							for (LockSlot slot : chestBlock.getLockLayout().getSlots()) {
+								LockState ls = new LockState();
+								ls.setSlot(slot);
+								decodedLocks.stream()
+										.filter(d -> d.getSlot().getIndex() == slot.getIndex())
+										.findFirst()
+										.ifPresent(d -> d.getLock().ifPresent(ls::setLock));
+								fullSlots.add(slot.getIndex(), ls);
+							}
+							setLockStates(fullSlots);
+						} else {
+							setLockStates(decodedLocks);
+						}
+					});
 		}
 		if (data.contains(GENERATION_CONTEXT_TAG)) {
 			GenerationContext.CODEC.parse(ops, data.get(GENERATION_CONTEXT_TAG))
@@ -417,7 +457,7 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 			return false;
 		}
 		for (LockState state : getLockStates()) {
-			if (state.getLock() != null)
+			if (state.getLock().isPresent())
 				return true;
 		}
 		return false;

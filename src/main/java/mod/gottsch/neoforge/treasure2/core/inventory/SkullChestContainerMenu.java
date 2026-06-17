@@ -28,7 +28,7 @@ public class SkullChestContainerMenu extends AbstractTreasureContainerMenu {
     private ISkullChestType skullType;
 
     public SkullChestContainerMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, extraData.readBlockPos(), inv, inv.player);
+        this(containerId, extraData != null ? extraData.readBlockPos() : BlockPos.ZERO, inv, inv.player);
     }
 
     public SkullChestContainerMenu(int containerId, BlockPos pos, Inventory playerInventory, Player player) {

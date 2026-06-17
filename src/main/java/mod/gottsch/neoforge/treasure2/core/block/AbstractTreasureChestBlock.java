@@ -81,8 +81,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -332,6 +334,22 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 			// rotate the lock states on the block entity
 			isDirty = rotateLockStates(level, Coords.of(pos), previousChestHeading.getRotation(heading));
+
+			// restore lock assignments from item component (re-placing a previously broken locked chest)
+			Optional<LockStatesComponent> itemLockStates = ComponentHelper.lockStates(stack);
+			if (itemLockStates.isPresent()) {
+				List<LockState> currentStates = new ArrayList<>(chestBlockEntity.getLockStates());
+				for (LockState saved : itemLockStates.get().lockStates()) {
+					if (saved.getLock().isPresent()) {
+						currentStates.stream()
+								.filter(ls -> ls.getSlot().getIndex() == saved.getSlot().getIndex())
+								.findFirst()
+								.ifPresent(ls -> ls.setLock(saved.getLock().get()));
+					}
+				}
+				chestBlockEntity.setLockStates(currentStates);
+				isDirty = true;
+			}
 
 			if (Treasure.LOGGER.isDebugEnabled()) {
 				Treasure.LOGGER.debug("new lock states ->");
@@ -583,14 +601,17 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 				}
 				else {
 					if (WorldInfo.isServerSide(level)) {
-						// TODO save
-//						ItemStack chestItem = new ItemStack(Item.byBlock(this), 1);
-//						// give the chest a tag compound
-//						CompoundTag tag = new CompoundTag();
-//						be.saveAdditional(tag);
-//						chestItem.setTag(tag);
-//						Containers.dropItemStack(level, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
-//								chestItem);
+						ItemStack chestItem = new ItemStack(Item.byBlock(this), 1);
+						// preserve which locks are in which slots
+						List<LockState> locked = be.getLockStates().stream()
+								.filter(ls -> ls.getLock().isPresent()).toList();
+						if (!locked.isEmpty()) {
+							chestItem.set(TreasureComponents.LOCK_STATES, new LockStatesComponent(locked));
+						}
+						// preserve inventory contents (bypasses the locked read guard)
+						chestItem.set(TreasureComponents.ITEM_INVENTORY, be.getFullInventoryContents());
+						Containers.dropItemStack(level, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
+								chestItem);
 					}
 				}
 			}

@@ -24,13 +24,13 @@ import net.minecraft.world.entity.player.Player;
 public class VikingChestContainerMenu extends AbstractTreasureContainerMenu {
 
     public VikingChestContainerMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, extraData.readBlockPos(), inv, inv.player);
+        this(containerId, extraData != null ? extraData.readBlockPos() : BlockPos.ZERO, inv, inv.player);
     }
 
     public VikingChestContainerMenu(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(containerId, TreasureContainers.VIKING_CHEST_CONTAINER.get(), pos, playerInventory, player);
 
-        if (Config.CLIENT.gui.enableCustomChestInventoryGui.get()) {
+        if (player.level().isClientSide && Config.CLIENT.gui.enableCustomChestInventoryGui.get()) {
             setMenuInventoryYPos(19);
             setPlayerInventoryYPos(85);
             setHotbarYPos(143);

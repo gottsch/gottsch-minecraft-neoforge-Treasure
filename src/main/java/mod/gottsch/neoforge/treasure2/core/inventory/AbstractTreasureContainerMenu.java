@@ -26,6 +26,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
@@ -158,8 +159,8 @@ public abstract class AbstractTreasureContainerMenu extends AbstractContainerMen
 	 */
 	public void buildContainerInventory() {		
 		if (itemHandler == null ) {
-			Treasure.LOGGER.info("vaultInventory is null");
-			return;
+			Treasure.LOGGER.warn("chest menu item handler was null; using a placeholder for the client menu");
+			itemHandler = new ItemStackHandler(getMenuInventorySlotCount());
 		}
 
 		// build slots for display inventory

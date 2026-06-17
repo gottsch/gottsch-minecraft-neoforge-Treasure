@@ -48,6 +48,7 @@ public class OneKey extends KeyItem {
 		setCategory(KeyLockCategory.MAGIC);
 		setBreakable(false);
 		setCraftable(false);
+		setSuccessProbability(100D);
 		// opens any lock
 		addFitsLock((level, lock) -> true);
 	}
@@ -83,6 +84,17 @@ public class OneKey extends KeyItem {
 	@Override
 	public Component getName(ItemStack stack) {
 		return ((MutableComponent) super.getName(stack)).withStyle(ChatFormatting.YELLOW);
+	}
+
+	@Override
+	public void appendCurse(ItemStack stack, List<Component> tooltip) {
+		// OneKey carries Curse of Vanishing (applied at runtime in inventoryTick). Only show an
+		// informational line when the enchantment component is not present yet (creative menu /
+		// before the first server tick); once applied + synced, vanilla renders its own red curse
+		// line, so we skip ours to avoid a duplicate.
+		if (stack.getEnchantments().isEmpty()) {
+			tooltip.add(Component.translatable("enchantment.minecraft.vanishing_curse").withStyle(ChatFormatting.RED));
+		}
 	}
 
 	@Override

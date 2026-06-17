@@ -191,7 +191,7 @@ public class LockItem extends Item implements ILockEffects {
 		// add the lock to the first lockstate that has an available slot
 		for (LockState lockState : blockEntity.getLockStates()) {
 			Treasure.LOGGER.info("handleHeldLock | lockState -> {}", lockState);
-			if (lockState != null && lockState.getLock() == null) {
+			if (lockState != null && lockState.getLock().isEmpty()) {
 				lockState.setLock(lock);
 
 				doLockedEffects(blockEntity.getLevel(), player, blockEntity.getBlockPos(), lockState);
@@ -220,7 +220,7 @@ public class LockItem extends Item implements ILockEffects {
 		doUnlockedEffects(level, player, chestPos, lockState);
 
 		// remove the lock
-		lockState.setLock(null);		
+		lockState.removeLock();
 	}
 
 	/**

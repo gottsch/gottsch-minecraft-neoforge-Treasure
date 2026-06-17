@@ -136,9 +136,9 @@ public abstract class AbstractChestBlockEntityRenderer implements BlockEntityRen
 		// render locks
 		for (LockState lockState : blockEntity.getLockStates()) {
 
-			if (lockState.getLock() != null) {
+			if (lockState.getLock().isPresent()) {
 				// convert lock to an item stack
-				ItemStack lockStack = new ItemStack(lockState.getLock());
+				ItemStack lockStack = new ItemStack(lockState.getLock().get());
 				poseStack.pushPose();
 				
 				// NOTE when rotating the item to match the face of chest, must adjust the

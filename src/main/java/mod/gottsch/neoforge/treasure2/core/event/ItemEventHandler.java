@@ -16,6 +16,8 @@
 package mod.gottsch.neoforge.treasure2.core.event;
 
 import mod.gottsch.neoforge.treasure2.Treasure;
+import mod.gottsch.neoforge.treasure2.core.component.ComponentHelper;
+import mod.gottsch.neoforge.treasure2.core.component.LockStatesComponent;
 import mod.gottsch.neoforge.treasure2.core.entity.item.ExplosionProofItemEntity;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureChestBlockItem;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -23,6 +25,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Mark Gottschling on Jun 5, 2023
@@ -36,10 +41,20 @@ public class ItemEventHandler {
                 && event.getEntity() instanceof ItemEntity itemEntity
                 && !(event.getEntity() instanceof ExplosionProofItemEntity)) {
             if (itemEntity.getItem().getItem() instanceof TreasureChestBlockItem) {
-                ExplosionProofItemEntity newItemEntity = new ExplosionProofItemEntity(
-                        event.getLevel(), itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), itemEntity.getItem());
-                event.getLevel().addFreshEntity(newItemEntity);
-                event.setCanceled(true);
+                Optional<LockStatesComponent> lockStatesOpt = ComponentHelper.lockStates(itemEntity.getItem());
+                boolean isLocked = lockStatesOpt
+                        .map(LockStatesComponent::lockStates)
+                        .stream()
+                        .flatMap(List::stream)
+                        .anyMatch(ls -> ls.getLock().isPresent());
+                if (isLocked) {
+                    ExplosionProofItemEntity newItemEntity = new ExplosionProofItemEntity(
+                            event.getLevel(), itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), itemEntity.getItem());
+                    newItemEntity.setDeltaMovement(itemEntity.getDeltaMovement());
+                    newItemEntity.setPickUpDelay(40);
+                    event.getLevel().addFreshEntity(newItemEntity);
+                    event.setCanceled(true);
+                }
             }
         }
     }
