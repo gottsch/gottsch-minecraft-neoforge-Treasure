@@ -31,7 +31,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = project.archives_base_name
 }
 
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
@@ -121,7 +121,7 @@ configurations {
 }
 
 dependencies {
-    implementation "gottsch:gottschcore-neoforge:1.21.1-2.6.0"
+    implementation "gottsch:gottschcore-neoforge-1.21.1:2.6.0"
     localRuntime "curse.maven:jade-324717:7545219"
     // TF 4.8.3345 requires NeoForge 21.1.209+; upgrade neo_version in gradle.properties before enabling
 //    localRuntime "curse.maven:the-twilight-forest-227639:7797302"

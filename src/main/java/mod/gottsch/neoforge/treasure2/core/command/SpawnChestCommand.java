@@ -21,6 +21,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import mod.gottsch.neo.gottschcore.spatial.Heading;
+import mod.gottsch.neo.gottschcore.spatial.Rotate;
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.api.TreasureApi;
 import mod.gottsch.neoforge.treasure2.core.block.AbstractTreasureChestBlock;
@@ -28,10 +29,20 @@ import mod.gottsch.neoforge.treasure2.core.block.ITreasureChestBlock;
 import mod.gottsch.neoforge.treasure2.core.block.StandardChestBlock;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
+import mod.gottsch.neoforge.treasure2.core.block.entity.GenerationContext;
 import mod.gottsch.neoforge.treasure2.core.generator.chest.ChestGenerationHelper;
 import mod.gottsch.neoforge.treasure2.core.rarity.IRarity;
 import mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities;
+import mod.gottsch.neoforge.treasure2.core.item.LockItem;
+import mod.gottsch.neoforge.treasure2.core.lock.LockLayout;
+import mod.gottsch.neoforge.treasure2.core.lock.LockState;
 import mod.gottsch.neoforge.treasure2.core.registry.MimicRegistry;
+import mod.gottsch.neoforge.treasure2.core.registry.ChestSubprocessorDataRegistry;
+import mod.gottsch.neoforge.treasure2.core.registry.RarityTagAssociationRegistry;
+import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest.IChestSubprocessor;
+import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest.TreasureChestSubprocessors;
+import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.data.ChestSubprocessorData;
+import mod.gottsch.neoforge.treasure2.core.world.feature.TreasureFeatureTypes;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -51,6 +62,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Mark Gottschling on Aug 28, 2020
@@ -217,17 +229,72 @@ public class SpawnChestCommand {
             // initialize the block entity via direct setters
             if (level.getBlockEntity(pos) instanceof AbstractTreasureChestBlockEntity chestEntity) {
                 chestEntity.setFacing(direction);
-                chestEntity.setSealed(sealed);
-                if (locked || sealed) {
+                // a locked chest must also be sealed, otherwise its loot never rolls (createMenu
+                // only fills sealed chests on first open).
+                boolean sealChest = sealed || locked;
+                chestEntity.setSealed(sealChest);
+                // sealed/locked chests need a loot table to roll on open; a mimic needs one so the
+                // spawned mob drops the chest's contents when killed.
+                if (sealChest || mimic) {
                     ChestGenerationHelper.randomLootTable(random, rarity)
                             .ifPresent(chestEntity::setLootTable);
                 }
+                // give sealed chests a generation context with a real rarity: createMenu reads
+                // getGenerationContext().getLootRarity() and passes it to fillChest, which would NPE
+                // on the default context's null rarity (e.g. addTreasureMap's rarity.getName()).
+                if (sealChest) {
+                    chestEntity.setGenerationContext(new GenerationContext(rarity, TreasureFeatureTypes.TERRANEAN.get()));
+                }
                 if (mimic) {
                     ResourceLocation chestKey = BuiltInRegistries.BLOCK.getKey(chest);
-                    MimicRegistry.getMimic(chestKey).ifPresent(chestEntity::setMimic);
+                    java.util.Optional<ResourceLocation> mimicName = MimicRegistry.getMimic(chestKey);
+                    if (mimicName.isPresent()) {
+                        chestEntity.setMimic(mimicName.get());
+                        Treasure.LOGGER.debug("set mimic {} on chest {}", mimicName.get(), chestKey);
+                    } else {
+                        Treasure.LOGGER.warn("no mimic is registered for chest '{}' - it will open as a normal chest", chestKey);
+                    }
                 }
-                // TODO: add lock initialization once TreasureChestSubprocessors is ported (Session 7)
-                chestEntity.setChanged();
+                // add locks if requested. Mirror worldgen lock-tier selection: a chest's subprocessor
+                // data maps high/special tiers to lower lock-rarities via lock_rarities (e.g.
+                // crystal_skull -> rare/epic), since those tiers have no lock items of their own.
+                // Fall back to the chest's own rarity if there's no subprocessor data. Each slot is
+                // rotated NORTH -> facing so the locks render on the correct face.
+                if (locked) {
+                    LockLayout layout = chest.getLockLayout();
+                    Rotate rotate = Heading.NORTH.getRotation(heading);
+
+                    List<ResourceLocation> lockRarityIds = ChestSubprocessorDataRegistry
+                            .getAssociation(TreasureFeatureTypes.TERRANEAN.get(), rarity)
+                            .map(ChestSubprocessorData::getLockRarities)
+                            .filter(ids -> !ids.isEmpty())
+                            .orElse(List.of());
+
+                    List<IRarity> lockRarities = lockRarityIds.isEmpty()
+                            ? List.of(rarity)
+                            : lockRarityIds.stream()
+                                    .map(id -> TreasureRarities.getRarityByName(id, level.registryAccess()))
+                                    .flatMap(Optional::stream)
+                                    .toList();
+
+                    List<LockItem> lockItems = lockRarities.stream()
+                            .flatMap(r -> RarityTagAssociationRegistry.getLockItems(r, level.registryAccess()).stream())
+                            .filter(LockItem.class::isInstance)
+                            .map(LockItem.class::cast)
+                            .toList();
+
+                    if (!lockItems.isEmpty()) {
+                        IChestSubprocessor sub = TreasureChestSubprocessors.standard();
+                        // an explicit "locked" request should always produce at least one lock
+                        int numLocks = Math.max(1, sub.randomizedNumberOfLocks(random, layout));
+                        chestEntity.setLockStates(sub.buildLocks(random, layout, lockItems, numLocks, rotate));
+                    } else {
+                        Treasure.LOGGER.warn("no lock items found for chest '{}' (rarity '{}') - chest will not be locked",
+                                BuiltInRegistries.BLOCK.getKey(chest), rarity.getName());
+                    }
+                }
+                // sync the block entity (facing/locks/etc.) to tracking clients so the locks render
+                chestEntity.sendUpdates();
             }
 
             return 1;
