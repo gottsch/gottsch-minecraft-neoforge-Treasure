@@ -436,7 +436,7 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		if (mob instanceof Mimic mimic) {
 			// give the spawned mimic the chest's loot table so killing it drops the chest's loot
 			ResourceLocation lootTable = blockEntity.getLootTable();
-			if (lootTable != null) {
+			if (lootTable != null && !lootTable.getPath().isEmpty()) {
 				mimic.setLootTable(ResourceKey.create(Registries.LOOT_TABLE, lootTable));
 			}
 			// correct the mimic's body rotation on tracking clients (vanilla spawn doesn't sync yBodyRot)

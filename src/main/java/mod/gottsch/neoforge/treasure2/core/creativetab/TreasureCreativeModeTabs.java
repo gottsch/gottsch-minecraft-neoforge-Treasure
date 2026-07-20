@@ -21,6 +21,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -60,7 +61,13 @@ public class TreasureCreativeModeTabs {
                         output.accept(TreasureItems.PILFERERS_LOCK_PICK.get());
                         output.accept(TreasureItems.THIEFS_LOCK_PICK.get());
                         output.accept(TreasureItems.BONE_KEY.get());
-                        output.accept(TreasureItems.ONE_KEY.get());
+                        // One Key carries Curse of Vanishing - enchant the creative-menu stack so the
+                        // tooltip shows the curse here too (in-world keys get it via OneKey.inventoryTick).
+                        ItemStack oneKey = new ItemStack(TreasureItems.ONE_KEY.get());
+                        params.holders().lookup(Registries.ENCHANTMENT)
+                                .flatMap(lookup -> lookup.get(Enchantments.VANISHING_CURSE))
+                                .ifPresent(holder -> oneKey.enchant(holder, 1));
+                        output.accept(oneKey);
 
                         // locks
                         output.accept(TreasureItems.WOOD_LOCK.get());

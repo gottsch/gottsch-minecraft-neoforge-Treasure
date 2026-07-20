@@ -96,7 +96,7 @@ public class ChestGenerationHelper {
      * @param rarity      the rarity of the chest.
      * @param player      the player context, can be null.
      */
-    public static void fillChest(final ServerLevel level, RandomSource random, final BlockEntity blockEntity, final IRarity rarity, Player player) {
+    public static void fillChest(final ServerLevel level, RandomSource random, final BlockEntity blockEntity, IRarity rarity, Player player) {
         if (!(blockEntity instanceof AbstractTreasureChestBlockEntity chestBlockEntity)) {
             return;
         }
@@ -105,6 +105,14 @@ public class ChestGenerationHelper {
         // (the Forge ForgeCapabilities.ITEM_HANDLER capability path is gone). The handler's
         // onContentsChanged hook already marks the BE dirty and syncs the contents to clients.
         ItemStackHandler itemHandler = chestBlockEntity.itemHandler;
+
+        // guard against a missing generation context (e.g. sealed with no rarity ever recorded) so
+        // loot generation degrades to a sane default instead of NPE-ing partway through and leaving
+        // the chest permanently empty.
+        if (rarity == null) {
+            Treasure.LOGGER.warn("chest at -> {} has no loot rarity recorded, defaulting to common", chestBlockEntity.getBlockPos());
+            rarity = TreasureRarities.COMMON.get();
+        }
 
         // 1. select a loot table for the chest
         Optional<ResourceLocation> lootTableIdOpt = selectLootTable(chestBlockEntity, random, rarity);

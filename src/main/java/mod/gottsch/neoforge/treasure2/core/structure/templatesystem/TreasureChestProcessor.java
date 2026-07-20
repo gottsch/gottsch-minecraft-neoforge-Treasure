@@ -175,8 +175,10 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
         Optional<ChestSubprocessorData> dataOptional = ChestSubprocessorDataRegistry.getAssociation(processedFeatureType, rarityEntry);
         ChestSubprocessorData data = dataOptional.orElseGet(() -> {
             Treasure.LOGGER.warn("unable to locate chest subprocessor data for feature type -> {} and rarity -> {}, reverting to default subprocessor data.", processedFeatureType, rarityEntry.getName());
-            // TODO this is going to be null; supply real default subprocessor data
-            return TreasureChestSubprocessors.standard().getData();
+            // no data pack entry for this (feature type, rarity) pair - build a safe standard default
+            // so nothing downstream NPEs on a null ChestSubprocessorData.
+            return new ChestSubprocessorData(TreasureChestSubprocessors.STANDARD, rarityEntry.getRegistryId(), 0.0,
+                    List.of(), List.of(), List.of());
         });
 
         // 4. get a chest subprocessor.
