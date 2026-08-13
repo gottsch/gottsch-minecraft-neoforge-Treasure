@@ -68,6 +68,7 @@ public class BiomesOPlenty {
     public static final ResourceLocation OMINOUS_WOODS = ResourceLocation.fromNamespaceAndPath(BOP, "ominous_woods");
     public static final ResourceLocation ORCHARD = ResourceLocation.fromNamespaceAndPath(BOP, "orchard");
     public static final ResourceLocation ORIGIN_VALLEY = ResourceLocation.fromNamespaceAndPath(BOP, "origin_valley");
+    public static final ResourceLocation OVERGROWN_GREENS = ResourceLocation.fromNamespaceAndPath(BOP, "overgrown_greens");
     public static final ResourceLocation PASTURE = ResourceLocation.fromNamespaceAndPath(BOP, "pasture");
     public static final ResourceLocation PRAIRIE = ResourceLocation.fromNamespaceAndPath(BOP, "prairie");
     public static final ResourceLocation PUMPKIN_PATCH = ResourceLocation.fromNamespaceAndPath(BOP, "pumpkin_patch");
