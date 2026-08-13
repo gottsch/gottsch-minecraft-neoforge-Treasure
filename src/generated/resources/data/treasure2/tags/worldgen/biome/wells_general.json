@@ -27,6 +27,14 @@
       "required": false
     },
     {
+      "id": "biomesoplenty:bayou",
+      "required": false
+    },
+    {
+      "id": "biomesoplenty:bog",
+      "required": false
+    },
+    {
       "id": "biomesoplenty:clover_patch",
       "required": false
     },
@@ -95,6 +103,10 @@
       "required": false
     },
     {
+      "id": "biomesoplenty:marsh",
+      "required": false
+    },
+    {
       "id": "biomesoplenty:moor",
       "required": false
     },
@@ -112,6 +124,10 @@
     },
     {
       "id": "biomesoplenty:origin_valley",
+      "required": false
+    },
+    {
+      "id": "biomesoplenty:overgrown_greens",
       "required": false
     },
     {
@@ -180,6 +196,10 @@
     },
     {
       "id": "biomesoplenty:wintry_origin_valley",
+      "required": false
+    },
+    {
+      "id": "#treasure2:bop_jungle",
       "required": false
     },
     {
