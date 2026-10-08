@@ -18,6 +18,7 @@ import mod.gottsch.neoforge.treasure2.core.material.TreasureArmorMaterials;
 import mod.gottsch.neoforge.treasure2.core.network.TreasureNetworking;
 import mod.gottsch.neoforge.treasure2.core.particle.TreasureParticles;
 import mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities;
+import mod.gottsch.neoforge.treasure2.core.potion.TreasurePotions;
 import mod.gottsch.neoforge.treasure2.core.sound.TreasureSounds;
 import mod.gottsch.neoforge.treasure2.core.structure.TreasureStructures;
 import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.ModProcessors;
@@ -69,6 +70,7 @@ public class Treasure {
         TreasureContainers.register(modEventBus);
         TreasureParticles.register(modEventBus);
         TreasureSounds.register(modEventBus);
+        TreasurePotions.register(modEventBus);
         TreasureEntities.register(modEventBus);
         TreasureLootTableTypes.register(modEventBus);
         TreasureLootModifiers.register(modEventBus);
