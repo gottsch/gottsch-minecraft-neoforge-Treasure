@@ -136,11 +136,12 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
 		Treasure.LOGGER.debug("is chest sealed -> {}", this.isSealed());
 		if (this.isSealed() && !getLevel().isClientSide) {
-			IRarity rarity = this.getGenerationContext().getLootRarity();
-			ChestGenerationHelper.fillChest((ServerLevel) getLevel(), getLevel().getRandom(), this, rarity, playerEntity);
+			IRarity rarity = this.getGenerationContext() != null ? this.getGenerationContext().getLootRarity() : null;
 			// only clear the seal once the chest is actually filled, so a failed fill doesn't
 			// permanently strand the chest empty - it will simply retry on the next open.
-			this.setSealed(false);
+			if (ChestGenerationHelper.fillChest((ServerLevel) getLevel(), getLevel().getRandom(), this, rarity, playerEntity)) {
+				this.setSealed(false);
+			}
 		}
 		return createChestContainerMenu(windowId, playerInventory, playerEntity);
 	}

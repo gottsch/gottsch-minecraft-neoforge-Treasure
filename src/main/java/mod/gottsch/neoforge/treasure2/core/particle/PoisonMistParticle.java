@@ -18,6 +18,7 @@ package mod.gottsch.neoforge.treasure2.core.particle;
 import mod.gottsch.neo.gottschcore.spatial.ICoords;
 import mod.gottsch.neo.gottschcore.world.WorldInfo;
 import mod.gottsch.neoforge.treasure2.core.network.PoisonMistMessageToServer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -51,6 +52,12 @@ public class PoisonMistParticle extends AbstractCollidingMistParticle {
 	@Override
 	public void inflictEffectOnPlayer(Player player) {
 		if (WorldInfo.isServerSide(player.level())) {
+			return;
+		}
+
+		// only report the local player - the server only applies the effect to the player that sends the message,
+		// and every other player's own client reports them.
+		if (player != Minecraft.getInstance().player) {
 			return;
 		}
 

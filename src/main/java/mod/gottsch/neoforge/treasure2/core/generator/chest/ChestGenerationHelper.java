@@ -95,10 +95,11 @@ public class ChestGenerationHelper {
      * @param blockEntity the block entity of the chest.
      * @param rarity      the rarity of the chest.
      * @param player      the player context, can be null.
+     * @return true if loot was generated into the chest, false if no loot table could be used.
      */
-    public static void fillChest(final ServerLevel level, RandomSource random, final BlockEntity blockEntity, IRarity rarity, Player player) {
+    public static boolean fillChest(final ServerLevel level, RandomSource random, final BlockEntity blockEntity, IRarity rarity, Player player) {
         if (!(blockEntity instanceof AbstractTreasureChestBlockEntity chestBlockEntity)) {
-            return;
+            return false;
         }
 
         // NeoForge 1.21.1 port: the chest BE exposes its inventory directly as a public ItemStackHandler
@@ -118,14 +119,14 @@ public class ChestGenerationHelper {
         Optional<ResourceLocation> lootTableIdOpt = selectLootTable(chestBlockEntity, random, rarity);
         if (lootTableIdOpt.isEmpty()) {
             Treasure.LOGGER.warn("could not determine a loot table for chest at -> {}", chestBlockEntity.getBlockPos());
-            return;
+            return false;
         }
         ResourceLocation lootTableId = lootTableIdOpt.get();
 
         LootTable lootTable = LootTableRegistry.getLootTable(level, lootTableId);
         if (lootTable == LootTable.EMPTY) {
             Treasure.LOGGER.warn("unable to load lootTable -> {}", lootTableId);
-            return;
+            return false;
         }
         Treasure.LOGGER.debug("selected loot table -> {} for chest at -> {}", lootTableId, chestBlockEntity.getBlockPos());
 
@@ -149,6 +150,7 @@ public class ChestGenerationHelper {
         // 6. populate the chest inventory
         populateInventory(itemHandler, random, treasureStacks, originalTreasureSize);
         populateInventory(itemHandler, random, fillerStacks, originalFillerSize);
+        return true;
     }
 
     /**
