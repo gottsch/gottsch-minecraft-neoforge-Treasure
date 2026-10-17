@@ -14,7 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mimic chests no longer give themselves away. The game used to tell every player which chests were mimics, so a client-side mod or NBT viewer could pick them out.
 - Mining or blowing up a mimic chest no longer defuses it. The mimic springs out instead of the chest dropping as an item.
 - A mimic chest standing in water no longer vanishes, taking its loot with it, when it is opened or broken. The mimic now springs out as it should.
-- Lock pick tooltips now show the real chance of picking each lock. They showed made-up chances instead, so the Pilferer's Lock Pick claimed 24% on uncommon locks when the real chance is 32%, and any changed config value showed wrong.
+- Lock picks now use the chances set in the config. The config was never applied: both picks opened common locks 90% of the time and could never open uncommon or scarce locks. With the default config, the Pilferer's Lock Pick now opens common locks 48% of the time and uncommon 32%, and the Thief's Lock Pick opens common 60%, uncommon 45% and scarce 30%.
+- Lock pick tooltips now show those same chances.
+- The max uses set in the config for each key and lock pick now take effect. They were ignored, so every key kept its built-in number of uses whatever the config said. The defaults are unchanged.
 - Callandor can now be found. Its place in the mythical loot pool handed out Oathbringer instead, so Callandor never dropped.
 - A mimic no longer makes its ambient sound while it is still dormant. It goes quiet until it is sprung from a chest or finds a target.
 - The big teeth of crate and moldy crate mimics no longer poke up through the lid while the mimic opens.
