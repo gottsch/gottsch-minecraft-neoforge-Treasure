@@ -81,6 +81,10 @@ public abstract class Mimic extends Monster {
         if (!WorldInfo.isClientSide(level())) {
             if (this.getTarget() != null) {
                 setHasTarget(true);
+                // a mimic wakes the first time it has a target (spawn eggs, summons); chest mimics are woken in spawnMimic
+                if (!isActive()) {
+                    setActive(true);
+                }
             } else {
                 setHasTarget(false);
             }
@@ -128,6 +132,10 @@ public abstract class Mimic extends Monster {
 
     @Override
     public void playAmbientSound() {
+        // a dormant mimic must not give itself away. ACTIVE is set on the server, where ambient sounds play.
+        if (!isActive()) {
+            return;
+        }
         this.playSound(getAmbientSound(), 0.10F, 0.80F);
     }
 

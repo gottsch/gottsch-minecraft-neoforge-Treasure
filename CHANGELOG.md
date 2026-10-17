@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - On a server, a modified client could make poison and wither mist hit any player it liked, wherever they were. Mist now only ever affects the player actually standing in it.
 - A chest could open completely empty and stay that way if its loot couldn't be generated the first time it was opened. It now stays sealed and tries again the next time it's opened, instead of being emptied for good.
 - Some chests failed to open at all on the first try because they had no record of how they were generated. They now open and fill with common loot.
+- Mimic chests no longer give themselves away. The game used to tell every player which chests were mimics, so a client-side mod or NBT viewer could pick them out.
+- Mining or blowing up a mimic chest no longer defuses it. The mimic springs out instead of the chest dropping as an item.
+- A mimic no longer makes its ambient sound while it is still dormant. It goes quiet until it is sprung from a chest or finds a target.
+- The big teeth of crate and moldy crate mimics no longer poke up through the lid while the mimic opens.
+- The Viking chest mimic's teeth no longer poke through its lid.
+- Treasure2 now loads after GottschCore, the library it needs, instead of before it.
 
 ---
 

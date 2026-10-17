@@ -367,11 +367,20 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 
 	/**
 	 * The full NBT used both for initial chunk-load sync and for {@link #getUpdatePacket} payloads.
-	 * Includes attachments via {@code saveCustomOnly}.
+	 * Includes attachments via {@code saveCustomOnly}, except the mimic: the client never needs it, and
+	 * sending it would let any client-side mod or NBT viewer show which chests are mimics.
 	 */
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-		return saveCustomOnly(registries);
+		CompoundTag tag = saveCustomOnly(registries);
+		if (tag.contains(ATTACHMENTS_NBT_KEY, Tag.TAG_COMPOUND)) {
+			CompoundTag attachments = tag.getCompound(ATTACHMENTS_NBT_KEY);
+			attachments.remove(TreasureAttachments.MIMIC.getId().toString());
+			if (attachments.isEmpty()) {
+				tag.remove(ATTACHMENTS_NBT_KEY);
+			}
+		}
+		return tag;
 	}
 
 	/**

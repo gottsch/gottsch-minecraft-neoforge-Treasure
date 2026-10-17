@@ -434,6 +434,8 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 		Mob mob = spawn((ServerLevel)level, level.getRandom(), entityType, pos, player, yRot);
 		if (mob instanceof Mimic mimic) {
+			// a mimic sprung from a chest is awake from the start
+			mimic.setActive(true);
 			// give the spawned mimic the chest's loot table so killing it drops the chest's loot
 			ResourceLocation lootTable = blockEntity.getLootTable();
 			if (lootTable != null && !lootTable.getPath().isEmpty()) {
@@ -580,6 +582,12 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 			if (blockEntity instanceof AbstractTreasureChestBlockEntity) {
 				AbstractTreasureChestBlockEntity be = (AbstractTreasureChestBlockEntity)blockEntity;
+
+				// a mimic chest can't be defused by mining or blowing it up - it springs the mimic instead of dropping
+				if (WorldInfo.isServerSide(level) && be.getMimic() != null && !be.getMimic().getPath().isEmpty()) {
+					spawnMimic(level, level.getRandom(), state, pos, player);
+					return true;
+				}
 
 				// unlocked!
 				if (!be.isLocked()) {
