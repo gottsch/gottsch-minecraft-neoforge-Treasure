@@ -460,17 +460,20 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		double spawnX = pos.getX() + 0.5;
 		double spawnY = pos.getY();
 		double spawnZ = pos.getZ() + 0.5;
+		// NOTE no natural spawn position check - the mimic takes the place of a chest that was just there.
+		// a waterlogged chest leaves water behind when it is removed, so an empty-block check would fail
+		// and the chest would vanish without its mimic.
 		if (!WorldInfo.isClientSide(level)) {
-			SpawnPlacementType placementType = SpawnPlacements.getPlacementType(entityType);
-			if (NaturalSpawner.isValidEmptySpawnBlock(level, pos, level.getBlockState(pos), level.getFluidState(pos), entityType)) {
-				Mob mob = (Mob)entityType.create(level);
+			Entity entity = entityType.create(level);
+			if (entity instanceof Mob mob) {
 				mob.setPos(spawnX, spawnY, spawnZ);
 				mob.setTarget(target);
 				mob.setYRot(yRot);
 				mob.yRotO = yRot;
 				level.addFreshEntityWithPassengers(mob);
-				return mob;			
+				return mob;
 			}
+			Treasure.LOGGER.warn("unable to spawn mimic -> {} at -> {}", BuiltInRegistries.ENTITY_TYPE.getKey(entityType), pos.toShortString());
 		}
 		return null;
 	}
