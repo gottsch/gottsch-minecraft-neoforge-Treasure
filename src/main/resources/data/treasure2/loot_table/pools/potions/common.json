@@ -10,7 +10,7 @@
           "entryName": "potion_c1",
           "type": "minecraft:item",
           "name": "minecraft:potion",
-          "weight": 1,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -64,7 +64,7 @@
               "function": "minecraft:set_components",
               "components": {
                 "minecraft:potion_contents": {
-                  "potion": "minecraft:mundane"
+                  "potion": "minecraft:healing"
                 }
               }
             }

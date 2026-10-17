@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lock pick tooltips now show those same chances.
 - The max uses set in the config for each key and lock pick now take effect. They were ignored, so every key kept its built-in number of uses whatever the config said. The defaults are unchanged.
 - Callandor can now be found. Its place in the mythical loot pool handed out Oathbringer instead, so Callandor never dropped.
+- Better gear is now enchanted better. Rare diamond armor came unenchanted while Rare iron armor was heavily enchanted, Epic iron armor was enchanted more than Epic diamond armor, and the Rare and Scarce diamond swords were weaker than the iron ones. Diamond now always comes enchanted at least as well as iron.
+- The Epic iron sword no longer stacks three rounds of enchanting.
+- The Nether Star no longer turns up in Rare chests, where it was more likely than a diamond block. It now starts at Epic.
+- Harmful potions in loot are now splash potions: Weakness, Poison, Harming and Treasure2's Extra Strong Poison. As drinkable potions they only ever hurt whoever drank them.
+- Common chests no longer hold a useless Mundane Potion; it's a Healing potion now. The Regeneration potion in Common chests turns up five times as often (it was 1 in 31).
 - A mimic no longer makes its ambient sound while it is still dormant. It goes quiet until it is sprung from a chest or finds a target.
 - The big teeth of crate and moldy crate mimics no longer poke up through the lid while the mimic opens.
 - The Viking chest mimic's teeth no longer poke through its lid.

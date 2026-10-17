@@ -10,25 +10,69 @@
           "entryName": "diamond_chestplate",
           "type": "minecraft:item",
           "name": "minecraft:diamond_chestplate",
-          "weight": 10
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
         },
         {
           "entryName": "diamond_leggings",
           "type": "minecraft:item",
           "name": "minecraft:diamond_leggings",
-          "weight": 10
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
         },
         {
           "entryName": "diamond_helmet",
           "type": "minecraft:item",
           "name": "minecraft:diamond_helmet",
-          "weight": 10
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
         },
         {
           "entryName": "diamond_boots",
           "type": "minecraft:item",
           "name": "minecraft:diamond_boots",
-          "weight": 10
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
         },
         {
           "entryName": "iron_chestplate",
@@ -38,8 +82,12 @@
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -51,8 +99,12 @@
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -64,8 +116,12 @@
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -77,8 +133,12 @@
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -102,11 +162,12 @@
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
-            },
-            {
-              "function": "minecraft:enchant_randomly"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -117,7 +178,13 @@
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
             }
           ]
         },

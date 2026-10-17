@@ -35,7 +35,7 @@
           "entryName": "iron_chestplate",
           "type": "minecraft:item",
           "name": "minecraft:iron_chestplate",
-          "weight": 12.5
+          "weight": 12
         },
         {
           "entryName": "iron_leggings",
