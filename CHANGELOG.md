@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Nether Star no longer turns up in Rare chests, where it was more likely than a diamond block. It now starts at Epic.
 - Harmful potions in loot are now splash potions: Weakness, Poison, Harming and Treasure2's Extra Strong Poison. As drinkable potions they only ever hurt whoever drank them.
 - Common chests no longer hold a useless Mundane Potion; it's a Healing potion now. The Regeneration potion in Common chests turns up five times as often (it was 1 in 31).
+- The chest processor's `alt_loot_table` setting now works as a fallback. If no loot table can be found for a chest's rarity when it's first opened, the chest is filled from that table instead of staying sealed and empty. It was silently ignored before. Treasure2's ruins, wells, dungeons and surface chests set it: vanilla dungeon loot, or a handful of coins.
+- A chest with no loot table recorded now draws one for its rarity when opened. Before, it never did, and the chest stayed sealed and empty no matter how often it was opened.
 - A mimic no longer makes its ambient sound while it is still dormant. It goes quiet until it is sprung from a chest or finds a target.
 - The big teeth of crate and moldy crate mimics no longer poke up through the lid while the mimic opens.
 - The Viking chest mimic's teeth no longer poke through its lid.

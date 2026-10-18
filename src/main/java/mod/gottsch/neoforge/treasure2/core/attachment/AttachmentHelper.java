@@ -46,6 +46,10 @@ public class AttachmentHelper {
         return blockEntity.getData(TreasureAttachments.LOOT_TABLE);
     }
 
+    public static ResourceLocation altLootTable(BlockEntity blockEntity) {
+        return blockEntity.getData(TreasureAttachments.ALT_LOOT_TABLE);
+    }
+
     public static ResourceLocation mimic(BlockEntity blockEntity) {
         return blockEntity.getData(TreasureAttachments.MIMIC);
     }
@@ -95,6 +99,10 @@ public class AttachmentHelper {
 
     public static ResourceLocation setLootTable(BlockEntity blockEntity, ResourceLocation lootTable) {
         return blockEntity.setData(TreasureAttachments.LOOT_TABLE, lootTable);
+    }
+
+    public static ResourceLocation setAltLootTable(BlockEntity blockEntity, ResourceLocation altLootTable) {
+        return blockEntity.setData(TreasureAttachments.ALT_LOOT_TABLE, altLootTable);
     }
 
     public static ResourceLocation setMimic(BlockEntity blockEntity, ResourceLocation mimic) {

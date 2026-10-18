@@ -119,14 +119,14 @@ public class ChestGenerationHelper {
         Optional<ResourceLocation> lootTableIdOpt = selectLootTable(chestBlockEntity, random, rarity);
         if (lootTableIdOpt.isEmpty()) {
             Treasure.LOGGER.warn("could not determine a loot table for chest at -> {}", chestBlockEntity.getBlockPos());
-            return false;
+            return fillFromAltLootTable(level, random, chestBlockEntity, itemHandler, player);
         }
         ResourceLocation lootTableId = lootTableIdOpt.get();
 
         LootTable lootTable = LootTableRegistry.getLootTable(level, lootTableId);
         if (lootTable == LootTable.EMPTY) {
             Treasure.LOGGER.warn("unable to load lootTable -> {}", lootTableId);
-            return false;
+            return fillFromAltLootTable(level, random, chestBlockEntity, itemHandler, player);
         }
         Treasure.LOGGER.debug("selected loot table -> {} for chest at -> {}", lootTableId, chestBlockEntity.getBlockPos());
 
@@ -154,10 +154,43 @@ public class ChestGenerationHelper {
     }
 
     /**
+     * Fills the chest from its fallback table (a processor list's {@code alt_loot_table}) when no rarity
+     * loot table could be found.
+     *
+     * @return true if the fallback table filled the chest, false if it has none or it can't be loaded, so
+     * the chest stays sealed and tries again on the next open
+     */
+    private static boolean fillFromAltLootTable(ServerLevel level, RandomSource random,
+            AbstractTreasureChestBlockEntity chest, ItemStackHandler inventory, Player player) {
+
+        ResourceLocation tableId = chest.getAltLootTable();
+        if (tableId == null) {
+            return false;
+        }
+        LootTable table = LootTableRegistry.getLootTable(level, tableId);
+        if (table == LootTable.EMPTY) {
+            Treasure.LOGGER.warn("unable to load fallback lootTable -> {} for chest at -> {}", tableId, chest.getBlockPos());
+            return false;
+        }
+        LootParams.Builder params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chest.getBlockPos()));
+        if (player != null) {
+            params.withLuck(player.getLuck()).withParameter(LootContextParams.THIS_ENTITY, player);
+        }
+        List<ItemStack> stacks = table.getRandomItems(params.create(LootContextParamSets.CHEST));
+        Treasure.LOGGER.debug("fallback lootTable -> {} rolled {} stacks for chest at -> {}", tableId, stacks.size(), chest.getBlockPos());
+        fillSlots(inventory, random, stacks);
+        return true;
+    }
+
+    /**
      * determines the loot table to use, preferring the one set on the chest entity, otherwise selecting a random one.
      */
     private static Optional<ResourceLocation> selectLootTable(AbstractTreasureChestBlockEntity chest, RandomSource random, IRarity rarity) {
-        return Optional.ofNullable(chest.getLootTable()).or(() -> randomLootTable(random, rarity));
+        // the loot table attachment defaults to an empty location rather than null, so treat that as "none"
+        return Optional.ofNullable(chest.getLootTable())
+                .filter(lootTable -> !lootTable.getPath().isEmpty())
+                .or(() -> randomLootTable(random, rarity));
     }
 
     /**

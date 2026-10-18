@@ -67,6 +67,15 @@ public class TreasureAttachments {
                             .build()
             );
 
+    // fallback loot table (a processor list's alt_loot_table), rolled when no rarity loot table can be
+    // found — only serialize when path is non-empty
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> ALT_LOOT_TABLE =
+            ATTACHMENT_TYPES.register("alt_loot_table", () ->
+                    AttachmentType.<ResourceLocation>builder(() -> ResourceLocation.parse(""))
+                            .serialize(ResourceLocation.CODEC, rl -> rl != null && !rl.getPath().isEmpty())
+                            .build()
+            );
+
     // mimic — only serialize when path is non-empty
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> MIMIC =
             ATTACHMENT_TYPES.register("mimic", () ->
