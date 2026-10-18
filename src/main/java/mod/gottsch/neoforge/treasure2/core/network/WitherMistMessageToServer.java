@@ -15,8 +15,6 @@
  */
 package mod.gottsch.neoforge.treasure2.core.network;
 
-import java.util.UUID;
-
 import mod.gottsch.neoforge.treasure2.Treasure;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -26,7 +24,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
@@ -53,12 +50,15 @@ public record WitherMistMessageToServer(String playerUUID) implements CustomPack
 	public static void handle(WitherMistMessageToServer payload, IPayloadContext context) {
 		context.enqueueWork(() -> {
 			try {
-				Player sender = context.player();
-				if (sender == null || sender.getServer() == null) {
+				// only ever affect the player that sent the message - never trust a player uuid supplied by the client.
+				if (!(context.player() instanceof ServerPlayer player)) {
 					return;
 				}
-				ServerPlayer player = sender.getServer().getPlayerList().getPlayer(UUID.fromString(payload.playerUUID()));
-				if (player != null && !player.hasEffect(MobEffects.WITHER)) {
+				if (!player.getStringUUID().equals(payload.playerUUID())) {
+					Treasure.LOGGER.debug("{} sent a mist message for another player, ignoring it -> {}", player.getName().getString(), payload.playerUUID());
+					return;
+				}
+				if (!player.hasEffect(MobEffects.WITHER)) {
 					player.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 0));
 				}
 			}

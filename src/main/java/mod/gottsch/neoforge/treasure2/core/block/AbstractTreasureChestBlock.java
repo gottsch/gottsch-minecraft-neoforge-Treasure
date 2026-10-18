@@ -434,6 +434,8 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 		Mob mob = spawn((ServerLevel)level, level.getRandom(), entityType, pos, player, yRot);
 		if (mob instanceof Mimic mimic) {
+			// a mimic sprung from a chest is awake from the start
+			mimic.setActive(true);
 			// give the spawned mimic the chest's loot table so killing it drops the chest's loot
 			ResourceLocation lootTable = blockEntity.getLootTable();
 			if (lootTable != null && !lootTable.getPath().isEmpty()) {
@@ -458,17 +460,20 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		double spawnX = pos.getX() + 0.5;
 		double spawnY = pos.getY();
 		double spawnZ = pos.getZ() + 0.5;
+		// NOTE no natural spawn position check - the mimic takes the place of a chest that was just there.
+		// a waterlogged chest leaves water behind when it is removed, so an empty-block check would fail
+		// and the chest would vanish without its mimic.
 		if (!WorldInfo.isClientSide(level)) {
-			SpawnPlacementType placementType = SpawnPlacements.getPlacementType(entityType);
-			if (NaturalSpawner.isValidEmptySpawnBlock(level, pos, level.getBlockState(pos), level.getFluidState(pos), entityType)) {
-				Mob mob = (Mob)entityType.create(level);
+			Entity entity = entityType.create(level);
+			if (entity instanceof Mob mob) {
 				mob.setPos(spawnX, spawnY, spawnZ);
 				mob.setTarget(target);
 				mob.setYRot(yRot);
 				mob.yRotO = yRot;
 				level.addFreshEntityWithPassengers(mob);
-				return mob;			
+				return mob;
 			}
+			Treasure.LOGGER.warn("unable to spawn mimic -> {} at -> {}", BuiltInRegistries.ENTITY_TYPE.getKey(entityType), pos.toShortString());
 		}
 		return null;
 	}
@@ -580,6 +585,12 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 			if (blockEntity instanceof AbstractTreasureChestBlockEntity) {
 				AbstractTreasureChestBlockEntity be = (AbstractTreasureChestBlockEntity)blockEntity;
+
+				// a mimic chest can't be defused by mining or blowing it up - it springs the mimic instead of dropping
+				if (WorldInfo.isServerSide(level) && be.getMimic() != null && !be.getMimic().getPath().isEmpty()) {
+					spawnMimic(level, level.getRandom(), state, pos, player);
+					return true;
+				}
 
 				// unlocked!
 				if (!be.isLocked()) {

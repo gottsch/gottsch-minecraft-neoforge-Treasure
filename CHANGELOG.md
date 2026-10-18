@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.4] - 2026-10-16
+
+### 🛠️ Fixed
+- On a server, a modified client could make poison and wither mist hit any player it liked, wherever they were. Mist now only ever affects the player actually standing in it.
+- A chest could open completely empty and stay that way if its loot couldn't be generated the first time it was opened. It now stays sealed and tries again the next time it's opened, instead of being emptied for good.
+- Some chests failed to open at all on the first try because they had no record of how they were generated. They now open and fill with common loot.
+- Mimic chests no longer give themselves away. The game used to tell every player which chests were mimics, so a client-side mod or NBT viewer could pick them out.
+- Mining or blowing up a mimic chest no longer defuses it. The mimic springs out instead of the chest dropping as an item.
+- A mimic chest standing in water no longer vanishes, taking its loot with it, when it is opened or broken. The mimic now springs out as it should.
+- Lock picks now use the chances set in the config. The config was never applied: both picks opened common locks 90% of the time and could never open uncommon or scarce locks. With the default config, the Pilferer's Lock Pick now opens common locks 48% of the time and uncommon 32%, and the Thief's Lock Pick opens common 60%, uncommon 45% and scarce 30%.
+- Lock pick tooltips now show those same chances.
+- The max uses set in the config for each key and lock pick now take effect. They were ignored, so every key kept its built-in number of uses whatever the config said. The defaults are unchanged.
+- Callandor can now be found. Its place in the mythical loot pool handed out Oathbringer instead, so Callandor never dropped.
+- Better gear is now enchanted better. Rare diamond armor came unenchanted while Rare iron armor was heavily enchanted, Epic iron armor was enchanted more than Epic diamond armor, and the Rare and Scarce diamond swords were weaker than the iron ones. Diamond now always comes enchanted at least as well as iron.
+- The Epic iron sword no longer stacks three rounds of enchanting.
+- The Nether Star no longer turns up in Rare chests, where it was more likely than a diamond block. It now starts at Epic.
+- Harmful potions in loot are now splash potions: Weakness, Poison, Harming and Treasure2's Extra Strong Poison. As drinkable potions they only ever hurt whoever drank them.
+- Common chests no longer hold a useless Mundane Potion; it's a Healing potion now. The Regeneration potion in Common chests turns up five times as often (it was 1 in 31).
+- The chest processor's `alt_loot_table` setting now works as a fallback. If no loot table can be found for a chest's rarity when it's first opened, the chest is filled from that table instead of staying sealed and empty. It was silently ignored before. Treasure2's ruins, wells, dungeons and surface chests set it: vanilla dungeon loot, or a handful of coins.
+- A chest with no loot table recorded now draws one for its rarity when opened. Before, it never did, and the chest stayed sealed and empty no matter how often it was opened.
+- A mimic no longer makes its ambient sound while it is still dormant. It goes quiet until it is sprung from a chest or finds a target.
+- The big teeth of crate and moldy crate mimics no longer poke up through the lid while the mimic opens.
+- The Viking chest mimic's teeth no longer poke through its lid.
+- Treasure2 now loads after GottschCore, the library it needs, instead of before it.
+
+---
+
 ## [5.0.3] - 2026-10-08
 
 ### 🛠️ Fixed

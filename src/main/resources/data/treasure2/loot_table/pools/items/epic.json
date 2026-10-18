@@ -199,7 +199,8 @@
           "type": "minecraft:item",
           "name": "minecraft:breeze_rod",
           "weight": 5,
-          "functions": [{
+          "functions": [
+            {
               "function": "set_count",
               "count": {
                 "min": 1,
@@ -207,6 +208,12 @@
               }
             }
           ]
+        },
+        {
+          "entryName": "nether_star",
+          "type": "minecraft:item",
+          "name": "minecraft:nether_star",
+          "weight": 10
         }
       ]
     }

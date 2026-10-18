@@ -38,6 +38,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -573,8 +574,24 @@ public class KeyItem extends Item implements IKeyEffects {
 //	}
 
 
+	/**
+	 * One key's worth of uses: the configured max uses, or the registered durability when the item has no config
+	 * value or no world is loaded.
+	 */
 	public int getDurability() {
-		return durability;
+		return KeyMaxUses.get(this).orElse(durability);
+	}
+
+	/**
+	 * A key merged in an anvil carries its own max damage on the stack. Any other key uses its configured max uses,
+	 * which can't be the item's default max damage because the config only loads with a world.
+	 */
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		if (stack.getComponentsPatch().get(DataComponents.MAX_DAMAGE) != null) {
+			return super.getMaxDamage(stack);
+		}
+		return getDurability();
 	}
 
 	public void setDurability(int durability) {

@@ -87,10 +87,10 @@ file="META-INF/accesstransformer.cfg"
     side="BOTH"
 [[dependencies.${mod_id}]]
     modId="gottschcore"
-    mandatory=true
-    # This version range declares a minimum of the current minecraft version up to but not including the next major version
+    type="required"
     versionRange="[2.6.0,3.0.0)"
-    ordering="BEFORE"
+    # Treasure2 loads AFTER its library
+    ordering="AFTER"
     side="BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares

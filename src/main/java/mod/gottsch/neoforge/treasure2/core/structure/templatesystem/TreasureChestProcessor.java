@@ -22,6 +22,7 @@ import mod.gottsch.neo.gottschcore.spatial.Coords;
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.ITreasureChestBlock;
 import mod.gottsch.neoforge.treasure2.core.block.StandardChestBlock;
+import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
 import mod.gottsch.neoforge.treasure2.core.cache.TreasureChestCache;
 import mod.gottsch.neoforge.treasure2.core.cache.data.TreasureChestCacheData;
 import mod.gottsch.neoforge.treasure2.core.persistence.TreasureSavedData;
@@ -39,6 +40,7 @@ import mod.gottsch.neoforge.treasure2.core.world.feature.IFeatureType;
 import mod.gottsch.neoforge.treasure2.core.world.feature.TreasureFeatureTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -74,18 +76,30 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
     public static final MapCodec<TreasureChestProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IFeatureType.BY_NAME_CODEC.fieldOf("feature_type").forGetter(TreasureChestProcessor::getFeatureType),
             ResourceLocation.CODEC.optionalFieldOf("dimension", ModUtil.asLocation("minecraft:overworld")).forGetter(TreasureChestProcessor::getDimension),
-            ResourceLocation.CODEC.optionalFieldOf("loot_table").forGetter(VanillaChestProcessor::getLootTable)
+            ResourceLocation.CODEC.optionalFieldOf("loot_table").forGetter(VanillaChestProcessor::getLootTable),
+            ResourceLocation.CODEC.optionalFieldOf("alt_loot_table").forGetter(TreasureChestProcessor::getAltLootTable)
     ).apply(instance, TreasureChestProcessor::new));
 
+    // fallback loot table, used when no rarity loot table can be found for a chest
+    protected Optional<ResourceLocation> altLootTable;
 
     public TreasureChestProcessor(IFeatureType featureType) {
         this(featureType, ModUtil.asLocation("minecraft:overworld"), Optional.empty());
     }
 
     public TreasureChestProcessor(IFeatureType featureType, ResourceLocation dimension, Optional<ResourceLocation> lootTable) {
+        this(featureType, dimension, lootTable, Optional.empty());
+    }
+
+    /**
+     * @param altLootTable the fallback table, rolled when no rarity loot table can be found for a chest
+     */
+    public TreasureChestProcessor(IFeatureType featureType, ResourceLocation dimension, Optional<ResourceLocation> lootTable,
+            Optional<ResourceLocation> altLootTable) {
         super(lootTable);
         this.featureType = featureType;
         this.dimension = dimension;
+        this.altLootTable = altLootTable;
     }
 
     @Override
@@ -195,7 +209,7 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
                 .process(levelReader, placeSettings.getRandom(pos), state, pos, placeSettings.getRotation(), rarityEntry, data);
 
         // 6. if the block info is present, cache the data and return it. Otherwise, return the default chest.
-        return infoOptional.map(info -> {
+        StructureTemplate.StructureBlockInfo chestInfo = infoOptional.map(info -> {
             Treasure.LOGGER.debug("info -> {}", info);
             TreasureChestCacheData chestSpawn = new TreasureChestCacheData();
             chestSpawn.setChestName(ModUtil.getName(info.state().getBlock()));
@@ -215,6 +229,25 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
             Treasure.LOGGER.warn("unable to generate StructureBlockInfo for processor type -> {}, reverting to default chest", data.getType());
             return subprocessor.defaultChest(levelReader, state, pos, placeSettings);
         });
+        return applyAltLootTable(chestInfo);
+    }
+
+    /**
+     * Record the fallback table in the chest's generation data; the chest only rolls it if no rarity
+     * loot table can be found on first open.
+     */
+    private StructureTemplate.StructureBlockInfo applyAltLootTable(StructureTemplate.StructureBlockInfo info) {
+        if (altLootTable.isEmpty() || info.nbt() == null) {
+            return info;
+        }
+        CompoundTag genData = info.nbt().getCompound(AbstractTreasureChestBlockEntity.GENERATION_DATA_TAG);
+        genData.putString(AbstractTreasureChestBlockEntity.ALT_LOOT_TABLE_TAG, altLootTable.get().toString());
+        info.nbt().put(AbstractTreasureChestBlockEntity.GENERATION_DATA_TAG, genData);
+        return info;
+    }
+
+    public Optional<ResourceLocation> getAltLootTable() {
+        return altLootTable;
     }
 
     /**

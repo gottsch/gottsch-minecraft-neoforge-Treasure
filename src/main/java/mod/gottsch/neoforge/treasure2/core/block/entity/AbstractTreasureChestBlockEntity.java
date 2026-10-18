@@ -84,6 +84,8 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	 */
 	public static final String GENERATION_DATA_TAG = "TreasureGenerationData";
 	public static final String LOOT_TABLE_TAG = "lootTable";
+	/** The processor list's fallback table, rolled only when no rarity loot table can be found. */
+	public static final String ALT_LOOT_TABLE_TAG = "altLootTable";
 	public static final String SEALED_TAG = "sealed";
 	public static final String MIMIC_TAG = "mimic";
 	public static final String LOCK_STATES_TAG = "lockStates";
@@ -136,11 +138,12 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
 		Treasure.LOGGER.debug("is chest sealed -> {}", this.isSealed());
 		if (this.isSealed() && !getLevel().isClientSide) {
-			IRarity rarity = this.getGenerationContext().getLootRarity();
-			ChestGenerationHelper.fillChest((ServerLevel) getLevel(), getLevel().getRandom(), this, rarity, playerEntity);
+			IRarity rarity = this.getGenerationContext() != null ? this.getGenerationContext().getLootRarity() : null;
 			// only clear the seal once the chest is actually filled, so a failed fill doesn't
 			// permanently strand the chest empty - it will simply retry on the next open.
-			this.setSealed(false);
+			if (ChestGenerationHelper.fillChest((ServerLevel) getLevel(), getLevel().getRandom(), this, rarity, playerEntity)) {
+				this.setSealed(false);
+			}
 		}
 		return createChestContainerMenu(windowId, playerInventory, playerEntity);
 	}
@@ -366,11 +369,20 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 
 	/**
 	 * The full NBT used both for initial chunk-load sync and for {@link #getUpdatePacket} payloads.
-	 * Includes attachments via {@code saveCustomOnly}.
+	 * Includes attachments via {@code saveCustomOnly}, except the mimic: the client never needs it, and
+	 * sending it would let any client-side mod or NBT viewer show which chests are mimics.
 	 */
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-		return saveCustomOnly(registries);
+		CompoundTag tag = saveCustomOnly(registries);
+		if (tag.contains(ATTACHMENTS_NBT_KEY, Tag.TAG_COMPOUND)) {
+			CompoundTag attachments = tag.getCompound(ATTACHMENTS_NBT_KEY);
+			attachments.remove(TreasureAttachments.MIMIC.getId().toString());
+			if (attachments.isEmpty()) {
+				tag.remove(ATTACHMENTS_NBT_KEY);
+			}
+		}
+		return tag;
 	}
 
 	/**
@@ -411,6 +423,9 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		}
 		if (data.contains(LOOT_TABLE_TAG) && !data.getString(LOOT_TABLE_TAG).isEmpty()) {
 			setLootTable(ResourceLocation.parse(data.getString(LOOT_TABLE_TAG)));
+		}
+		if (data.contains(ALT_LOOT_TABLE_TAG) && !data.getString(ALT_LOOT_TABLE_TAG).isEmpty()) {
+			setAltLootTable(ResourceLocation.parse(data.getString(ALT_LOOT_TABLE_TAG)));
 		}
 		if (data.contains(MIMIC_TAG) && !data.getString(MIMIC_TAG).isEmpty()) {
 			setMimic(ResourceLocation.parse(data.getString(MIMIC_TAG)));
@@ -547,6 +562,18 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	@Override
 	public void setLootTable(ResourceLocation lootTable) {
 		AttachmentHelper.setLootTable(this, lootTable);
+	}
+
+	/**
+	 * @return the fallback loot table, or null if the chest has none
+	 */
+	public ResourceLocation getAltLootTable() {
+		ResourceLocation altLootTable = AttachmentHelper.altLootTable(this);
+		return altLootTable == null || altLootTable.getPath().isEmpty() ? null : altLootTable;
+	}
+
+	public void setAltLootTable(ResourceLocation altLootTable) {
+		AttachmentHelper.setAltLootTable(this, altLootTable);
 	}
 
 

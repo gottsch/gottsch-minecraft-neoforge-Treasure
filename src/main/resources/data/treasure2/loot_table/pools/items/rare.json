@@ -210,12 +210,6 @@
           "weight": 20
         },
         {
-          "entryName": "nether_star",
-          "type": "item",
-          "name": "minecraft:nether_star",
-          "weight": 10
-        },
-        {
           "entryName": "firework_star",
           "type": "item",
           "name": "minecraft:firework_star",
