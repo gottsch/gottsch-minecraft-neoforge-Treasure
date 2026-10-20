@@ -34,6 +34,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class TreasureTags {
 
 	public static class Items {
+		/** witherwood logs, wood, their stripped forms and the strangled log, as vanilla has oak_logs; part of #logs_that_burn */
+		public static final TagKey<Item> WITHERWOOD_LOGS = mod(Treasure.MODID, "witherwood_logs");
 		// keys
 		public static final TagKey<Item> COMMON_KEY = mod(Treasure.MODID, "key/common");
 		public static final TagKey<Item> UNCOMMON_KEY = mod(Treasure.MODID, "key/uncommon");
@@ -75,6 +77,8 @@ public class TreasureTags {
 	public static class Blocks {
 		/** what roots hang from, for the hanging roots processor: earth, wood and mud brick */
 		public static final TagKey<Block> HANGING_ROOTS_CEILINGS = mod(Treasure.MODID, "hanging_roots_ceilings");
+		/** witherwood logs, wood, their stripped forms and the strangled log, as vanilla has oak_logs; part of #logs_that_burn */
+		public static final TagKey<Block> WITHERWOOD_LOGS = mod(Treasure.MODID, "witherwood_logs");
 
 		// chests by rarity
 		public static final TagKey<Block> COMMON_CHESTS = mod(Treasure.MODID, "chests/rarity/core/common");

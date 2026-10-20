@@ -16,18 +16,13 @@
 package mod.gottsch.neoforge.treasure2.core.particle;
 
 import mod.gottsch.neo.gottschcore.spatial.ICoords;
-import mod.gottsch.neo.gottschcore.world.WorldInfo;
-import mod.gottsch.neoforge.treasure2.core.network.WitherMistMessageToServer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
  *
@@ -44,27 +39,6 @@ public class WitherMistParticle extends AbstractCollidingMistParticle {
 	@Override
 	public float getMistAlpha() {
 		return 0.4F;
-	}
-
-	/**
-	 *
-	 */
-	@Override
-	public void inflictEffectOnPlayer(Player player) {
-		if (WorldInfo.isServerSide(player.level())) {
-			return;
-		}
-
-		// only report the local player - the server only applies the effect to the player that sends the message,
-		// and every other player's own client reports them.
-		if (player != Minecraft.getInstance().player) {
-			return;
-		}
-
-		// if player does not have the wither effect, ask the server to add it
-		if (!player.hasEffect(MobEffects.WITHER)) {
-			PacketDistributor.sendToServer(new WitherMistMessageToServer(player.getStringUUID()));
-		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
