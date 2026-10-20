@@ -50,6 +50,10 @@ public class AttachmentHelper {
         return blockEntity.getData(TreasureAttachments.ALT_LOOT_TABLE);
     }
 
+    public static ResourceLocation supplementalLootTable(BlockEntity blockEntity) {
+        return blockEntity.getData(TreasureAttachments.SUPPLEMENTAL_LOOT_TABLE);
+    }
+
     public static ResourceLocation mimic(BlockEntity blockEntity) {
         return blockEntity.getData(TreasureAttachments.MIMIC);
     }
@@ -103,6 +107,10 @@ public class AttachmentHelper {
 
     public static ResourceLocation setAltLootTable(BlockEntity blockEntity, ResourceLocation altLootTable) {
         return blockEntity.setData(TreasureAttachments.ALT_LOOT_TABLE, altLootTable);
+    }
+
+    public static ResourceLocation setSupplementalLootTable(BlockEntity blockEntity, ResourceLocation supplementalLootTable) {
+        return blockEntity.setData(TreasureAttachments.SUPPLEMENTAL_LOOT_TABLE, supplementalLootTable);
     }
 
     public static ResourceLocation setMimic(BlockEntity blockEntity, ResourceLocation mimic) {

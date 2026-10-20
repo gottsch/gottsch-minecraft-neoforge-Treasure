@@ -23,6 +23,7 @@ import mod.gottsch.neoforge.treasure2.core.lock.LockLayouts;
 import net.minecraft.core.Direction;
 import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -231,12 +232,31 @@ public class TreasureBlocks {
 	// spanish moss — hanging plant
 	public static final DeferredBlock<Block> SPANISH_MOSS = BLOCKS.register("spanish_moss",
 			() -> new SpanishMossBlock(Properties.of().mapColor(MapColor.WOOD)));
+	public static final DeferredBlock<Block> WITHERED_LEAF_LITTER = BLOCKS.register("withered_leaf_litter", () -> new WitheredLeafLitterBlock(
+			Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(MapColor.TERRACOTTA_BROWN).sound(SoundType.AZALEA_LEAVES)));
+	public static final DeferredBlock<Block> WITHERED_GRASS_BLOCK = BLOCKS.register("withered_grass_block", () -> new WitheredGrassBlock(
+			Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.TERRACOTTA_BROWN).strength(0.6F).sound(SoundType.GRASS)));
+	public static final DeferredBlock<Block> GRAVE_THORNS = BLOCKS.register("grave_thorns", () -> new GraveThornsBlock(
+			Properties.of().mapColor(MapColor.TERRACOTTA_BROWN).noCollission().instabreak().sound(SoundType.SWEET_BERRY_BUSH)
+					.offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+	public static final DeferredBlock<Block> BRACKET_FUNGUS = BLOCKS.register("bracket_fungus", () -> new BracketFungusBlock(
+			Properties.of().mapColor(MapColor.TERRACOTTA_BROWN).noCollission().strength(0.2F).sound(SoundType.FUNGUS)
+					.pushReaction(PushReaction.DESTROY)));
+	/** no item: an invisible block, placed only by the grove (or /setblock) */
+	public static final DeferredBlock<Block> WISP = BLOCKS.register("wisp", () -> new WispBlock(
+			Properties.of().replaceable().noCollission().noOcclusion().noLootTable().instabreak().air()
+					.lightLevel(state -> state.getValue(WispBlock.LIT) ? WispBlock.LIGHT : 0)));
 
 	// strangle vines — growing-plant pair (head + body), like twisting/weeping vines
+	// the upright plant: the id is legacy (saved worlds and main_wither_tree.nbt hold it), but it is shown as
+	// Blightstalk; the name Strangle Vines belongs to CLINGING_STRANGLE_VINES. Don't "fix" the mismatch.
 	public static final DeferredBlock<Block> STRANGLE_VINES = BLOCKS.register("strangle_vines",
 			() -> new StrangleVinesBlock(Properties.ofFullCopy(Blocks.TWISTING_VINES).noLootTable()));
 	public static final DeferredBlock<Block> STRANGLE_VINES_PLANT = BLOCKS.register("strangle_vines_plant",
 			() -> new StrangleVinesPlantBlock(Properties.ofFullCopy(Blocks.TWISTING_VINES_PLANT).noLootTable()));
+	public static final DeferredBlock<Block> CLINGING_STRANGLE_VINES = BLOCKS.register("clinging_strangle_vines", () -> new ClingingStrangleVinesBlock(
+			Properties.of().mapColor(MapColor.COLOR_BLACK).replaceable().noCollission().strength(0.2F).sound(SoundType.VINE)
+					.ignitedByLava().pushReaction(PushReaction.DESTROY)));
 
 	// gravestones — 3 styles × 6 materials + skull/crossbones (19 total)
 	public static final Supplier<Properties> GRAVESTONE_PROPS =
@@ -325,6 +345,10 @@ public class TreasureBlocks {
 			() -> witherwoodLog(MapColor.WOOD, MapColor.PODZOL));
 	public static final DeferredBlock<Block> WITHERWOOD_WOOD = BLOCKS.register("witherwood_wood",
 			() -> witherwoodLog(MapColor.WOOD, MapColor.PODZOL));
+	public static final DeferredBlock<Block> HOLLOW_WITHERWOOD_LOG = BLOCKS.register("hollow_witherwood_log", () -> new HollowWitherwoodLogBlock(
+			Properties.of().mapColor(MapColor.PODZOL).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava().noOcclusion()));
+	public static final DeferredBlock<Block> STRANGLED_WITHERWOOD_LOG = BLOCKS.register("strangled_witherwood_log", () -> new StrangledWitherwoodLogBlock(
+			Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
 	public static final DeferredBlock<Block> STRIPPED_WITHERWOOD_LOG = BLOCKS.register("stripped_witherwood_log",
 			() -> log(MapColor.PODZOL, MapColor.PODZOL));
 	public static final DeferredBlock<Block> STRIPPED_WITHERWOOD_WOOD = BLOCKS.register("stripped_witherwood_wood",

@@ -7,29 +7,19 @@
       "rolls": 1,
       "entries": [
         {
-          "entryName": "iron_sword",
+          "entryName": "iron_pickaxe",
           "type": "minecraft:item",
-          "name": "minecraft:iron_sword",
-          "weight": 35,
+          "name": "minecraft:iron_pickaxe",
+          "weight": 20,
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "options": "#minecraft:on_random_loot"
-            },
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
-        },
-        {
-          "entryName": "diamond_sword",
-          "type": "minecraft:item",
-          "name": "minecraft:diamond_sword",
-          "weight": 50,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 15,
+                "max": 25
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -40,7 +30,13 @@
           "weight": 50,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:in_enchanting_table"
             }
           ]
         },
@@ -48,10 +44,50 @@
           "entryName": "diamond_axe",
           "type": "minecraft:item",
           "name": "minecraft:diamond_axe",
-          "weight": 50,
+          "weight": 40,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:in_enchanting_table"
+            }
+          ]
+        },
+        {
+          "entryName": "diamond_shovel",
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_shovel",
+          "weight": 40,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:in_enchanting_table"
+            }
+          ]
+        },
+        {
+          "entryName": "fishing_rod",
+          "type": "minecraft:item",
+          "name": "minecraft:fishing_rod",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 30
+              },
+              "options": "#minecraft:on_random_loot"
             }
           ]
         },

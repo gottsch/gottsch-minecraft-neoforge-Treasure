@@ -136,8 +136,19 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureBlocks.SPANISH_MOSS.get(), "しだれコケ");
 
         // strangle vines
-        add(TreasureBlocks.STRANGLE_VINES.get(), "絞めつけるツタ");
-        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "絞めつけるツタ植物");
+        add(TreasureBlocks.STRANGLE_VINES.get(), "ブライトストーク");
+        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "ブライトストークの茎");
+        add(TreasureBlocks.CLINGING_STRANGLE_VINES.get(), "絞めつけるツタ");
+
+        // wither grove
+        add(TreasureBlocks.WITHERED_LEAF_LITTER.get(), "枯れた落ち葉");
+        add(TreasureBlocks.WITHERED_GRASS_BLOCK.get(), "枯れた草ブロック");
+        add(TreasureBlocks.GRAVE_THORNS.get(), "墓場のイバラ");
+        add(TreasureBlocks.BRACKET_FUNGUS.get(), "サルノコシカケ");
+        add(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), "空洞のウィザーウッドの原木");
+        add(TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), "絞めつけられたウィザーウッドの原木");
+        add(TreasureBlocks.WISP.get(), "ウィスプ");
+        add("biome." + Treasure.MODID + ".wither_grove", "ウィザーの林");
 
         // gravestones
         add(TreasureBlocks.GRAVESTONE1_STONE.get(), "墓石");

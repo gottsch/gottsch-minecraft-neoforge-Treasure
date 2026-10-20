@@ -18,17 +18,29 @@ package mod.gottsch.neoforge.treasure2.core.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
 public class WitherwoodRotatedPillarBlock extends RotatedPillarBlock implements ITreasureBlock {
     public static final MapCodec<WitherwoodRotatedPillarBlock> CODEC = simpleCodec(WitherwoodRotatedPillarBlock::new);
+    /** moss-grown bark; set by the wither tree generator, never by placing a log, and lost when stripped */
+    public static final BooleanProperty MOSSY = BooleanProperty.create("mossy");
 
     public WitherwoodRotatedPillarBlock(Properties properties) {
         super(properties);
+        registerDefaultState(defaultBlockState().setValue(MOSSY, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(MOSSY);
     }
 
     @Override

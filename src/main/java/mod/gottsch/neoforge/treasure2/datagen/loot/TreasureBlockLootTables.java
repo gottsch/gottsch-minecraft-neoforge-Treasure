@@ -15,6 +15,9 @@
  */
 package mod.gottsch.neoforge.treasure2.datagen.loot;
 
+import java.util.stream.IntStream;
+import mod.gottsch.neoforge.treasure2.core.block.BracketFungusBlock;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import mod.gottsch.neoforge.treasure2.core.block.SkeletonBlock;
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
@@ -70,6 +73,25 @@ public class TreasureBlockLootTables extends BlockLootSubProvider {
 
         // spanish moss drops itself
         this.dropSelf(TreasureBlocks.SPANISH_MOSS.get());
+
+        // wither grove
+        // one leaf per leaf, like pink petals; withered grass drops dirt unless silk touched, like grass
+        this.add(TreasureBlocks.WITHERED_LEAF_LITTER.get(), this::createPetalsDrops);
+        this.add(TreasureBlocks.WITHERED_GRASS_BLOCK.get(), block -> createSingleItemTableWithSilkTouch(block, Items.DIRT));
+        this.dropSelf(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get());
+        // like glow lichen: one per face, with shears only
+        this.add(TreasureBlocks.CLINGING_STRANGLE_VINES.get(), block -> createMultifaceBlockDrops(block, HAS_SHEARS));
+        // the vine tears off: a plain log, unless silk touched
+        this.add(TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), block -> createSingleItemTableWithSilkTouch(block, TreasureItems.WITHERWOOD_LOG_ITEM.get()));
+        // only shears take the thorns whole, as with dead bushes
+        this.add(TreasureBlocks.GRAVE_THORNS.get(), BlockLootSubProvider::createShearsOnlyDrop);
+        // one per bracket, like pink petals
+        this.add(TreasureBlocks.BRACKET_FUNGUS.get(), block -> LootTable.lootTable().withPool(LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1.0F)).add(applyExplosionDecay(block, LootItem.lootTableItem(block)
+                        .apply(IntStream.rangeClosed(1, BracketFungusBlock.MAX_COUNT).boxed().toList(), count ->
+                                SetItemCountFunction.setCount(ConstantValue.exactly(count))
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BracketFungusBlock.COUNT, count))))))));
 
         // gravestones — all 19 drop themselves
         this.dropSelf(TreasureBlocks.GRAVESTONE1_STONE.get());
@@ -159,6 +181,13 @@ public class TreasureBlockLootTables extends BlockLootSubProvider {
                 TreasureBlocks.FALLING_SAND.get(),
                 TreasureBlocks.FALLING_RED_SAND.get(),
                 TreasureBlocks.SPANISH_MOSS.get(),
+                TreasureBlocks.WITHERED_LEAF_LITTER.get(),
+                TreasureBlocks.WITHERED_GRASS_BLOCK.get(),
+                TreasureBlocks.GRAVE_THORNS.get(),
+                TreasureBlocks.BRACKET_FUNGUS.get(),
+                TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(),
+                TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(),
+                TreasureBlocks.CLINGING_STRANGLE_VINES.get(),
                 TreasureBlocks.GRAVESTONE1_STONE.get(),
                 TreasureBlocks.GRAVESTONE1_COBBLESTONE.get(),
                 TreasureBlocks.GRAVESTONE1_MOSSY_COBBLESTONE.get(),

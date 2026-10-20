@@ -669,6 +669,26 @@ public class TreasureItems {
 	// spanish moss item
 	public static final DeferredItem<BlockItem> SPANISH_MOSS_ITEM = ITEMS.register("spanish_moss",
 			() -> new BlockItem(TreasureBlocks.SPANISH_MOSS.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERED_LEAF_LITTER = ITEMS.register("withered_leaf_litter",
+			() -> new BlockItem(TreasureBlocks.WITHERED_LEAF_LITTER.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> WITHERED_GRASS_BLOCK = ITEMS.register("withered_grass_block",
+			() -> new BlockItem(TreasureBlocks.WITHERED_GRASS_BLOCK.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAVE_THORNS = ITEMS.register("grave_thorns",
+			() -> new BlockItem(TreasureBlocks.GRAVE_THORNS.get(), new Item.Properties()));
+	/** tinder fungus: burns in a furnace for 150 ticks, one and a half sticks' worth */
+	public static final DeferredItem<BlockItem> BRACKET_FUNGUS = ITEMS.register("bracket_fungus",
+			() -> new BlockItem(TreasureBlocks.BRACKET_FUNGUS.get(), new Item.Properties()) {
+				@Override
+				public int getBurnTime(net.minecraft.world.item.ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.item.crafting.RecipeType<?> recipeType) {
+					return 150;
+				}
+			});
+	public static final DeferredItem<BlockItem> HOLLOW_WITHERWOOD_LOG = ITEMS.register("hollow_witherwood_log",
+			() -> new BlockItem(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> STRANGLED_WITHERWOOD_LOG = ITEMS.register("strangled_witherwood_log",
+			() -> new BlockItem(TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> CLINGING_STRANGLE_VINES = ITEMS.register("clinging_strangle_vines",
+			() -> new BlockItem(TreasureBlocks.CLINGING_STRANGLE_VINES.get(), new Item.Properties()));
 
 	// strangle vines (head) — placeable; body has no item form (matches vanilla TWISTING_VINES_PLANT)
 	public static final DeferredItem<BlockItem> STRANGLE_VINES = ITEMS.register("strangle_vines",

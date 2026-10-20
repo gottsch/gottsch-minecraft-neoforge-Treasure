@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "treasure2:witherwood_log"
+    },
+    {
+      "item": "treasure2:clinging_strangle_vines"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "treasure2:strangled_witherwood_log"
+  }
+}

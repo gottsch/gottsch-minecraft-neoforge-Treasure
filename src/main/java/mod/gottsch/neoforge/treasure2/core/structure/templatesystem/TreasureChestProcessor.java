@@ -18,29 +18,16 @@ package mod.gottsch.neoforge.treasure2.core.structure.templatesystem;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import mod.gottsch.neo.gottschcore.spatial.Coords;
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.block.ITreasureChestBlock;
 import mod.gottsch.neoforge.treasure2.core.block.StandardChestBlock;
-import mod.gottsch.neoforge.treasure2.core.block.entity.AbstractTreasureChestBlockEntity;
-import mod.gottsch.neoforge.treasure2.core.cache.TreasureChestCache;
-import mod.gottsch.neoforge.treasure2.core.cache.data.TreasureChestCacheData;
-import mod.gottsch.neoforge.treasure2.core.persistence.TreasureSavedData;
-import mod.gottsch.neoforge.treasure2.core.rarity.IRarity;
-import mod.gottsch.neoforge.treasure2.core.rarity.Rarity;
-import mod.gottsch.neoforge.treasure2.core.rarity.RarityWeightsManager;
-import mod.gottsch.neoforge.treasure2.core.rarity.TreasureRarities;
-import mod.gottsch.neoforge.treasure2.core.registry.ChestSubprocessorDataRegistry;
 import mod.gottsch.neoforge.treasure2.core.structure.BlockRotationUtil;
-import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest.IChestSubprocessor;
-import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest.TreasureChestSubprocessors;
-import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.data.ChestSubprocessorData;
+import mod.gottsch.neoforge.treasure2.core.structure.templatesystem.chest.ChestGeneration;
 import mod.gottsch.neoforge.treasure2.core.util.ModUtil;
 import mod.gottsch.neoforge.treasure2.core.world.feature.IFeatureType;
-import mod.gottsch.neoforge.treasure2.core.world.feature.TreasureFeatureTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -147,19 +134,11 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
         if (hasProcessGuard(TREASURE_CHEST, newPiecePos)) {
             if (addFinalizeGuard(TREASURE_CHEST, newPiecePos)) {
                 Treasure.LOGGER.debug("finalize processing called on pos -> {}", piecePos);
+                // update the matching chest with dimension value. Shared with the API path, so a
+                // chest placed by another mod completes its cache entry the same way this one does.
                 processedBlocks.forEach(info -> {
                     if (info.state().getBlock() instanceof ITreasureChestBlock) {
-
-                        // update the matching cached chest with the dimension value
-                        TreasureChestCache.getCache().stream()
-                                .filter(chest -> chest.getCoords().equals(Coords.of(info.pos())))
-                                .filter(chest -> chest.getBiomeName() != null && chest.getBiomeName().equals(getBiomeName(levelAccessor, info.pos())))
-                                .filter(chest -> chest.getDimensionName() == null)
-                                .findFirst().ifPresent(chest -> {
-                                    chest.setDimensionName(levelAccessor.dimensionType().effectsLocation());
-                                    // mark the persistence data as dirty
-                                    TreasureSavedData.get(levelAccessor.getLevel()).setDirty();
-                                });
+                        ChestGeneration.finalizeChest(levelAccessor, info.pos());
                     }
                 });
             }
@@ -168,82 +147,20 @@ public class TreasureChestProcessor extends VanillaChestProcessor {
     }
 
 
-    public StructureTemplate.StructureBlockInfo buildTreasureChest(LevelReader levelReader, BlockState state, BlockPos pos, StructurePlaceSettings placeSettings) {
-
-        // 1. map feature type to either AQUATIC or TERRANEAN.
-        IFeatureType aquatic = TreasureFeatureTypes.AQUATIC.get();
-        IFeatureType processedFeatureType = aquatic.equals(this.featureType) ? aquatic : TreasureFeatureTypes.TERRANEAN.get();
-
-        // 2. get rarity and ensure it's a valid entry.
-        Optional<Rarity> rarityOptional = Optional.ofNullable(RarityWeightsManager.getNextRarity(processedFeatureType))
-                .filter(rarity -> rarity != Rarity.NONE)
-                .filter(rarity -> rarity != TreasureRarities.UNKNOWN.get());
-
-        IRarity rarityEntry = rarityOptional.orElseGet(() -> {
-            Treasure.LOGGER.warn("unable to obtain the next rarity for generator -> {}, reverting to default rarity.", processedFeatureType);
-            return (Rarity) TreasureRarities.COMMON.get();
-        });
-        Treasure.LOGGER.debug("rarity -> {}", rarityEntry);
-
-        // 3. get chest subprocessor data.
-        Optional<ChestSubprocessorData> dataOptional = ChestSubprocessorDataRegistry.getAssociation(processedFeatureType, rarityEntry);
-        ChestSubprocessorData data = dataOptional.orElseGet(() -> {
-            Treasure.LOGGER.warn("unable to locate chest subprocessor data for feature type -> {} and rarity -> {}, reverting to default subprocessor data.", processedFeatureType, rarityEntry.getName());
-            // no data pack entry for this (feature type, rarity) pair - build a safe standard default
-            // so nothing downstream NPEs on a null ChestSubprocessorData.
-            return new ChestSubprocessorData(TreasureChestSubprocessors.STANDARD, rarityEntry.getRegistryId(), 0.0,
-                    List.of(), List.of(), List.of());
-        });
-
-        // 4. get a chest subprocessor.
-        IChestSubprocessor subprocessor = TreasureChestSubprocessors.getChestSubprocessor(data.getType()).orElseGet(() -> {
-            Treasure.LOGGER.warn("unable to locate chest subprocessor for processor type -> {}, reverting to default subprocessor", data.getType());
-            return TreasureChestSubprocessors.standard();
-        });
-
-        // 5. set properties and process the subprocessor to get the StructureBlockInfo.
-        subprocessor.setFeatureType(processedFeatureType);
-        subprocessor.setData(data);
-        Treasure.LOGGER.debug("original chest is facing -> {}", state.getValue(StandardChestBlock.FACING));
-        Optional<StructureTemplate.StructureBlockInfo> infoOptional = subprocessor
-                .process(levelReader, placeSettings.getRandom(pos), state, pos, placeSettings.getRotation(), rarityEntry, data);
-
-        // 6. if the block info is present, cache the data and return it. Otherwise, return the default chest.
-        StructureTemplate.StructureBlockInfo chestInfo = infoOptional.map(info -> {
-            Treasure.LOGGER.debug("info -> {}", info);
-            TreasureChestCacheData chestSpawn = new TreasureChestCacheData();
-            chestSpawn.setChestName(ModUtil.getName(info.state().getBlock()));
-            chestSpawn.setCoords(Coords.of(info.pos()));
-            chestSpawn.setBiomeName(getBiomeName(levelReader, info.pos()));
-            chestSpawn.setFeatureType(getFeatureType()); // NOTE the original feature type to describe what feature spawned the chest
-            chestSpawn.setRarity(rarityEntry);
-            chestSpawn.setDiscovered(false);
-            TreasureChestCache.cache(chestSpawn);
-            Treasure.LOGGER.debug("caching chest at pos -> {}", info.pos());
-
-            // increment rarity weighted collection
-            RarityWeightsManager.adjustAllWeightsExcept(this.featureType, 1, rarityEntry);
-
-            return info;
-        }).orElseGet(() -> {
-            Treasure.LOGGER.warn("unable to generate StructureBlockInfo for processor type -> {}, reverting to default chest", data.getType());
-            return subprocessor.defaultChest(levelReader, state, pos, placeSettings);
-        });
-        return applyAltLootTable(chestInfo);
-    }
-
     /**
-     * Record the fallback table in the chest's generation data; the chest only rolls it if no rarity
-     * loot table can be found on first open.
+     * Delegates to {@link ChestGeneration}, which is also what {@code TreasureApi.generateChest}
+     * calls. The six steps that used to live here moved there when the API was added, so a chest
+     * placed by another mod's structure is the same chest this processor places -- there is nothing
+     * for the two paths to drift on.
+     *
+     * <p>The facing is resolved here rather than there: this path has an authored chest state and a
+     * rotation, and {@code ChestGeneration} takes the direction the finished chest ends up pointing.
+     * Rotating first and passing the result is what makes the two callers equivalent.</p>
      */
-    private StructureTemplate.StructureBlockInfo applyAltLootTable(StructureTemplate.StructureBlockInfo info) {
-        if (altLootTable.isEmpty() || info.nbt() == null) {
-            return info;
-        }
-        CompoundTag genData = info.nbt().getCompound(AbstractTreasureChestBlockEntity.GENERATION_DATA_TAG);
-        genData.putString(AbstractTreasureChestBlockEntity.ALT_LOOT_TABLE_TAG, altLootTable.get().toString());
-        info.nbt().put(AbstractTreasureChestBlockEntity.GENERATION_DATA_TAG, genData);
-        return info;
+    public StructureTemplate.StructureBlockInfo buildTreasureChest(LevelReader levelReader, BlockState state, BlockPos pos, StructurePlaceSettings placeSettings) {
+        Direction facing = placeSettings.getRotation().rotate(state.getValue(StandardChestBlock.FACING));
+        return ChestGeneration.generate(levelReader, pos, placeSettings.getRandom(pos), facing,
+                this.featureType, Optional.empty(), getLootTable(), Optional.empty(), getAltLootTable());
     }
 
     public Optional<ResourceLocation> getAltLootTable() {

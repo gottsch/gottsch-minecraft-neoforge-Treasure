@@ -76,6 +76,15 @@ public class TreasureAttachments {
                             .build()
             );
 
+    // a caller's table (TreasureApi.generateChest), rolled into the slots the chest's own loot leaves
+    // empty — only serialize when path is non-empty
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> SUPPLEMENTAL_LOOT_TABLE =
+            ATTACHMENT_TYPES.register("supplemental_loot_table", () ->
+                    AttachmentType.<ResourceLocation>builder(() -> ResourceLocation.parse(""))
+                            .serialize(ResourceLocation.CODEC, rl -> rl != null && !rl.getPath().isEmpty())
+                            .build()
+            );
+
     // mimic — only serialize when path is non-empty
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ResourceLocation>> MIMIC =
             ATTACHMENT_TYPES.register("mimic", () ->

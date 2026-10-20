@@ -41,6 +41,18 @@ public class TreasureBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        // withered grass behaves as grass: dug with a shovel, and plants grow on it
+        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(TreasureBlocks.WITHERED_GRASS_BLOCK.get());
+        tag(BlockTags.DIRT).add(TreasureBlocks.WITHERED_GRASS_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_AXE).add(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get());
+        // what the hanging roots processor hangs roots from
+        tag(TreasureTags.Blocks.HANGING_ROOTS_CEILINGS).addTags(BlockTags.DIRT, BlockTags.LOGS, BlockTags.PLANKS)
+                .add(net.minecraft.world.level.block.Blocks.MUD_BRICKS, net.minecraft.world.level.block.Blocks.PACKED_MUD,
+                        net.minecraft.world.level.block.Blocks.MUD_BRICK_STAIRS, net.minecraft.world.level.block.Blocks.MUD_BRICK_SLAB,
+                        TreasureBlocks.WITHERWOOD_LOG.get(), TreasureBlocks.WITHERWOOD_WOOD.get(), TreasureBlocks.STRIPPED_WITHERWOOD_LOG.get(),
+                        TreasureBlocks.STRIPPED_WITHERWOOD_WOOD.get(), TreasureBlocks.WITHERWOOD_PLANKS.get(), TreasureBlocks.WITHERWOOD_STAIRS.get(),
+                        TreasureBlocks.WITHERWOOD_SLAB.get(), TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), TreasureBlocks.WITHERED_GRASS_BLOCK.get());
+
         // chests by rarity
         tag(TreasureTags.Blocks.COMMON_CHESTS).add(TreasureBlocks.WOOD_CHEST.get());
         tag(TreasureTags.Blocks.COMMON_CHESTS).add(TreasureBlocks.MOLDY_CRATE_CHEST.get());

@@ -86,6 +86,8 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 	public static final String LOOT_TABLE_TAG = "lootTable";
 	/** The processor list's fallback table, rolled only when no rarity loot table can be found. */
 	public static final String ALT_LOOT_TABLE_TAG = "altLootTable";
+	/** A foreign mod's table, rolled into whatever slots the chest's own loot leaves empty. */
+	public static final String SUPPLEMENTAL_LOOT_TABLE_TAG = "supplementalLootTable";
 	public static final String SEALED_TAG = "sealed";
 	public static final String MIMIC_TAG = "mimic";
 	public static final String LOCK_STATES_TAG = "lockStates";
@@ -427,6 +429,9 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 		if (data.contains(ALT_LOOT_TABLE_TAG) && !data.getString(ALT_LOOT_TABLE_TAG).isEmpty()) {
 			setAltLootTable(ResourceLocation.parse(data.getString(ALT_LOOT_TABLE_TAG)));
 		}
+		if (data.contains(SUPPLEMENTAL_LOOT_TABLE_TAG) && !data.getString(SUPPLEMENTAL_LOOT_TABLE_TAG).isEmpty()) {
+			setSupplementalLootTable(ResourceLocation.parse(data.getString(SUPPLEMENTAL_LOOT_TABLE_TAG)));
+		}
 		if (data.contains(MIMIC_TAG) && !data.getString(MIMIC_TAG).isEmpty()) {
 			setMimic(ResourceLocation.parse(data.getString(MIMIC_TAG)));
 		}
@@ -574,6 +579,19 @@ public abstract class AbstractTreasureChestBlockEntity extends BlockEntity
 
 	public void setAltLootTable(ResourceLocation altLootTable) {
 		AttachmentHelper.setAltLootTable(this, altLootTable);
+	}
+
+	/**
+	 * @return the caller-supplied table that tops up the empty slots after the chest is filled (see
+	 * TreasureApi.generateChest), or null if the chest has none
+	 */
+	public ResourceLocation getSupplementalLootTable() {
+		ResourceLocation supplementalLootTable = AttachmentHelper.supplementalLootTable(this);
+		return supplementalLootTable == null || supplementalLootTable.getPath().isEmpty() ? null : supplementalLootTable;
+	}
+
+	public void setSupplementalLootTable(ResourceLocation supplementalLootTable) {
+		AttachmentHelper.setSupplementalLootTable(this, supplementalLootTable);
 	}
 
 
