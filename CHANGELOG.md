@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.1.0] - Unreleased
+## [5.2.0] - Unreleased
+
+### ➕ Added
+- **The Treasure2 Manual is back**, written with [Gottsch Books](https://www.curseforge.com/minecraft/mc-mods/gottsch-books) 1.3.0 instead of Patchouli. Gottsch Books is optional: install it to get the manual, and Treasure2 works the same without it.
+  - Each player is told about the manual once, on their first join, with a **[Get it]** link in chat. `/gottschbooks get treasure2:manual` gets another copy.
+  - It covers everything the old manual did (chests, locks, keys, lock picks, the key ring, wishing wells and mimics), plus the Treasure Tool, Pouch, Treasure Chest, Treasure Barrel, Celestial and Infernal Chests, Bone Chest and Bone Key, Bound Souls, Witherwood Golems and the Wither Grove.
+  - **New: The Armoury.** Where each weapon is found, and every legendary weapon with its lore and power attack.
+  - Tables show which keys open each lock, the stats of every chest, and what each coin or gem brings from a wishing well.
+  - While you carry the manual, hover over a Treasure2 item and press **B** to open the manual at that item. The manual also has search and bookmarks.
+  - English and Japanese.
+
+### ⚙️ Changed
+- Requires NeoForge 21.1.117 or later (was 21.1.89), the same as Gottsch Books 1.3.0.
+
+### 🛠 Fixed
+- The old manual said a Skeleton Key opens the Wither Lock. It doesn't: only the Wither Key and the One Key do. The new manual says so.
+- Japanese: the Skeleton Key was named 骨のカギ, the same as the Bone Key. It is ガイコツのカギ again.
+
+## [5.1.0] - 2026-10-20
 
 ### ➕ Added
 - **The Wither Grove has been rebuilt.** The great wither tree now stands at the heart of a whole grove: 10 to 20 withered trees spread over a ragged clearing around it, tallest near the centre and smaller toward the edge. Every grove is different. The trees are grown fresh for each grove rather than copied from a handful of fixed shapes, and they keep the familiar witherwood look: straight trunks, thin branches spiralling up them, twigs, hanging moss and a broken top.
