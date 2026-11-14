@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🛠 Fixed
 - The old manual said a Skeleton Key opens the Wither Lock. It doesn't: only the Wither Key and the One Key do. The new manual says so.
 - Japanese: the Skeleton Key was named 骨のカギ, the same as the Bone Key. It is ガイコツのカギ again.
+- A chest that was mined before it was ever opened, and placed somewhere else, opened empty. It now keeps its loot: the chest item remembers that it is still sealed and which loot it holds, so it fills the first time it is opened, wherever it is placed. Chests mined before this update are still empty.
 
 ## [5.1.0] - 2026-10-20
 
