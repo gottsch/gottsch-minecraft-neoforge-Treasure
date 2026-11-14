@@ -57,6 +57,22 @@ public class TreasureComponents {
                     .networkSynchronized(ResourceLocation.STREAM_CODEC)
     );
 
+    // a sealed chest's fallback loot table, carried on the chest item when it is mined
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> ALT_LOOT_TABLE = REGISTRAR.registerComponentType(
+            "alt_loot_table",
+            builder -> builder
+                    .persistent(ResourceLocation.CODEC)
+                    .networkSynchronized(ResourceLocation.STREAM_CODEC)
+    );
+
+    // a sealed chest's supplemental loot table, carried on the chest item when it is mined
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> SUPPLEMENTAL_LOOT_TABLE = REGISTRAR.registerComponentType(
+            "supplemental_loot_table",
+            builder -> builder
+                    .persistent(ResourceLocation.CODEC)
+                    .networkSynchronized(ResourceLocation.STREAM_CODEC)
+    );
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> MIMIC = REGISTRAR.registerComponentType(
             "mimic",
             builder -> builder

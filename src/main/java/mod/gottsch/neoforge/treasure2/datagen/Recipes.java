@@ -15,6 +15,8 @@
  */
 package mod.gottsch.neoforge.treasure2.datagen;
 
+import mod.gottsch.neoforge.treasure2.Treasure;
+import net.minecraft.resources.ResourceLocation;
 import java.util.concurrent.CompletableFuture;
 
 import mod.gottsch.neoforge.treasure2.core.block.TreasureBlocks;
@@ -207,8 +209,31 @@ public class Recipes extends RecipeProvider {
 
         // wither planks
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, TreasureBlocks.WITHERWOOD_PLANKS.get(), 4)
-                .requires(Ingredient.of(TreasureBlocks.WITHERWOOD_LOG.get(), TreasureBlocks.WITHERWOOD_WOOD.get()))
+                .requires(Ingredient.of(TreasureBlocks.WITHERWOOD_LOG.get(), TreasureBlocks.WITHERWOOD_WOOD.get(),
+                        TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get()))
                 .unlockedBy("has_log", has(TreasureBlocks.WITHERWOOD_LOG.get()))
+                .save(output);
+
+        // a hollow log is half a log: two planks
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, TreasureBlocks.WITHERWOOD_PLANKS.get(), 2)
+                .requires(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get())
+                .unlockedBy("has_hollow_log", has(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(Treasure.MODID, "witherwood_planks_from_hollow_log"));
+
+        // hollow witherwood logs: a ring of logs, hollowed out
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), 8)
+                .pattern("www")
+                .pattern("w w")
+                .pattern("www")
+                .define('w', TreasureBlocks.WITHERWOOD_LOG.get())
+                .unlockedBy("has_log", has(TreasureBlocks.WITHERWOOD_LOG.get()))
+                .save(output);
+
+        // a strangled log: wind strangle vines round a log
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get())
+                .requires(TreasureBlocks.WITHERWOOD_LOG.get())
+                .requires(TreasureBlocks.CLINGING_STRANGLE_VINES.get())
+                .unlockedBy("has_strangle_vines", has(TreasureBlocks.CLINGING_STRANGLE_VINES.get()))
                 .save(output);
 
         // witherwood stairs

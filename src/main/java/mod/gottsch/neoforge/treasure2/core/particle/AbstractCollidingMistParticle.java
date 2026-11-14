@@ -44,13 +44,8 @@ public abstract class AbstractCollidingMistParticle extends AbstractMistParticle
 		setSourceCoords(coords);
 	}
 
-	@Override
-	public void tick() {
-		if (level.getGameTime() % 5 == 0) {
-			doPlayerCollisions(level);
-		}
-		super.tick();
-	}
+	// NOTE no player collisions in tick(): the server decides who is in the mist (MistExposure), so the
+	// particle is only a picture of it.
 
 	/**
 	 *
@@ -75,7 +70,10 @@ public abstract class AbstractCollidingMistParticle extends AbstractMistParticle
 	 *
 	 * @param player
 	 */
-	public abstract void inflictEffectOnPlayer(Player player);
+	@Override
+	public void inflictEffectOnPlayer(Player player) {
+		// the effect is applied on the server; see MistExposure
+	}
 
 	@Override
 	public ICoords getSourceCoords() {

@@ -18,6 +18,7 @@ package mod.gottsch.neoforge.treasure2.datagen;
 import mod.gottsch.neoforge.treasure2.Treasure;
 import mod.gottsch.neoforge.treasure2.core.item.TreasureItems;
 import mod.gottsch.neoforge.treasure2.core.tag.TreasureTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -43,6 +44,20 @@ public class TreasureItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        // witherwood joins the vanilla wood families (see TreasureBlockTagsProvider)
+        tag(TreasureTags.Items.WITHERWOOD_LOGS).add(TreasureItems.WITHERWOOD_LOG_ITEM.get(), TreasureItems.WITHERWOOD_WOOD_ITEM.get(), TreasureItems.STRIPPED_WITHERWOOD_LOG_ITEM.get(), TreasureItems.STRIPPED_WITHERWOOD_WOOD_ITEM.get(), TreasureItems.STRANGLED_WITHERWOOD_LOG.get());
+        tag(ItemTags.LOGS_THAT_BURN).addTag(TreasureTags.Items.WITHERWOOD_LOGS);
+        tag(ItemTags.PLANKS).add(TreasureItems.WITHERWOOD_PLANKS_ITEM.get());
+        tag(ItemTags.WOODEN_SLABS).add(TreasureItems.WITHERWOOD_SLAB_ITEM.get());
+        tag(ItemTags.WOODEN_STAIRS).add(TreasureItems.WITHERWOOD_STAIRS_ITEM.get());
+        tag(ItemTags.WOODEN_FENCES).add(TreasureItems.WITHERWOOD_FENCE_ITEM.get());
+        tag(ItemTags.FENCE_GATES).add(TreasureItems.WITHERWOOD_FENCE_GATE_ITEM.get());
+        tag(ItemTags.WOODEN_DOORS).add(TreasureItems.WITHERWOOD_DOOR_ITEM.get());
+        tag(ItemTags.WOODEN_TRAPDOORS).add(TreasureItems.WITHERWOOD_TRAPDOOR_ITEM.get());
+        tag(ItemTags.WOODEN_BUTTONS).add(TreasureItems.WITHERWOOD_BUTTON_ITEM.get());
+        tag(ItemTags.WOODEN_PRESSURE_PLATES).add(TreasureItems.WITHERWOOD_PRESSURE_PLATE_ITEM.get());
+        tag(ItemTags.SIGNS).add(TreasureItems.WITHERWOOD_SIGN_ITEM.get());
+        tag(ItemTags.HANGING_SIGNS).add(TreasureItems.WITHERWOOD_HANGING_SIGN_ITEM.get());
         // keys by rarity
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.WOOD_KEY.get());
         tag(TreasureTags.Items.COMMON_KEY).add(TreasureItems.STONE_KEY.get());

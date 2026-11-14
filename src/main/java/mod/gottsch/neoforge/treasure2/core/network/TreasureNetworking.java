@@ -37,17 +37,8 @@ public class TreasureNetworking {
                 MimicSpawnS2C::handle
         );
 
-        // Client -> server: wither-tree mist particles ask the server to apply poison/wither effects.
-        payloadRegistrar.playToServer(
-                PoisonMistMessageToServer.TYPE,
-                PoisonMistMessageToServer.STREAM_CODEC,
-                PoisonMistMessageToServer::handle
-        );
-        payloadRegistrar.playToServer(
-                WitherMistMessageToServer.TYPE,
-                WitherMistMessageToServer.STREAM_CODEC,
-                WitherMistMessageToServer::handle
-        );
+        // NOTE poison and wither mist no longer have client -> server messages: the server decides who is in the mist
+        // (see MistExposure), so a client can neither hurt anyone else nor keep itself out of it.
     }
 
     // --- Helper function for sending the synchronization packet ---

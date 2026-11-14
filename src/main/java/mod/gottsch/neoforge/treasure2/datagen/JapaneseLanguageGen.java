@@ -59,7 +59,7 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureItems.SPIDER_KEY.get(), "クモのカギ");
         add(TreasureItems.WITHER_KEY.get(), "ウィザーのカギ");
 
-        add(TreasureItems.SKELETON_KEY.get(), "骨のカギ");
+        add(TreasureItems.SKELETON_KEY.get(), "ガイコツのカギ");
         add(TreasureItems.PILFERERS_LOCK_PICK.get(), "コソ泥のピッキング");
         add(TreasureItems.THIEFS_LOCK_PICK.get(), "盗賊のピッキング");
         add(TreasureItems.BONE_KEY.get(), "骨のカギ");
@@ -136,8 +136,19 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(TreasureBlocks.SPANISH_MOSS.get(), "しだれコケ");
 
         // strangle vines
-        add(TreasureBlocks.STRANGLE_VINES.get(), "絞めつけるツタ");
-        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "絞めつけるツタ植物");
+        add(TreasureBlocks.STRANGLE_VINES.get(), "ブライトストーク");
+        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "ブライトストークの茎");
+        add(TreasureBlocks.CLINGING_STRANGLE_VINES.get(), "絞めつけるツタ");
+
+        // wither grove
+        add(TreasureBlocks.WITHERED_LEAF_LITTER.get(), "枯れた落ち葉");
+        add(TreasureBlocks.WITHERED_GRASS_BLOCK.get(), "枯れた草ブロック");
+        add(TreasureBlocks.GRAVE_THORNS.get(), "墓場のイバラ");
+        add(TreasureBlocks.BRACKET_FUNGUS.get(), "サルノコシカケ");
+        add(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), "空洞のウィザーウッドの原木");
+        add(TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), "絞めつけられたウィザーウッドの原木");
+        add(TreasureBlocks.WISP.get(), "ウィスプ");
+        add("biome." + Treasure.MODID + ".wither_grove", "ウィザーの林");
 
         // gravestones
         add(TreasureBlocks.GRAVESTONE1_STONE.get(), "墓石");
@@ -393,8 +404,9 @@ public class JapaneseLanguageGen extends LanguageProvider {
         add(LangUtil.chat("key.key_unable_unlock"), "開錠に失敗した！");
 
         /*
-         * patchouli
+         * the Gottsch Books manual (its text is in assets/treasure2/books/manual)
          */
-        add("book.treasure2.landing", "Treasure2はマインクラフトに新たな発見のスリルと楽しみを追加します。このMODは、様々な新しいレアな宝箱と財宝アイテムを追加します。宝箱は様々なロックで保護されており、解除するには対応するカギを見つける必要があります。");
+        add("book.treasure2.manual", "Treasure2マニュアル");
+        add("book.treasure2.manual.announce", "%sでは宝箱、錠前、カギ、伝説の武器について解説しています。アイテムにカーソルを合わせてBキーを押すと調べられます。");
     }
 }

@@ -123,9 +123,25 @@ configurations {
 dependencies {
     implementation "gottsch:gottschcore-neoforge-1.21.1:2.6.0"
     localRuntime "curse.maven:jade-324717:7545219"
+    // optional: the manual is data only, so nothing is nested; compiled against for checkBooks, run in dev
+    compileOnly "gottsch:gottschbooks-neoforge-1.21.1:${gottschbooks_version}"
+    localRuntime "gottsch:gottschbooks-neoforge-1.21.1:${gottschbooks_version}"
     // TF 4.8.3345 requires NeoForge 21.1.209+; upgrade neo_version in gradle.properties before enabling
 //    localRuntime "curse.maven:the-twilight-forest-227639:7797302"
 }
+
+// gradlew checkBooks (and gradlew check, or build) checks the Gottsch Books manual for mistakes the parser can see
+tasks.register('checkBooks', JavaExec) {
+    group = 'verification'
+    description = 'Checks the Gottsch Books manual for mistakes the parser can see'
+    classpath = sourceSets.main.compileClasspath
+    mainClass = 'mod.gottsch.neo.gottschbooks.core.lint.BookLint'
+    args file('src/main/resources').absolutePath
+    // its logger writes logs/ into the working directory; keep that out of the project root
+    workingDir = layout.buildDirectory.dir('checkBooks').get().asFile
+    doFirst { workingDir.mkdirs() }
+}
+tasks.named('check') { dependsOn 'checkBooks' }
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
@@ -140,7 +156,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            gottschbooks_version_range: gottschbooks_version_range
     ]
     inputs.properties replaceProperties
     expand replaceProperties

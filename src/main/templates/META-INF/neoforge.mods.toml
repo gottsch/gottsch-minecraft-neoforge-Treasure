@@ -92,6 +92,13 @@ file="META-INF/accesstransformer.cfg"
     # Treasure2 loads AFTER its library
     ordering="AFTER"
     side="BOTH"
+# The in-game manual. Treasure2 works without it.
+[[dependencies.${mod_id}]]
+    modId="gottschbooks"
+    type="optional"
+    versionRange="${gottschbooks_version_range}"
+    ordering="NONE"
+    side="BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't

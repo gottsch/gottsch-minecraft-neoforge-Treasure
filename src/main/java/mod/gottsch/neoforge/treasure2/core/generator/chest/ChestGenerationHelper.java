@@ -150,12 +150,15 @@ public class ChestGenerationHelper {
         // 6. populate the chest inventory
         populateInventory(itemHandler, random, treasureStacks, originalTreasureSize);
         populateInventory(itemHandler, random, fillerStacks, originalFillerSize);
+
+        // 7. top up the empty slots from the caller's supplemental table, if one was given.
+        addSupplementalLoot(level, random, chestBlockEntity, itemHandler, player);
         return true;
     }
 
     /**
      * Fills the chest from its fallback table (a processor list's {@code alt_loot_table}) when no rarity
-     * loot table could be found.
+     * loot table could be found, then tops it up from the supplemental table as usual.
      *
      * @return true if the fallback table filled the chest, false if it has none or it can't be loaded, so
      * the chest stays sealed and tries again on the next open
@@ -180,7 +183,37 @@ public class ChestGenerationHelper {
         List<ItemStack> stacks = table.getRandomItems(params.create(LootContextParamSets.CHEST));
         Treasure.LOGGER.debug("fallback lootTable -> {} rolled {} stacks for chest at -> {}", tableId, stacks.size(), chest.getBlockPos());
         fillSlots(inventory, random, stacks);
+        addSupplementalLoot(level, random, chest, inventory, player);
         return true;
+    }
+
+    /**
+     * Rolls the chest's supplemental loot table (see {@code TreasureApi.generateChest}) into the
+     * slots Treasure2's own loot left empty.
+     *
+     * <p>Last, and empty slots only, so it can never displace Treasure2's loot: a full chest gets
+     * nothing, and anything that does not fit is dropped. A missing table is logged and skipped.</p>
+     */
+    private static void addSupplementalLoot(ServerLevel level, RandomSource random,
+            AbstractTreasureChestBlockEntity chest, ItemStackHandler inventory, Player player) {
+
+        ResourceLocation tableId = chest.getSupplementalLootTable();
+        if (tableId == null) {
+            return;
+        }
+        LootTable table = LootTableRegistry.getLootTable(level, tableId);
+        if (table == LootTable.EMPTY) {
+            Treasure.LOGGER.warn("unable to load supplemental lootTable -> {} for chest at -> {}", tableId, chest.getBlockPos());
+            return;
+        }
+        LootParams.Builder params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chest.getBlockPos()));
+        if (player != null) {
+            params.withLuck(player.getLuck()).withParameter(LootContextParams.THIS_ENTITY, player);
+        }
+        List<ItemStack> stacks = table.getRandomItems(params.create(LootContextParamSets.CHEST));
+        Treasure.LOGGER.debug("supplemental lootTable -> {} rolled {} stacks for chest at -> {}", tableId, stacks.size(), chest.getBlockPos());
+        fillSlots(inventory, random, stacks);
     }
 
     /**

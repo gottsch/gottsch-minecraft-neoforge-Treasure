@@ -19,10 +19,10 @@
           "weight": 25
         },
         {
-          "entryName": "golden_sword",
+          "entryName": "stone_shovel",
           "type": "minecraft:item",
-          "name": "minecraft:golden_sword",
-          "weight": 15
+          "name": "minecraft:stone_shovel",
+          "weight": 25
         },
         {
           "entryName": "golden_pickaxe",
@@ -35,6 +35,24 @@
           "type": "minecraft:item",
           "name": "minecraft:golden_axe",
           "weight": 15
+        },
+        {
+          "entryName": "golden_shovel",
+          "type": "minecraft:item",
+          "name": "minecraft:golden_shovel",
+          "weight": 10
+        },
+        {
+          "entryName": "fishing_rod",
+          "type": "minecraft:item",
+          "name": "minecraft:fishing_rod",
+          "weight": 15
+        },
+        {
+          "entryName": "shears",
+          "type": "minecraft:item",
+          "name": "minecraft:shears",
+          "weight": 10
         }
       ]
     }

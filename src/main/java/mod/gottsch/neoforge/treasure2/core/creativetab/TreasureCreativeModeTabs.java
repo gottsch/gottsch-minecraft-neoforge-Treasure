@@ -157,6 +157,11 @@ public class TreasureCreativeModeTabs {
                         output.accept(TreasureItems.FALLING_RED_SAND.get());
                         output.accept(TreasureItems.SPANISH_MOSS_ITEM.get());
                         output.accept(TreasureItems.STRANGLE_VINES.get());
+                        output.accept(TreasureItems.CLINGING_STRANGLE_VINES.get());
+                        output.accept(TreasureItems.GRAVE_THORNS.get());
+                        output.accept(TreasureItems.BRACKET_FUNGUS.get());
+                        output.accept(TreasureItems.WITHERED_LEAF_LITTER.get());
+                        output.accept(TreasureItems.WITHERED_GRASS_BLOCK.get());
 
                         // gravestones
                         output.accept(TreasureItems.GRAVESTONE1_STONE_ITEM.get());
@@ -191,6 +196,8 @@ public class TreasureCreativeModeTabs {
                         // witherwood woodset
                         output.accept(TreasureItems.WITHERWOOD_LOG_ITEM.get());
                         output.accept(TreasureItems.WITHERWOOD_WOOD_ITEM.get());
+                        output.accept(TreasureItems.HOLLOW_WITHERWOOD_LOG.get());
+                        output.accept(TreasureItems.STRANGLED_WITHERWOOD_LOG.get());
                         output.accept(TreasureItems.STRIPPED_WITHERWOOD_LOG_ITEM.get());
                         output.accept(TreasureItems.STRIPPED_WITHERWOOD_WOOD_ITEM.get());
                         output.accept(TreasureItems.WITHERWOOD_PLANKS_ITEM.get());

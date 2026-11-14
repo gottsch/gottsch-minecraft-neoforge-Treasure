@@ -52,6 +52,10 @@ public class PlayerEventHandler {
         if (player.tickCount % 5 == 0) {
             checkForWishables(player);
         }
+        // poison and wither mist are decided here, not by the particles on the client
+        if (player.tickCount % MistExposure.CHECK_INTERVAL == 0) {
+            MistExposure.check((ServerPlayer) player, player.getRandom());
+        }
     }
 
     private static void checkForWishables(Player player) {

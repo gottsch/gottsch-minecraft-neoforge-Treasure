@@ -18,14 +18,14 @@
     {
       "name": "items",
       "rolls": {
-        "min": 2,
-        "max": 6
+        "min": 3,
+        "max": 7
       },
       "entries": [
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/items/epic"
+          "value": "treasure2:pools/items/mythical"
         }
       ]
     },
@@ -53,7 +53,7 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/food/epic"
+          "value": "treasure2:pools/food/mythical"
         }
       ]
     },
@@ -64,7 +64,7 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/tools/rare"
+          "value": "treasure2:pools/tools/epic"
         }
       ]
     },
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "name": "rare_items",
+      "name": "legendary_items",
       "rolls": {
         "min": 0,
         "max": 5
@@ -92,12 +92,12 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/items/rare"
+          "value": "treasure2:pools/items/legendary"
         }
       ]
     },
     {
-      "name": "rare_armor",
+      "name": "legendary_armor",
       "rolls": {
         "min": 0,
         "max": 2
@@ -106,12 +106,12 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/combat/rare"
+          "value": "treasure2:pools/combat/legendary"
         }
       ]
     },
     {
-      "name": "rare_food",
+      "name": "legendary_food",
       "rolls": {
         "min": 0,
         "max": 3
@@ -120,12 +120,12 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/food/rare"
+          "value": "treasure2:pools/food/legendary"
         }
       ]
     },
     {
-      "name": "rare_tools",
+      "name": "legendary_tools",
       "rolls": {
         "min": 0,
         "max": 2
@@ -134,12 +134,12 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/tools/rare"
+          "value": "treasure2:pools/tools/epic"
         }
       ]
     },
     {
-      "name": "rare_potions",
+      "name": "legendary_potions",
       "rolls": {
         "min": 0,
         "max": 2
@@ -148,7 +148,7 @@
         {
           "type": "loot_table",
           "weight": 1,
-          "value": "treasure2:pools/potions/rare"
+          "value": "treasure2:pools/potions/legendary"
         }
       ]
     }

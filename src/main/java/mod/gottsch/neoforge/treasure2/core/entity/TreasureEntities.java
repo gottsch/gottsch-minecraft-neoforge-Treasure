@@ -20,6 +20,10 @@ import mod.gottsch.neoforge.treasure2.core.entity.monster.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -137,5 +141,25 @@ public class TreasureEntities {
         event.put(MILK_CRATE_MIMIC_ENTITY_TYPE.get(), MilkCrateMimic.createAttributes().build());
         event.put(BARREL_MIMIC_ENTITY_TYPE.get(), BarrelMimic.createAttributes().build());
         event.put(VANILLA_CHEST_MIMIC_ENTITY_TYPE.get(), VanillaChestMimic.createAttributes().build());
+    }
+
+    /**
+     * The rules for where these mobs may spawn, if a biome or structure spawns them (the Wither Grove spawns the golem).
+     * 1.20.1 registers the same in CommonSetup; without them a biome spawn ignores ground and light.
+     */
+    @SubscribeEvent
+    public static void onRegisterSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(BOUND_SOUL_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(WITHERWOOD_GOLEM_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(WOOD_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(PIRATE_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(VIKING_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(CAULDRON_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(CRATE_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(MOLDY_CRATE_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(CARDBOARD_BOX_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(MILK_CRATE_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(BARREL_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        event.register(VANILLA_CHEST_MIMIC_ENTITY_TYPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
     }
 }

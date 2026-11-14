@@ -193,6 +193,15 @@ public class ItemModelsProvider extends ItemModelProvider {
         singleTexture(TreasureItems.SPANISH_MOSS_ITEM.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("block/spanish_moss"));
 
+        // wither grove
+        singleTexture(TreasureItems.WITHERED_LEAF_LITTER.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/withered_leaf_litter"));
+        withExistingParent(TreasureItems.WITHERED_GRASS_BLOCK.getId().getPath(), modLoc("block/withered_grass_block"));
+        singleTexture(TreasureItems.GRAVE_THORNS.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("block/grave_thorns"));
+        singleTexture(TreasureItems.BRACKET_FUNGUS.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/bracket_fungus"));
+        withExistingParent(TreasureItems.HOLLOW_WITHERWOOD_LOG.getId().getPath(), modLoc("block/hollow_witherwood_log"));
+        withExistingParent(TreasureItems.STRANGLED_WITHERWOOD_LOG.getId().getPath(), modLoc("block/strangled_witherwood_log_full"));
+        singleTexture(TreasureItems.CLINGING_STRANGLE_VINES.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/clinging_strangle_vines"));
+
         // strangle vines (head) — cross-style block, item uses the flat texture
         singleTexture(TreasureItems.STRANGLE_VINES.getId().getPath(),
                 mcLoc("item/generated"), "layer0", modLoc("block/strangle_vines"));

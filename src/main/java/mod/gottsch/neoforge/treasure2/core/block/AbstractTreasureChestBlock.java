@@ -329,11 +329,16 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 				InventoryHelper.loadContentsIntoHandler(inventory, chestBlockEntity.itemHandler);
 			});
 
+			// restore a sealed chest's loot data (re-placing a mined chest that was never opened)
+			if (applySealedLoot(stack, chestBlockEntity)) {
+				isDirty = true;
+			}
+
 			// get the direction the block is facing currently
 			Heading heading = Heading.fromDirection(placer.getDirection().getOpposite());
 
 			// rotate the lock states on the block entity
-			isDirty = rotateLockStates(level, Coords.of(pos), previousChestHeading.getRotation(heading));
+			isDirty = rotateLockStates(level, Coords.of(pos), previousChestHeading.getRotation(heading)) || isDirty;
 
 			// restore lock assignments from item component (re-placing a previously broken locked chest)
 			Optional<LockStatesComponent> itemLockStates = ComponentHelper.lockStates(stack);
@@ -526,7 +531,7 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 		// what the chest processors store at generation time (dimensionType().effectsLocation()).
 		TreasureChestCache.getCache().stream()
 				// if matching on dimension and pos, doesn't require to match on biome
-				.filter(chest -> chest.getDimensionName().equals(level.dimensionType().effectsLocation()))
+				.filter(chest -> level.dimensionType().effectsLocation().equals(chest.getDimensionName()))
 				.filter(chest -> chest.getCoords().equals(Coords.of(pos)))
 				.findFirst().ifPresent(chest -> {
 					Treasure.LOGGER.debug("marking chest at pos {} as discovered", pos.toShortString());
@@ -599,6 +604,7 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 
 					// spawn chest item into the world
 					ItemStack chestItem = new ItemStack(Item.byBlock(this), 1);
+					copySealedLoot(be, chestItem);
 					Containers.dropItemStack(level, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
 							chestItem);
 
@@ -621,12 +627,56 @@ public abstract class AbstractTreasureChestBlock extends BaseEntityBlock impleme
 						}
 						// preserve inventory contents (bypasses the locked read guard)
 						chestItem.set(TreasureComponents.ITEM_INVENTORY, be.getFullInventoryContents());
+						copySealedLoot(be, chestItem);
 						Containers.dropItemStack(level, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
 								chestItem);
 					}
 				}
 			}
 		}		
+		return true;
+	}
+
+	/**
+	 * A chest that has never been opened is still sealed: its inventory is empty, and its loot is rolled
+	 * from its loot table on first open. Carry what that needs onto the dropped chest item, so a chest
+	 * that is mined and placed somewhere else still fills when it is opened.
+	 */
+	protected void copySealedLoot(AbstractTreasureChestBlockEntity be, ItemStack chestItem) {
+		if (!be.isSealed()) {
+			return;
+		}
+		chestItem.set(TreasureComponents.SEALED, new SealedComponent(true));
+		ResourceLocation lootTable = be.getLootTable();
+		if (lootTable != null && !lootTable.getPath().isEmpty()) {
+			chestItem.set(TreasureComponents.LOOT_TABLE, lootTable);
+		}
+		if (be.getAltLootTable() != null) {
+			chestItem.set(TreasureComponents.ALT_LOOT_TABLE, be.getAltLootTable());
+		}
+		if (be.getSupplementalLootTable() != null) {
+			chestItem.set(TreasureComponents.SUPPLEMENTAL_LOOT_TABLE, be.getSupplementalLootTable());
+		}
+		if (be.getGenerationContext() != null) {
+			chestItem.set(TreasureComponents.GENERATION_CONTEXT, be.getGenerationContext());
+		}
+	}
+
+	/**
+	 * Restores a sealed chest's loot data from its item (see {@link #copySealedLoot}).
+	 * @return true if the item carried a sealed chest
+	 */
+	protected boolean applySealedLoot(ItemStack stack, AbstractTreasureChestBlockEntity be) {
+		SealedComponent sealed = stack.get(TreasureComponents.SEALED);
+		if (sealed == null || !sealed.sealed()) {
+			return false;
+		}
+		be.setSealed(true);
+		Optional.ofNullable(stack.get(TreasureComponents.LOOT_TABLE)).ifPresent(be::setLootTable);
+		Optional.ofNullable(stack.get(TreasureComponents.ALT_LOOT_TABLE)).ifPresent(be::setAltLootTable);
+		Optional.ofNullable(stack.get(TreasureComponents.SUPPLEMENTAL_LOOT_TABLE)).ifPresent(be::setSupplementalLootTable);
+		Optional.ofNullable(stack.get(TreasureComponents.GENERATION_CONTEXT)).ifPresent(be::setGenerationContext);
+		be.setChanged();
 		return true;
 	}
 

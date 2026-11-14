@@ -131,8 +131,20 @@ public class LanguageGen extends LanguageProvider {
         add(TreasureBlocks.SPANISH_MOSS.get(), "Spanish Moss");
 
         // strangle vines
-        add(TreasureBlocks.STRANGLE_VINES.get(), "Strangle Vines");
-        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "Strangle Vines Plant");
+        // the upright plant keeps the strangle_vines id; the name Strangle Vines belongs to the clinging vine
+        add(TreasureBlocks.STRANGLE_VINES.get(), "Blightstalk");
+        add(TreasureBlocks.STRANGLE_VINES_PLANT.get(), "Blightstalk Plant");
+        add(TreasureBlocks.CLINGING_STRANGLE_VINES.get(), "Strangle Vines");
+
+        // wither grove
+        add(TreasureBlocks.WITHERED_LEAF_LITTER.get(), "Withered Leaf Litter");
+        add(TreasureBlocks.WITHERED_GRASS_BLOCK.get(), "Withered Grass Block");
+        add(TreasureBlocks.GRAVE_THORNS.get(), "Grave Thorns");
+        add(TreasureBlocks.BRACKET_FUNGUS.get(), "Bracket Fungus");
+        add(TreasureBlocks.HOLLOW_WITHERWOOD_LOG.get(), "Hollow Witherwood Log");
+        add(TreasureBlocks.STRANGLED_WITHERWOOD_LOG.get(), "Strangled Witherwood Log");
+        add(TreasureBlocks.WISP.get(), "Wisp");
+        add("biome." + Treasure.MODID + ".wither_grove", "Wither Grove");
 
         // gravestones
         add(TreasureBlocks.GRAVESTONE1_STONE.get(), "Stone Gravestone");
@@ -409,8 +421,9 @@ public class LanguageGen extends LanguageProvider {
         add(LangUtil.chat("key.key_unable_unlock"), "Your key failed to unlock the lock!");
 
         /*
-         * patchouli
+         * the Gottsch Books manual (its text is in assets/treasure2/books/manual)
          */
-        add("book.treasure2.landing", "Treasure2 adds to the thrill of discovery in Minecraft. This mod adds various new and rare chests of treasure to be discovered. The chests are secured by an assortment of locks and can only be unlocked by finding the corresponding keys.");
+        add("book.treasure2.manual", "Treasure2 Manual");
+        add("book.treasure2.manual.announce", "%s explains chests, locks, keys and legendary weapons. Hover over an item and press B to look it up.");
     }
 }

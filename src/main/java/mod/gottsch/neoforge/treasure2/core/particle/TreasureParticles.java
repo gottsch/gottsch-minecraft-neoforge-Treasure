@@ -51,6 +51,7 @@ public class TreasureParticles {
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOLD_COIN_PARTICLE = PARTICLES.register("gold_coin_particle", () -> new SimpleParticleType(true));
 
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BLACK_SPORE_PARTICLE = PARTICLES.register("black_spore", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WISP_PARTICLE = PARTICLES.register("wisp", () -> new SimpleParticleType(false));
 
 	// DOESNT WORK?
 	public static void register(IEventBus bus) {
@@ -71,5 +72,6 @@ public class TreasureParticles {
 		event.registerSpriteSet(GOLD_COIN_PARTICLE.get(), CoinParticle.Provider::new);
 
 		event.registerSpriteSet(BLACK_SPORE_PARTICLE.get(), BlackSporeParticle.Provider::new);
+		event.registerSpriteSet(WISP_PARTICLE.get(), WispParticle.Provider::new);
 	}
 }

@@ -58,6 +58,9 @@ public class ModProcessors {
     public static final DeferredHolder<StructureProcessorType<?>, StructureProcessorType<WitherChestProcessor>> WITHER_CHEST_PROCESSOR =
             PROCESSOR_TYPES.register("wither_chest_processor", () -> () -> WitherChestProcessor.CODEC);
 
+    public static final DeferredHolder<StructureProcessorType<?>, StructureProcessorType<HangingRootsProcessor>> HANGING_ROOTS_PROCESSOR =
+            PROCESSOR_TYPES.register("hanging_roots_processor", () -> () -> HangingRootsProcessor.CODEC);
+
     public static void register(IEventBus eventBus) {
         PROCESSOR_TYPES.register(eventBus);
     }
